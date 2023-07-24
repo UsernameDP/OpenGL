@@ -7,18 +7,19 @@
 #include <glad/glad.h>
 
 #include "GLCore/Core/Layer.hpp"
-#include "GLCore/Core/Application.hpp"
 
 
 namespace GLCore {
 	class ImGuiLayer : public Layer {
+	public:
 		ImGuiLayer() : Layer("ImGuiLayer") {};
 
 		void onAttach() override;
 		void onDetach() override;
+		void onImguiUpdate(const TimeStep& ts) override {};
 
 		void begin(); 
-		virtual void onUpdate(const TimeStep& ts) override; //Customize the imgui panel 
+		void onUpdate(const TimeStep& ts) override = 0; //Customize the imgui panel 
 		void end();
 	};
 

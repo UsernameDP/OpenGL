@@ -1,14 +1,16 @@
 #include "glpch.hpp"
 #include "Window.hpp"
+#include <GLFW/glfw3.h>
 
 namespace GLCore {
 	static void initGLFW() {
 		if (!glfwInit()) {
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-			//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			THROW_RUNTIME_ERROR("GLFW didn't intialize properly");
 		}
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	}
 	static void initGLAD() {
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -37,17 +39,16 @@ namespace GLCore {
 		this->glfwWindow = nullptr;
 	}
 
-	Window::~Window() {
+	void Window::destroy() {
+		glfwDestroyWindow(glfwWindow);
 		glfwTerminate();
-	}
 
-	std::unique_ptr<Window> Window::create(const WindowProps& props) {
-		return std::unique_ptr<Window>(new Window(props));
+		delete this;
 	}
 
 	void Window::init() {
-		glfwSetErrorCallback((GLFWerrorfun)error_callback);
 		initGLFW();
+		glfwSetErrorCallback((GLFWerrorfun)error_callback);
 
 		glfwWindow = glfwCreateWindow((int)width, (int)height, title.c_str(), NULL, NULL);
 		if (glfwWindow == NULL) {
@@ -66,6 +67,5 @@ namespace GLCore {
 		glfwPollEvents();
 		glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
 		glClear(GL_COLOR_BUFFER_BIT);
-		glfwSwapBuffers(glfwWindow);
 	}
 }

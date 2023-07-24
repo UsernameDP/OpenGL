@@ -1,9 +1,9 @@
 #include "glpch.hpp"
 #include "ImGuiLayer.hpp"
+#include "GLCore/Core/Application.hpp"
 
 namespace GLCore {
 	void ImGuiLayer::onAttach() {
-
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -30,9 +30,33 @@ namespace GLCore {
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(Application::getGLFWWindow(), true);
         
-        ImGui_ImplOpenGL3_Init(); //set version (e.g #version 100) later
+        ImGui_ImplOpenGL3_Init("#version 130"); //set version (e.g #version 100) later
 	}
 	void ImGuiLayer::onDetach() {
-
+        //Cleanup
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
 	}
+
+    void ImGuiLayer::begin() {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+    void ImGuiLayer::onUpdate(const TimeStep& ts) {}
+    void ImGuiLayer::end() {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        
+        ImGuiIO& io = ImGui::GetIO();
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
+    }
+
 }

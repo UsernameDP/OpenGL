@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GLCore">
+      <UniqueIdentifier>{613403B3-4DD6-2D89-3691-41DD22D2B4D9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLCore\Core">
+      <UniqueIdentifier>{593DE13E-C5F2-5934-4EE7-530BBA9B5038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLCore\ImGui">
+      <UniqueIdentifier>{4BAE731B-3711-03C0-E096-3B76CCD8CE42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{E704880B-530E-887C-DC89-9E7C4892937C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\GLCore\Core\Application.hpp">
+      <Filter>GLCore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLCore\Core\Core.hpp">
+      <Filter>GLCore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLCore\Core\Layer.hpp">
+      <Filter>GLCore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLCore\Core\LayerStack.hpp">
+      <Filter>GLCore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLCore\Core\TimeStep.hpp">
+      <Filter>GLCore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLCore\Core\Window.hpp">
+      <Filter>GLCore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLCore\ImGui\ImGuiLayer.hpp">
+      <Filter>GLCore\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Log\Log.hpp">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\glpch.hpp" />
+    <ClInclude Include="src\GLCore\Core\Runner.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\GLCore\Core\Application.cpp">
+      <Filter>GLCore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLCore\Core\Layer.cpp">
+      <Filter>GLCore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLCore\Core\LayerStack.cpp">
+      <Filter>GLCore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLCore\Core\Window.cpp">
+      <Filter>GLCore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLCore\ImGui\ImGuiLayer.cpp">
+      <Filter>GLCore\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glpch.cpp" />
+  </ItemGroup>
+</Project>

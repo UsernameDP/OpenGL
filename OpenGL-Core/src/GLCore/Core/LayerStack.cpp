@@ -3,7 +3,7 @@
 
 namespace GLCore {
 	LayerStack::LayerStack() {}
-	LayerStack::~LayerStack() {
+	void LayerStack::destroy() {
 		for (Layer* layer : m_Layers) {
 			delete layer;
 		}

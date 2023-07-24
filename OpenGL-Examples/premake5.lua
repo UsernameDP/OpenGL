@@ -25,16 +25,3 @@ project "OpenGL-Examples"
     links {
         "OpenGL-Core"
     }
-
-    filter {"configurations:Debug"}
-        buildoptions "/MDd" --compiler option for debug
-        runtime "Debug"
-        symbols "on" --generate debug symbols
-        warnings "Extra"
-        linkoptions { "/NODEFAULTLIB:LIBCMTD", "/NODEFAULTLIB:library" }
-
-    filter {"configurations:Release"}
-        buildoptions "/MT"
-        runtime "Release"
-        warnings "Extra"
-        optimize "on"

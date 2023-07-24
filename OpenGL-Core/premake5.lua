@@ -36,13 +36,3 @@ project "OpenGL-Core"
         "Glad",
         "imgui" -- already contains glfw3 (putting both gives lots of errors)
     }
-
-    filter {"configurations:Debug"}
-    buildoptions "/MDd" --compiler option for debug
-    runtime "Debug"
-    symbols "on" --generate debug symbols
-
-    filter {"configurations:Release"}
-    buildoptions "/MT"
-    runtime "Release"
-    optimize "on"

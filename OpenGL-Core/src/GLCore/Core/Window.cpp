@@ -11,11 +11,14 @@ namespace GLCore {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+		LOG_SUCCESS("GLFW Initialized");
 	}
 	static void initGLAD() {
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 			THROW_RUNTIME_ERROR("Failed to initialize GLAD");
 		}
+		LOG_SUCCESS("GLAD Initialized");
 	}
 	static void initViewPort(const int width, const int height)
 	{
@@ -62,6 +65,8 @@ namespace GLCore {
 		
 		initViewPort( (int) width,  (int) height);
 		glfwSetFramebufferSizeCallback(glfwWindow, (GLFWframebuffersizefun)framebuffer_size_callback);
+
+		LOG_SUCCESS("GLFWWindow Created & Configured");
 	}
 	void Window::onUpdate() {
 		glfwPollEvents();

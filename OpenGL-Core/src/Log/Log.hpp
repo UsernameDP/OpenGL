@@ -7,28 +7,46 @@ namespace TextColor {
 	static const char* RESET = "\033[0m";
 	static const char* RED = "\033[31m";
 	static const char* GREEN = "\033[32m";
-
+	static const char* BLUE = "\033[34m";
+	static const char* LIGHT_BLUE = "\033[94m";
 };
 
-static inline void throwRunTimeError(const std::string description, const char* file, const int line) {
+inline void throw_runtime_error(const std::string description, const char* file, const int line) {
 	throw std::runtime_error(
-		std::string("RUNTIME_ERROR : ") +
+		std::string("RUNTIME_ERROR : ") + 
+		"|" + 
+		description + 
+		"|\n" +
 		file +
 		std::string("\tline ") +
-		std::to_string(line) +
-		std::string("\nDescription : ") +
-		description);
+		std::to_string(line));
 }
 
-static inline void log(const std::string description, const char* file, const int line) {
+inline void log(const std::string description, const char* file, const int line) {
+	std::cout << TextColor::LIGHT_BLUE <<
+		std::string("LOG : ") + 
+		"|" + 
+		description + 
+		"|\n" + 
+		file +
+		std::string("\tline ") +
+		std::to_string(line)
+		<< std::endl << TextColor::RESET;
+}
+
+inline void log_success(const std::string description, const char* file, const int line) {
 	std::cout << TextColor::GREEN <<
-		std::string("LOG : ") +
+		std::string("SUCCESS : ") +
+		"|" +
+		description +
+		"|\n" +
 		file +
 		std::string("\tline ") +
-		std::to_string(line) +
-		std::string("\nDescription : ") +
-		description << std::endl << TextColor::RESET;
+		std::to_string(line)
+		<< std::endl << TextColor::RESET;
 }
 
-#define THROW_RUNTIME_ERROR(content) throwRunTimeError(content, __FILE__, __LINE__)
+
+#define THROW_RUNTIME_ERROR(content) throw_runtime_error(content, __FILE__, __LINE__)
 #define LOG(content) log(content, __FILE__, __LINE__)
+#define LOG_SUCCESS(content) log_success(content, __FILE__, __LINE__)

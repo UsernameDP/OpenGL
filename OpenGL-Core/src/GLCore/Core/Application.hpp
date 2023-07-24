@@ -14,7 +14,7 @@ namespace GLCore {
 	private:
 		Window* m_Window = nullptr;
 		ImGuiLayer* m_ImGuiLayer = nullptr;
-		const std::string& m_glslVersion = "";
+		std::string m_glslVersion = "";
 		LayerStack m_LayerStack;
 		bool m_running;
 	public:
@@ -39,5 +39,6 @@ namespace GLCore {
 		inline static Application*& get() { return s_Instance; }
 		inline static Window*& getWindow() { return get()->m_Window; };
 		inline static GLFWwindow*& getGLFWWindow() { return getWindow()->getGLFWWindow(); }
+		inline static std::string& getGLSLVersion() { return get()->m_glslVersion; }
 	};
 };

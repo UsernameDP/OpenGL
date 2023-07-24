@@ -16,6 +16,8 @@ namespace GLCore {
 			uint32_t width = 1280, uint32_t height = 720,
 			glm::vec4 backgroundColor = glm::vec4(0.0, 0.0, 0.0, 1.0)){
 
+			LOG("Runner has started");
+
 			try { //In constructor, try creating app
 				app = std::make_unique<T>(name, width, height, backgroundColor);
 				app->init();
@@ -35,6 +37,8 @@ namespace GLCore {
 					std::cout << TextColor::RED << "App Running Exception : " << e.what() << std::endl << TextColor::RESET;
 				}
 			}
+
+			LOG("Runner has ended");
 		}
 
 	};

@@ -30,7 +30,7 @@ namespace GLCore {
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(Application::getGLFWWindow(), true);
         
-        ImGui_ImplOpenGL3_Init("#version 130"); //set version (e.g #version 100) later
+        ImGui_ImplOpenGL3_Init(Application::getGLSLVersion().c_str()); //set version (e.g #version 100) later
 	}
 	void ImGuiLayer::onDetach() {
         //Cleanup

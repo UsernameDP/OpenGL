@@ -8,6 +8,16 @@ workspace "OpenGL-Core"
         "Release"
     }
 
+    filter {"configurations:Debug"}
+        buildoptions "/MDd" --compiler option for debug
+        runtime "Debug"
+        symbols "on" --generate debug symbols
+
+    filter {"configurations:Release"}
+        buildoptions "/MT"
+        runtime "Release"
+        optimize "on"
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" 
 include "OpenGL-Core"
 -------------------------------------------------------------------------------
@@ -21,6 +31,19 @@ workspace "OpenGL-Examples"
         "Debug",
         "Release"
     }
+
+    filter {"configurations:Debug"}
+        buildoptions "/MDd" --compiler option for debug
+        runtime "Debug"
+        symbols "on" --generate debug symbols
+        warnings "Extra"
+        linkoptions {"/NODEFAULTLIB:library" }
+
+    filter {"configurations:Release"}
+        buildoptions "/MT"
+        runtime "Release"
+        warnings "Extra"
+        optimize "on"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" 
 

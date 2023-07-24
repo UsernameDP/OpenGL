@@ -1,5 +1,0 @@
-﻿cl : command line  warning D9025: overriding '/MTd' with '/MDd'
-  main.cpp
-C:\Users\devin\Downloads\Coding\VS\OpenGL\OpenGL-Core\src\GLCore\ImGui\ImGuiLayer.hpp(19,38): warning C4100: 'ts': unreferenced formal parameter
-C:\Users\devin\Downloads\Coding\VS\OpenGL\OpenGL-Examples\src\main.cpp(20,43): warning C4100: 'ts': unreferenced formal parameter
-  OpenGL-Examples.vcxproj -> C:\Users\devin\Downloads\Coding\VS\OpenGL\OpenGL-Examples\bin\Debug-windows-x86_64\OpenGL-Examples\OpenGL-Examples.exe

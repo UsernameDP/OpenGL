@@ -1,6 +1,0 @@
-﻿cl : command line  warning D9025: overriding '/MTd' with '/MDd'
-  Application.cpp
-  ImGuiLayer.cpp
-  Generating Code...
-C:\Users\devin\Downloads\Coding\VS\OpenGL\OpenGL-Core\src\GLCore\Core\Application.cpp(66): warning C4717: 'GLCore::Application::popLayer': recursive on all control paths, function will cause runtime stack overflow
-  OpenGL-Core.vcxproj -> C:\Users\devin\Downloads\Coding\VS\OpenGL\OpenGL-Core\bin\Debug-windows-x86_64\OpenGL-Core\OpenGL-Core.lib

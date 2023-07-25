@@ -4,6 +4,7 @@
 #include "GLCore/Core/Application.hpp"
 #include "GLCore/ImGui/ImGuiLayer.hpp"
 #include "GLCore/Core/TimeStep.hpp"
+#include <GLCore/Extension/Primitives/VBO.hpp>
 #include "Log/Log.hpp"
 
 class ExampleImGuiLayer : public GLCore::ImGuiLayer {
@@ -68,6 +69,7 @@ public:
 
     void init() override {
         setImGuiLayer(new ExampleImGuiLayer());
+          
     }
 };
 

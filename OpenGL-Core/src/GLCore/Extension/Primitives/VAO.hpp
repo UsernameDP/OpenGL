@@ -1,16 +1,14 @@
 #pragma once
-#include <vector>
-#include <glad/glad.h>
+#include "GLCore/Extension/Extension.hpp"
 
 namespace GLCore {
 	class VAO {
 	private:
 		GLuint VAOID;
-		std::vector<unsigned int> vertexAttributes;
 	public:
-		VAO();
+		VAO() {};
 
-		void addVertexAttribute();
+		void create();
 		void bind();
 		void unbind();
 		void destroy();

@@ -3,6 +3,12 @@
 #include "GLCore/Core/Application.hpp"
 
 namespace GLCore {
+    ImGuiLayer::~ImGuiLayer() {
+        onDetach();
+
+        LOG_DESTRUCTOR("ImGuiLayer");
+    }
+
 	void ImGuiLayer::onAttach() {
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();

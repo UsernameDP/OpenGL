@@ -7,8 +7,8 @@ namespace GLCore {
 	private:
 		std::vector<Layer*> m_Layers;
 	public:
-		LayerStack();
-		void destroy();
+		LayerStack() { LOG_CONSTRUCTOR("LayerStack"); };
+		~LayerStack();
 
 		void pushLayer(Layer* layer);
 		void popLayer(Layer* layer);

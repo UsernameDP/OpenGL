@@ -2,15 +2,11 @@
 #include "EBO.hpp"
 #include <cmath>
 
-namespace GLCore {
-	EBO::EBO(std::vector<int>& indices) {
-		this->indices = indices;
-	}
-	
+namespace GLCore {	
 	void EBO::create() {
 		glGenBuffers(1, &EBOID);
 		glBindBuffer(GL_ARRAY_BUFFER, EBOID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(float), indices.data(), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices->size() * sizeof(float), indices->data(), GL_STATIC_DRAW);
 	}
 	void EBO::bind() {
 		glBindBuffer(GL_ARRAY_BUFFER, EBOID);

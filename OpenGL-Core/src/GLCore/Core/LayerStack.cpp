@@ -2,11 +2,12 @@
 #include "LayerStack.hpp"
 
 namespace GLCore {
-	LayerStack::LayerStack() {}
-	void LayerStack::destroy() {
+	LayerStack::~LayerStack() {
 		for (Layer* layer : m_Layers) {
 			delete layer;
 		}
+
+		LOG_DESTRUCTOR("LayerStack");
 	}
 
 	void LayerStack::pushLayer(Layer* layer) {

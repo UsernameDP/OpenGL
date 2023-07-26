@@ -68,7 +68,7 @@ public:
 	}
 
     void init() override {
-        setImGuiLayer(new ExampleImGuiLayer());
+        setImGuiLayer(std::make_unique<ExampleImGuiLayer>());
           
     }
 };
@@ -77,6 +77,7 @@ public:
 int main() {
     GLCore::Runner<ExampleApp> runner;
     runner.run();
+    LOG("Program ended");
 
 	return 0;
 }

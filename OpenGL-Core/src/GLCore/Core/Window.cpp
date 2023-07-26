@@ -33,20 +33,21 @@ namespace GLCore {
 		fprintf(stderr, "Error : %s\n", description);
 	}
 
-
+	/*-------------------------------------------------------------------*/
 	Window::Window(const WindowProps& props) {
 		this->title = props.title;
 		this->width = props.width;
 		this->height = props.height;
 		this->backgroundColor = props.backgroundColor;
 		this->glfwWindow = nullptr;
-	}
 
-	void Window::destroy() {
+		LOG_CONSTRUCTOR("Window");
+	}
+	Window::~Window() {
 		glfwDestroyWindow(glfwWindow);
 		glfwTerminate();
 
-		delete this;
+		LOG_DESTRUCTOR("Window");
 	}
 
 	void Window::init() {

@@ -19,7 +19,7 @@ namespace GLCore {
 		VBO() {};
 		VBO(GLenum i_DRAW_TYPE,
 			size_t i_size, // sizeof(float) is already accounted for
-			std::vector<float>* i_vertices = nullptr
+			std::vector<float>* i_vertices
 		) :
 			VBOID(0),
 			size(i_size),

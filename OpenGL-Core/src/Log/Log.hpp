@@ -50,3 +50,5 @@ inline void log_success(const std::string description, const char* file, const i
 #define THROW_RUNTIME_ERROR(content) throw_runtime_error(content, __FILE__, __LINE__)
 #define LOG(content) log(content, __FILE__, __LINE__)
 #define LOG_SUCCESS(content) log_success(content, __FILE__, __LINE__)
+#define LOG_CONSTRUCTOR(className) log_success(std::string(className) + std::string(" constructor completed"), __FILE__, __LINE__)
+#define LOG_DESTRUCTOR(className) log_success(std::string(className) + std::string(" destructor completed"), __FILE__, __LINE__)

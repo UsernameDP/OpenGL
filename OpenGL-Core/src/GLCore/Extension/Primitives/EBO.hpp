@@ -5,9 +5,9 @@ namespace GLCore {
 	class EBO {
 	private:
 		unsigned int EBOID;
-		std::vector<int>& indices;
+		std::vector<int>* indices;
 	public:
-		EBO(std::vector<int>& indices);
+		EBO(std::vector<int>* i_indices) : indices(i_indices) {};
 
 		void create();
 

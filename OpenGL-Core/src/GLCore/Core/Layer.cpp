@@ -3,6 +3,6 @@
 
 namespace GLCore {
 	Layer::Layer(const std::string& name) : m_DebugName(name) {
-
+		LOG_CONSTRUCTOR(name + "<Layer>");
 	}
 }

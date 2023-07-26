@@ -13,6 +13,7 @@ namespace GLCore {
 	class ImGuiLayer : public Layer {
 	public:
 		ImGuiLayer() : Layer("ImGuiLayer") {};
+		~ImGuiLayer();
 
 		void onAttach() override;
 		void onDetach() override;

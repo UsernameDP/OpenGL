@@ -10,12 +10,12 @@ namespace GLCore {
 
 	class Application {
 	private:
-		static Application* s_Instance;
+		static Application* s_Instance; //std::unique_ptr always b/c Runner.hpp
 	private:
-		Window* m_Window = nullptr;
-		ImGuiLayer* m_ImGuiLayer = nullptr;
+		std::unique_ptr<Window> m_Window = nullptr;
+		std::unique_ptr<ImGuiLayer> m_ImGuiLayer = nullptr;
+		std::unique_ptr<LayerStack> m_LayerStack = nullptr;
 		std::string m_glslVersion = "";
-		LayerStack m_LayerStack;
 		bool m_running;
 	public:
 		Application(const std::string& name,
@@ -23,8 +23,6 @@ namespace GLCore {
 			uint32_t height,
 			glm::vec4 backgroundColor);
 		~Application();
-		void destroy();
-		void manualDestroy(); //run this to delete Application if Application is not created with std::unique_ptr
 		virtual void extraDestroy(); //extra things to detach beyond layerStack, Window, and ImGui
 
 		virtual void init(); //other things to do before run() 
@@ -32,13 +30,13 @@ namespace GLCore {
 
 		void pushLayer(Layer* layer);
 		void popLayer(Layer* layer);
-		void setImGuiLayer(ImGuiLayer* imGuiLayer);
+		void setImGuiLayer(std::unique_ptr<ImGuiLayer> layer);
 
 	public:
 		static bool getKey(uint16_t GLFW_KEY, bool return_false_if_any_imgui_windowIsFocused = false);
-		inline static Application*& get() { return s_Instance; }
-		inline static Window*& getWindow() { return get()->m_Window; };
-		inline static GLFWwindow*& getGLFWWindow() { return getWindow()->getGLFWWindow(); }
+		inline static Application* get() { return s_Instance; }
+		inline static Window* getWindow() { return get()->m_Window.get(); };
+		inline static GLFWwindow* getGLFWWindow() { return getWindow()->getGLFWWindow(); }
 		inline static std::string& getGLSLVersion() { return get()->m_glslVersion; }
 	};
 };

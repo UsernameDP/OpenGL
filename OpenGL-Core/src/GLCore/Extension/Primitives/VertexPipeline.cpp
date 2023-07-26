@@ -11,5 +11,7 @@ namespace GLCore {
 		if (ebo != nullptr) 
 			ebo->bind();
 	}
+	void VertexPipeline::unbindAll() {
 
+	}
 }

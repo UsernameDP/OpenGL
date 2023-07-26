@@ -31,7 +31,7 @@ namespace GLCore {
 		GLFWwindow* glfwWindow;
 	public:
 		Window(const WindowProps& props);
-		void destroy();
+		~Window();
 
 		void init();
 		void onUpdate();

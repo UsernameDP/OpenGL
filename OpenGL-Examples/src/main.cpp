@@ -6,6 +6,7 @@
 #include "GLCore/Core/TimeStep.hpp"
 #include <GLCore/Extension/Primitives/VBO.hpp>
 #include "Log/Log.hpp"
+#include "GLCore/Extension/Util/AssetPool.hpp"
 
 class ExampleImGuiLayer : public GLCore::ImGuiLayer {
 private:

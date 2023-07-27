@@ -1,7 +1,7 @@
 #pragma once
-#include <memory>
+#include "Core.hpp"
 #include "Application.hpp"
-#include "Log/Log.hpp"
+#include "GLCore/Extension/Util/AssetPool.hpp"
 
 namespace GLCore {
 
@@ -17,7 +17,8 @@ namespace GLCore {
 			glm::vec4 backgroundColor = glm::vec4(0.0, 0.0, 0.0, 1.0)){
 
 			LOG("Runner has started");
-
+			
+			Util::AssetPool::init();
 			try { //In constructor, try creating app
 				app = std::make_unique<T>(name, width, height, backgroundColor);
 				app->init();

@@ -62,7 +62,7 @@ namespace GLCore {
 		glfwSwapInterval(1); //Enable vsync
 		
 
-		initGLAD();
+		initGLAD(); //glfw context needs to be made before glad can be initialized
 		
 		initViewPort( (int) width,  (int) height);
 		glfwSetFramebufferSizeCallback(glfwWindow, (GLFWframebuffersizefun)framebuffer_size_callback);

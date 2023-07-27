@@ -1,7 +1,7 @@
 #include "glpch.hpp"
 #include "VBO.hpp"
 
-namespace GLCore {
+namespace GLCore::Primitives {
 	void VBO::create() {
 		glGenBuffers(1, &VBOID);
 		glBindBuffer(GL_ARRAY_BUFFER, VBOID);

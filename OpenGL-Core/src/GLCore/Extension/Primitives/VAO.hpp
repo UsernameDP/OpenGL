@@ -1,7 +1,7 @@
 #pragma once
-#include "GLCore/Extension/Extension.hpp"
+#include "../Extension.hpp"
 
-namespace GLCore {
+namespace GLCore::Primitives {
 	class VAO {
 	private:
 		GLuint VAOID;

@@ -1,5 +1,5 @@
 #include "glpch.hpp"
-#include "FileHelper.hpp"
+#include "FileHandler.hpp"
 
 std::string readFile(const std::string& path) {
 	std::string data;

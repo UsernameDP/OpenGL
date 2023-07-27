@@ -2,7 +2,7 @@
 #include "EBO.hpp"
 #include <cmath>
 
-namespace GLCore {	
+namespace GLCore::Primitives {	
 	void EBO::create() {
 		glGenBuffers(1, &EBOID);
 		glBindBuffer(GL_ARRAY_BUFFER, EBOID);

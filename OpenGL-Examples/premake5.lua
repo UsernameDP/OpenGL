@@ -10,8 +10,8 @@ project "OpenGL-Examples"
 
 
     files {
-        "src/**.hpp",
-        "src/**.cpp"
+        "assets/**",
+        "src/**"
     }
 
     includedirs {

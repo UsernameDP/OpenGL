@@ -1,18 +1,18 @@
 #pragma once
-#include "GLCore/Extension/Extension.hpp"
+#include "../Extension.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "EBO.hpp"
 #include "VertexAttributes.hpp"
 
-namespace GLCore {
+namespace GLCore::Primitives {
 
 	class VertexPipeline {
-	private:
+	public:
 		std::unique_ptr<VAO> vao = nullptr; //create in heap
 		std::unique_ptr<VBO> vbo = nullptr; //create in heap
 		std::unique_ptr<EBO> ebo = nullptr; //create in heap
-		std::shared_ptr<VertexAttributes> vertexAttributes;
+		std::shared_ptr<VertexAttributes> vertexAttributes = nullptr;
 	public:
 		VertexPipeline() {};
 

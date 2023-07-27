@@ -1,8 +1,8 @@
 #pragma once
-#include "GLCore/Extension/Extension.hpp"
+#include "../Extension.hpp"
 #include "EBO.hpp"
 
-namespace GLCore {
+namespace GLCore::Primitives {
 	class VBO {
 	private:
 		GLuint VBOID;

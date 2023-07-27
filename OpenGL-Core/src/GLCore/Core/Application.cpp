@@ -22,7 +22,7 @@ namespace GLCore {
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------------------------*/
-	Application::Application(const std::string& name, uint32_t width, uint32_t height, glm::vec4 backgroundColor){
+	Application::Application(const std::string& name, uint32_t width, uint32_t height, glm::vec4 backgroundColor){		
 		if (s_Instance) { //if there already is another instance
 			THROW_RUNTIME_ERROR("There already is an instance of Application");
 		}
@@ -37,7 +37,7 @@ namespace GLCore {
 		LOG_CONSTRUCTOR("Application");
 	}
 	Application::~Application() {		
-		extraDestroy();
+		extraDestructor();
 
 		LOG_DESTRUCTOR("Application");
 	}
@@ -94,7 +94,7 @@ namespace GLCore {
 
 	//Virtual / Overrideable functions
 	void Application::init() {};
-	void Application::extraDestroy() {};
+	void Application::extraDestructor() {};
 
 	Application* Application::s_Instance = nullptr;
 }

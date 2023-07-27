@@ -1,11 +1,10 @@
 #include "glpch.hpp"
 #include "VAO.hpp"
 
-namespace GLCore {
-	
-
+namespace GLCore::Primitives {
 	void VAO::create() {
 		glGenVertexArrays(1, & VAOID);
+		bind();
 	}
 	void VAO::bind() {
 		glBindVertexArray(VAOID);

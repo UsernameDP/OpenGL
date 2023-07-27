@@ -1,7 +1,7 @@
 #pragma once
-#include "GLCore/Extension/Extension.hpp"
+#include "../Extension.hpp"
 
-namespace GLCore {
+namespace GLCore::Primitives {
 	class EBO {
 	private:
 		unsigned int EBOID;

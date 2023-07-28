@@ -5,43 +5,17 @@ namespace GLCore::Shaders {
 	VertexPipelineShader::VertexPipelineShader(
 		const std::string& name, 
 		const std::string& vertPath, 
-		const std::string& fragPath) : 
-		Shader(name), 
-		vertShaderPath(vertPath) , 
-		fragShaderPath(fragPath)
+		const std::string& fragPath) : Shader(name)
 	{ 
-		vertShaderSrc = Util::AssetPool::getGLSLSrc(vertPath);
-		fragShaderSrc = Util::AssetPool::getGLSLSrc(fragPath);
+		addPrimitiveShader(GL_VERTEX_SHADER, vertPath);
+		addPrimitiveShader(GL_FRAGMENT_SHADER, fragPath);
+
+		compile();
+
+		LOG_CONSTRUCTOR("VertexPipelineShader<name:" + getName() + ">");
 	}
 
 	void VertexPipelineShader::extraDestructor() {
 		LOG_DESTRUCTOR("VertexPipelineShader<name:" + getName() + ">");
-	}
-
-	void VertexPipelineShader::compile() {
-		GLuint vertexShaderID;
-		GLuint fragmentShaderID;
-
-		const char* vertShaderSrc_c = vertShaderSrc->c_str();
-
-		vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShaderID, 1, &vertShaderSrc_c , NULL);
-		glCompileShader(vertexShaderID);
-		checkShaderSuccess(vertShaderPath, vertexShaderID);
-
-		fragmentShaderID = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(fragmentShaderID, 1, &vertShaderSrc_c, NULL);
-		glCompileShader(fragmentShaderID);
-		checkShaderSuccess(vertShaderPath, fragmentShaderID);
-
-		/*----------------------------------------------------------*/
-		programID = glCreateProgram();
-		glAttachShader(programID, vertexShaderID);
-		glAttachShader(programID, fragmentShaderID);
-		glLinkProgram(programID);
-		checkProgramSuccess(programID);
-
-		glDeleteShader(vertexShaderID);
-		glDeleteShader(fragmentShaderID);
 	}
 }

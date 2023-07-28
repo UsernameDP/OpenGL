@@ -14,7 +14,7 @@ namespace GLCore {
 	public:
 		Runner(const std::string& name = "GLFW Window",
 			uint32_t width = 1280, uint32_t height = 720,
-			glm::vec4 backgroundColor = glm::vec4(0.0, 0.0, 0.0, 1.0)){
+			glm::vec4 backgroundColor = glm::vec4(0.0, 0.0, 0.0, 0.0)){
 
 			LOG("Runner has started");
 			

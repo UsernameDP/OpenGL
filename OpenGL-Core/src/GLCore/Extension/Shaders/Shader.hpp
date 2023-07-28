@@ -28,17 +28,29 @@ namespace GLCore::Shaders {
 		}
 	}
 
+	struct PrimitiveShader {
+		GLuint shaderID;
+		GLenum SHADER_TYPE;
+		std::string GLSL_PATH;
+		std::string* GLSL_SRC;
+
+		PrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
+	};
+
 	class Shader {
 	private:
 		std::string m_name;
+		std::vector<PrimitiveShader*> PrimitiveShaders;
 	protected:
 		GLuint programID = 0;
 	public:
-		Shader(const std::string& name) : m_name(name) {};
+		Shader(const std::string& name);
 		~Shader();
 		virtual void extraDestructor(); //LOG_DESTRUCTOR here
+		
+		void addPrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
 
-		virtual void compile();
+		void compile();
 		void use();
 		void detach();
 

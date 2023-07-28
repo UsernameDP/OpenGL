@@ -6,5 +6,3 @@
 #include <memory>
 
 #include <glad/glad.h>
-
-#include "Util/AssetPool.hpp"

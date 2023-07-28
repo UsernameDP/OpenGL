@@ -3,10 +3,10 @@
 
 namespace GLCore::Primitives {
 	void VertexPipeline::configure() {
-		vbo->create();
 		vao->create();
-		vertexAttributes->setAttributes();
+		vbo->create();
 		if (ebo != nullptr) ebo->create();
+		vertexAttributes->setAttributes();
 
 		unbindAll();
 	}

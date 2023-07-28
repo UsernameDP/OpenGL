@@ -76,10 +76,6 @@ namespace GLCore {
 	void Application::popLayer(Layer* layer) {
 		m_LayerStack->popLayer(layer);
 	}
-	void Application::setImGuiLayer(std::unique_ptr<ImGuiLayer> layer) {
-		m_ImGuiLayer = std::move(layer);
-		m_ImGuiLayer->onAttach();
-	}
 
 	bool Application::getKey(uint16_t GLFW_KEY_, bool return_false_if_any_imgui_windowIsFocused) {
 		bool isKeyDown = ImGui::GetIO().KeysDown[GLFW_KEY_];

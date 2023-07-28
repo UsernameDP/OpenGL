@@ -6,6 +6,9 @@ namespace GLCore::Util {
 		for (auto pair : GLSLSrcs) {
 			delete pair.second;
 		}
+		for (auto pair : Shaders) {
+			delete pair.second;
+		}
 
 		LOG_DESTRUCTOR("AssetPool");
 	}
@@ -20,6 +23,8 @@ namespace GLCore::Util {
 		std::filesystem::path solutionPath = cwd.parent_path();
 		std::filesystem::path GLSLSrcPath = solutionPath / path;
 
+		LOG("GLCore::Util::AssetPool::getGLSLSrc(" + GLSLSrcPath.string() + ")");
+
 		std::string* GLSLSrc = get()->GLSLSrcs[GLSLSrcPath];
 		if (!GLSLSrc) {
 			GLSLSrc = new std::string(readFile(GLSLSrcPath.string()));
@@ -27,6 +32,19 @@ namespace GLCore::Util {
 		}
 
 		return GLSLSrc;
+	}
+	Shaders::Shader* AssetPool::getShader(const std::string& name) {
+		LOG("GLCore::Util::AssetPool::getShader(" + name + ")");
+		Shaders::Shader* foundShader = get()->Shaders[name];
+		if (!foundShader) {
+			THROW_RUNTIME_ERROR(name + "<Shader> has yet to be set via. setShader(Shader*)");
+		}
+
+		return foundShader;
+	}
+
+	void AssetPool::setShader(Shaders::Shader* shader) {
+		get()->Shaders[shader->getName()] = shader;
 	}
 
 	std::unique_ptr<AssetPool> AssetPool::s_Instance = nullptr;

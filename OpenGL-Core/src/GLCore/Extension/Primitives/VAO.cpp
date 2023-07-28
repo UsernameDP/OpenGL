@@ -4,7 +4,7 @@
 namespace GLCore::Primitives {
 	void VAO::create() {
 		glGenVertexArrays(1, & VAOID);
-		bind();
+		glBindVertexArray(VAOID);
 	}
 	void VAO::bind() {
 		glBindVertexArray(VAOID);

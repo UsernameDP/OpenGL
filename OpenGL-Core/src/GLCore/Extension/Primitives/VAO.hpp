@@ -6,7 +6,7 @@ namespace GLCore::Primitives {
 	private:
 		GLuint VAOID;
 	public:
-		VAO() {};
+		VAO() = default;
 
 		void create();
 		void bind();

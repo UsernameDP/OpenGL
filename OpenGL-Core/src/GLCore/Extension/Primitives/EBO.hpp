@@ -5,9 +5,14 @@ namespace GLCore::Primitives {
 	class EBO {
 	private:
 		unsigned int EBOID;
-		std::vector<int>* indices;
+		std::vector<unsigned int>* indices;
+		unsigned int test_indices[6] = {  // note that we start from 0!
+	0, 1, 3,   // first triangle
+	1, 2, 3    // second triangle
+		};
 	public:
-		EBO(std::vector<int>* i_indices) : indices(i_indices) {};
+		EBO(std::vector<unsigned int>* i_indices) :
+		indices(i_indices){};
 
 		void create();
 

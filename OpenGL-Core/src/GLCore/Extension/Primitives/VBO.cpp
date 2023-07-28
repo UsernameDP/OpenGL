@@ -7,10 +7,11 @@ namespace GLCore::Primitives {
 		glBindBuffer(GL_ARRAY_BUFFER, VBOID);
 
 		if (vertices == nullptr) {
-			glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), nullptr, _DRAW_TYPE);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), nullptr, _DRAW_TYPE);
 		}
 		else {
-			glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), vertices->data(), _DRAW_TYPE);
+			std::cout << sizeof(vertices->data()) << std::endl;
+			glBufferData(GL_ARRAY_BUFFER, vertices->size() * sizeof(float), vertices->data(), _DRAW_TYPE);
 		}
 	}
 

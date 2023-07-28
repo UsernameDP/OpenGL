@@ -30,7 +30,7 @@ namespace GLCore::Primitives {
 		inline void setVBO(GLenum i_DRAW_TYPE, size_t i_size, std::vector<float>* i_vertices = nullptr) {
 			vbo = std::make_unique<VBO>(i_DRAW_TYPE, i_size, i_vertices);
 		}
-		inline void setEBO(std::vector<int>* i_indices) {
+		inline void setEBO(std::vector<unsigned int>* i_indices) {
 			ebo = std::make_unique<EBO>(i_indices);
 		}
 

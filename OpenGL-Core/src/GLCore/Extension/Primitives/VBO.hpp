@@ -9,10 +9,11 @@ namespace GLCore::Primitives {
 		size_t size;
 		std::vector<float>* vertices;
 		/*
-		Implementing vertices via. reference will still work
-		given that the vertices is not destroyed before
-		the vertices data is uploaded to GPU via. 
-		glBufferData()
+		* Using vectors will still work b/c
+		array->data() returns the raw float[] of vertices, 
+		it may seem off b/c sizeof(vertices) is not the same as sizeof(float[]) but it truly does return the raw float[]
+		
+		vertices->size() * sizeof(float) is the same as sizeof(float[]) 
 		*/
 		GLenum _DRAW_TYPE;
 	public:
@@ -24,7 +25,10 @@ namespace GLCore::Primitives {
 			VBOID(0),
 			size(i_size),
 			vertices(i_vertices),
-			_DRAW_TYPE(i_DRAW_TYPE) {};
+			_DRAW_TYPE(i_DRAW_TYPE) {
+			
+		
+		};
 
 		void create();
 

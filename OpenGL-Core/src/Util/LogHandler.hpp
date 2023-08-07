@@ -56,9 +56,9 @@ namespace exd
 
 
 #ifdef VERSION_RELEASE // if you have the RELEASE macro, then debugs don't print
-#define EXIT_ERROR(content) exit_error(content, __FILE__, __LINE__);
-#define WARNING(content) warning(content, __FILE__, __LINE__);
-#define THROW_RUNTIME_ERROR(content) throw_runtime_error(content, __FILE__, __LINE__)
+#define EXIT_ERROR(content) exd::exit_error(content, __FILE__, __LINE__);
+#define WARNING(content) exd::warning(content, __FILE__, __LINE__);
+#define THROW_RUNTIME_ERROR(content) exd::throw_runtime_error(content, __FILE__, __LINE__)
 #define LOG(content)
 #define LOG_SUCCESS(content)
 #define LOG_CONSTRUCTOR(className)

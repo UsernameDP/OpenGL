@@ -66,6 +66,17 @@ namespace exd
 
 		return path.substr(found + 1);
 	}
+	inline std::string getRelative(const std::string& childPath, const std::string& parentPath) {
+		fs::path parentPath_path = static_cast<fs::path>(parentPath);
+		fs::path childPath_path = static_cast<fs::path>(childPath);
+
+		fs::path relativePath = fs::relative(childPath_path, parentPath_path);
+
+		if (!relativePath.empty()) {
+			return relativePath.string();
+		}
+		return "";
+	}
 
 	/*Directories*/
 	inline void getAllDirectoryWithNames(

@@ -17,19 +17,13 @@ namespace GLCore::util {
 		s_Instance = std::make_unique<AssetPool>();
 	}
 
-	std::string* AssetPool::getGLSLSrc(const std::string& path) {
-		//cwd (current working directory) aka. which project directory the program is ran / debugged
-		std::filesystem::path cwd = std::filesystem::current_path();
-		std::filesystem::path solutionPath = cwd.parent_path();
-		std::filesystem::path GLSLSrcPath = solutionPath / path;
-
-		LOG("GLCore::util::AssetPool::getGLSLSrc(" + GLSLSrcPath.string() + ")");
-
-		if (!exd::mapHas(get()->GLSLSrcs, GLSLSrcPath.string())) {
-			THROW_RUNTIME_ERROR(path + " GLSLSrc has yet to be set via. setGLSLSrc(path, content)");
+	std::string* AssetPool::getGLSLSrc(const std::string& relativePath) {
+		LOG("GLCore::util::AssetPool::getGLSLSrc(" + relativePath + ")");
+		if (!exd::mapHas(get()->GLSLSrcs, relativePath)) {
+			THROW_RUNTIME_ERROR(relativePath + " GLSLSrc has yet to be set via. setGLSLSrc(path, content)");
 		}
 
-		std::string* GLSLSrc = get()->GLSLSrcs[GLSLSrcPath];
+		std::string* GLSLSrc = get()->GLSLSrcs[relativePath];
 
 		return GLSLSrc;
 	}

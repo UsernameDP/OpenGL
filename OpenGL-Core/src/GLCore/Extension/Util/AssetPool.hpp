@@ -18,7 +18,7 @@ namespace GLCore::util {
 		~AssetPool();
 	public:
 		static void init();
-		static std::string* getGLSLSrc(const std::string& path);
+		static std::string* getGLSLSrc(const std::string& relativePath);
 		static Shaders::Shader* getShader(const std::string& name);
 
 		static inline void setGLSLSrc(const std::string& path, const std::string& content) {

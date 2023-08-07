@@ -21,10 +21,12 @@ namespace GLCore::util {
 		static std::string* getGLSLSrc(const std::string& relativePath);
 		static Shaders::Shader* getShader(const std::string& name);
 
-		static inline void setGLSLSrc(const std::string& path, const std::string& content) {
-			get()->GLSLSrcs[path] = new std::string(content);
+		static inline void setGLSLSrc(const std::string& relativePath, const std::string& content) {
+			LOG("util::AssetPool::setGLSLSrc(" + relativePath + ",\n" + content + "\n)");
+			get()->GLSLSrcs[relativePath] = new std::string(content);
 		}
 		static inline void setShader(Shaders::Shader* shader) {
+			LOG("util::AssetPool::setShader(" + shader->getName() + ")");
 			get()->Shaders[shader->getName()] = shader;
 		}
 	};

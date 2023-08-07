@@ -15,3 +15,5 @@
 #include "util/FileHandler.hpp"
 #include "util/LogHandler.hpp"
 #include "util/PrimitiveTypeHandler.hpp"
+
+#include <glm/vector_relational.hpp>

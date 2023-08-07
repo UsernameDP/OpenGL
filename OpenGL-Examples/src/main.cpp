@@ -9,7 +9,5 @@ int main()
     runner.run();
     LOG("Program ended");
 
-    std::cout << "how consistently?";
-
     return 0;
 }

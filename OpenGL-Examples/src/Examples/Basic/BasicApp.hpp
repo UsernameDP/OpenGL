@@ -1,7 +1,7 @@
 #pragma once
 #include "GLCore.hpp"
 #include "BasicImGuiLayer.hpp"
-#include "BasicAssetPoolSettings.hpp"
+#include "BasicAssetPoolINIT.hpp"
 #include "BasicLayer.hpp"
 
 using namespace GLCore;
@@ -16,7 +16,7 @@ public:
 
     void init() override {
         setImGuiLayer(std::make_unique<BasicImGuiLayer>());
-        setAssetPoolSettings(std::make_unique<BasicAssetPoolSettings>());
+        initializeAssetPool(std::make_unique<BasicAssetPoolINIT>());
         pushLayer(new BasicLayer());
     }
 };

@@ -21,6 +21,11 @@ namespace GLCore::util {
 		static std::string* getGLSLSrc(const std::string& path);
 		static Shaders::Shader* getShader(const std::string& name);
 
-		static void setShader(Shaders::Shader* shader);
+		static inline void setGLSLSrc(const std::string& path, const std::string& content) {
+			get()->GLSLSrcs[path] = new std::string(content);
+		}
+		static inline void setShader(Shaders::Shader* shader) {
+			get()->Shaders[shader->getName()] = shader;
+		}
 	};
 }

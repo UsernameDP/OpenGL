@@ -1,10 +1,5 @@
 #pragma once
-#include <memory>
-#include <string>
-#include <vector>
-
-#include "util/LogHandler.hpp"
-
+#include "Core.hpp"
 #include "TimeStep.hpp"
 
 namespace GLCore {

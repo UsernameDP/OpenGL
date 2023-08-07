@@ -1,7 +1,7 @@
-#include "glpch.hpp"
+#include "pch.hpp"
 #include "AssetPool.hpp"
 
-namespace GLCore::Util {
+namespace GLCore::util {
 	AssetPool::~AssetPool() {
 		for (auto pair : GLSLSrcs) {
 			delete pair.second;
@@ -23,18 +23,18 @@ namespace GLCore::Util {
 		std::filesystem::path solutionPath = cwd.parent_path();
 		std::filesystem::path GLSLSrcPath = solutionPath / path;
 
-		LOG("GLCore::Util::AssetPool::getGLSLSrc(" + GLSLSrcPath.string() + ")");
+		LOG("GLCore::util::AssetPool::getGLSLSrc(" + GLSLSrcPath.string() + ")");
 
 		std::string* GLSLSrc = get()->GLSLSrcs[GLSLSrcPath];
 		if (!GLSLSrc) {
-			GLSLSrc = new std::string(readFile(GLSLSrcPath.string()));
+			GLSLSrc = new std::string(exd::readFile(GLSLSrcPath.string()));
 			get()->GLSLSrcs[GLSLSrcPath] = GLSLSrc;
 		}
 
 		return GLSLSrc;
 	}
 	Shaders::Shader* AssetPool::getShader(const std::string& name) {
-		LOG("GLCore::Util::AssetPool::getShader(" + name + ")");
+		LOG("GLCore::util::AssetPool::getShader(" + name + ")");
 		Shaders::Shader* foundShader = get()->Shaders[name];
 		if (!foundShader) {
 			THROW_RUNTIME_ERROR(name + "<Shader> has yet to be set via. setShader(Shader*)");

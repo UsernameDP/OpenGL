@@ -1,12 +1,12 @@
-#include "glpch.hpp"
+#include "pch.hpp"
 #include "Shader.hpp"
-#include "GLCore/Extension/Util/AssetPool.hpp"
+#include "GLCore/Extension/util/AssetPool.hpp"
 
 namespace GLCore::Shaders {
 	PrimitiveShader::PrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH) {
 		this->SHADER_TYPE = SHADER_TYPE;
 		this->GLSL_PATH = GLSL_PATH;
-		this->GLSL_SRC = Util::AssetPool::getGLSLSrc(GLSL_PATH);
+		this->GLSL_SRC = util::AssetPool::getGLSLSrc(GLSL_PATH);
 	};
 
 

@@ -1,7 +1,6 @@
 #pragma once
-#include "Core.hpp"
 #include "Application.hpp"
-#include "GLCore/Extension/Util/AssetPool.hpp"
+#include "GLCore/Extension/util/AssetPool.hpp"
 
 namespace GLCore {
 
@@ -18,13 +17,13 @@ namespace GLCore {
 
 			LOG("Runner has started");
 			
-			Util::AssetPool::init();
+			util::AssetPool::init();
 			try { //In constructor, try creating app
 				app = std::make_unique<T>(name, width, height, backgroundColor);
 				app->init();
 			}
 			catch (const std::exception e) {
-				std::cout << TextColor::RED << "App Instantiate Exception : " << e.what() << std::endl << TextColor::RESET;
+				std::cout << "App Instantiate Exception : " << e.what() << std::endl;
 				failedToCreate = true;
 			}
 		}
@@ -35,7 +34,7 @@ namespace GLCore {
 					app->run();
 				}
 				catch (const std::exception e) {
-					std::cout << TextColor::RED << "App Running Exception : " << e.what() << std::endl << TextColor::RESET;
+					std::cout << "App Running Exception : " << e.what() << std::endl;
 				}
 			}
 

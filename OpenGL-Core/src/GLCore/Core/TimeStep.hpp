@@ -6,12 +6,12 @@ namespace GLCore {
 		float m_Time;
 	public:
 		TimeStep() = default;
-		TimeStep(float time) :m_Time(time) {}
+		inline TimeStep(float time) :m_Time(time) {}
 
-		operator float() const { return m_Time; }
+		inline operator float() const { return m_Time; }
 
-		void setTime(float time) { this->m_Time = time; }
-		float getSeconds() const { return m_Time; }
-		float getMilliseconds() const { return m_Time * 1000.0f; }
+		inline void setTime(float time) { this->m_Time = time; }
+		inline float getSeconds() const { return m_Time; }
+		inline float getMilliseconds() const { return m_Time * 1000.0f; }
 	};
 }

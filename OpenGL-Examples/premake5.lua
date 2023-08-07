@@ -16,12 +16,23 @@ project "OpenGL-Examples"
 
     includedirs {
         "../OpenGL-Core/src",
-        "../OpenGL-Core/vendor/Glad/include",
-        "../OpenGL-Core/vendor/GLFW/include",
-        "../OpenGL-Core/vendor/glm/include",
-        "../OpenGL-Core/vendor/imgui/include"
+        "../OpenGL-Core/%{IncludeDir.GLFW}",
+		"../OpenGL-Core/%{IncludeDir.glad}",
+		"../OpenGL-Core/%{IncludeDir.imgui}",
+		"../OpenGL-Core/%{IncludeDir.glm}",
+		"../OpenGL-Core/%{IncludeDir.stb}"
     }
 
     links {
         "OpenGL-Core"
     }
+
+    filter {"configurations:Debug"}
+        buildoptions "/MTd" --compiler option for debug
+        runtime "Debug"
+        symbols "on" --generate debug symbols
+
+    filter {"configurations:Release"}
+        buildoptions "/MT"
+        runtime "Release"
+        optimize "on"

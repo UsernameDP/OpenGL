@@ -1,4 +1,4 @@
-#include "glpch.hpp"
+#include "pch.hpp"
 #include "VertexAttributes.hpp"
 
 namespace GLCore::Primitives {

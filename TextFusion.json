@@ -1,0 +1,11 @@
+{
+    "Extensions" : [".vert", ".frag", ".txt"],
+    "RelevantDirectoryNames" : [],
+    "FileToWrite" : "C:\\Users\\Devin\\Downloads\\Code\\VS\\Cpp\\OpenGL\\test.cpp",
+    "WriteFormat" : "someFunction(\"${path}\",\n\"${content}\");\n",
+    "WriteFormatEncapsulation" : "//C:\\Users\\Devin\\Downloads\\Code\\VS\\Cpp\\OpenGL\\test.cpp\n#include <iostream>\n#include<string>\nvoid someFunction(std::string str1, std::string str2){ std::cout << str1; };\n int main(){ ${here} \n return 0;}",
+
+    "WatchDirectoryDelay" : 1000,
+    "FilesStateDelay" : 1000,
+    "ConsoleDelay" : 1000
+}

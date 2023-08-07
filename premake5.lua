@@ -8,17 +8,21 @@ workspace "OpenGL-Core"
         "Release"
     }
 
-    filter {"configurations:Debug"}
-        buildoptions "/MDd" --compiler option for debug
-        runtime "Debug"
-        symbols "on" --generate debug symbols
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-    filter {"configurations:Release"}
-        buildoptions "/MT"
-        runtime "Release"
-        optimize "on"
+IncludeDir = {}
+IncludeDir["glad"] = "vendor/glad/include"
+IncludeDir["GLFW"] = "vendor/GLFW/include"
+IncludeDir["glm"] = "vendor/glm/include"
+IncludeDir["imgui"] = "vendor/imgui/include"
+IncludeDir["stb"] = "vendor/stb/include"
 
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" 
+group "Dependencies"
+    include "OpenGL-Core/vendor/glad"
+    include "OpenGL-Core/vendor/GLFW"
+    include "OpenGL-Core/vendor/imgui"
+group ""
+
 include "OpenGL-Core"
 -------------------------------------------------------------------------------
 
@@ -32,20 +36,20 @@ workspace "OpenGL-Examples"
         "Release"
     }
 
-    filter {"configurations:Debug"}
-        buildoptions "/MDd" --compiler option for debug
-        runtime "Debug"
-        symbols "on" --generate debug symbols
-        warnings "Extra"
-        linkoptions {"/NODEFAULTLIB:library" }
-
-    filter {"configurations:Release"}
-        buildoptions "/MT"
-        runtime "Release"
-        warnings "Extra"
-        optimize "on"
-
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" 
+
+IncludeDir = {}
+IncludeDir["glad"] = "vendor/glad/include"
+IncludeDir["GLFW"] = "vendor/GLFW/include"
+IncludeDir["glm"] = "vendor/glm/include"
+IncludeDir["imgui"] = "vendor/imgui/include"
+IncludeDir["stb"] = "vendor/stb/include"
+
+group "Dependencies"
+    includeexternal "OpenGL-Core/vendor/glad"
+    includeexternal "OpenGL-Core/vendor/GLFW"
+    includeexternal "OpenGL-Core/vendor/imgui"
+group ""
 
 includeexternal "OpenGL-Core"
 include "OpenGL-Examples"

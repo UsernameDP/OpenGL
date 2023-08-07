@@ -1,8 +1,8 @@
 #pragma once
 
-namespace GLCore::Util {
+namespace GLCore::util {
 
-	class AssetPoolSettings { //Settings to configure in GLCore::Util::AssetPool before running Application
+	class AssetPoolSettings { //Settings to configure in GLCore::util::AssetPool before running Application
 	public:
 		AssetPoolSettings() = default;
 

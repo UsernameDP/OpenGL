@@ -39,7 +39,7 @@ public:
 	BasicLayer() : Layer("BasicLayer") {};
 
 	void onAttach() override {
-		shader = Util::AssetPool::getShader("SquareShader");
+		shader = util::AssetPool::getShader("SquareShader");
 		
 		vertexAttributes = Primitives::VertexAttributes::create();
 		vertexAttributes->addVertexAttribute(0, POS_SIZE , GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (void*)0);
@@ -59,7 +59,7 @@ public:
 		vertexPipeline->bindAll();
 		shader->use();
 
-		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
 
 		vertexPipeline->unbindAll();
 		shader->detach();

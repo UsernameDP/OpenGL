@@ -8,8 +8,8 @@ project "OpenGL-Core"
     targetdir("bin/"..outputdir.."/%{prj.name}")
     objdir("bin-int/"..outputdir.."/%{prj.name}")
 
-    pchheader "glpch.hpp"
-    pchsource "src/glpch.cpp"
+    pchheader "pch.hpp"
+    pchsource "src/pch.cpp"
 
     files {
         "src/**.hpp",
@@ -18,21 +18,28 @@ project "OpenGL-Core"
 
     includedirs {
         "src",
-        "vendor/Glad/include",
-        "vendor/GLFW/include",
-        "vendor/glm/include",
-        "vendor/imgui/include",
-        "vendor/stb/include"
-    }
-
-    libdirs {
-        "vendor/Glad/lib",
-        "vendor/GLFW/lib",
-        "vendor/imgui/lib"
+        "%{IncludeDir.GLFW}",
+		"%{IncludeDir.glad}",
+		"%{IncludeDir.imgui}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb}"
     }
 
     links {
-        "opengl32",
-        "Glad",
-        "imgui" -- already contains glfw3 (putting both gives lots of errors)
+        "glad",
+        "imgui",
+        "GLFW",
+        "opengl32.lib"
     }
+
+    filter {"configurations:Debug"}
+        buildoptions "/MTd" --compiler option for debug
+        runtime "Debug"
+        symbols "on" --generate debug symbols
+
+    filter {"configurations:Release"}
+        buildoptions "/MT"
+        runtime "Release"
+        optimize "on"
+
+        defines {"VERSION_RELEASE"}

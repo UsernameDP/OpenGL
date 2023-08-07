@@ -1,4 +1,4 @@
-#include "glpch.hpp"
+#include "pch.hpp"
 #include "VBO.hpp"
 
 namespace GLCore::Primitives {

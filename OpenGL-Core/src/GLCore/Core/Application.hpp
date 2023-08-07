@@ -1,11 +1,10 @@
 #pragma once
-#include "Core.hpp"
 #include <glm/vec4.hpp>
 #include "Layer.hpp"
 #include "LayerStack.hpp"
 #include "Window.hpp"
 #include "GLCore/ImGui/ImGuiLayer.hpp"
-#include "GLCore/Extension/Util/AssetPoolSettings.hpp"
+#include "GLCore/Extension/util/AssetPoolSettings.hpp"
 
 namespace GLCore {
 
@@ -16,7 +15,7 @@ namespace GLCore {
 		std::unique_ptr<Window> m_Window = nullptr;
 		std::unique_ptr<ImGuiLayer> m_ImGuiLayer = nullptr;
 		std::unique_ptr<LayerStack> m_LayerStack = nullptr;
-		std::unique_ptr<Util::AssetPoolSettings> m_AssetPoolSettings = nullptr;
+		std::unique_ptr<util::AssetPoolSettings> m_AssetPoolSettings = nullptr;
 		std::string m_glslVersion = "";
 		bool m_running;
 	public:
@@ -34,7 +33,7 @@ namespace GLCore {
 		void popLayer(Layer* layer);
 
 		inline void setImGuiLayer(std::unique_ptr<ImGuiLayer> layer) {m_ImGuiLayer = std::move(layer); m_ImGuiLayer->onAttach();}
-		inline void setAssetPoolSettings(std::unique_ptr<Util::AssetPoolSettings> settings) { m_AssetPoolSettings = std::move(settings); m_AssetPoolSettings->run(); }
+		inline void setAssetPoolSettings(std::unique_ptr<util::AssetPoolSettings> settings) { m_AssetPoolSettings = std::move(settings); m_AssetPoolSettings->run(); }
 
 	public:
 		static bool getKey(uint16_t GLFW_KEY, bool return_false_if_any_imgui_windowIsFocused = false);

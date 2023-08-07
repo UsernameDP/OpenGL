@@ -1,10 +1,10 @@
 #pragma once
 #include "../Extension.hpp"
-#include "Util/FileHandler.hpp"
+#include "util/FileHandler.hpp"
 #include "GLCore/Extension/Shaders/Shader.hpp"
 #include <filesystem>
 
-namespace GLCore::Util {
+namespace GLCore::util {
 	class AssetPool {
 	private:
 		static std::unique_ptr<AssetPool> s_Instance;

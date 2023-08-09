@@ -27,6 +27,7 @@ namespace GLCore {
 		virtual void extraDestructor(); //extra things to detach beyond layerStack, Window, and ImGui
 
 		virtual void init(); //other things to do before run() 
+		void finalCheck();
 		void run();
 
 		void pushLayer(Layer* layer);

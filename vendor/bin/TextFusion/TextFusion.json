@@ -1,0 +1,13 @@
+{
+    "Extensions" : [".vert", ".frag"],
+    "RelevantDirectoryNames" : ["assets"],
+    "FileToWrite" : "C:\\Users\\Devin\\Downloads\\Code\\VS\\Cpp\\OpenGL\\OpenGL-Examples\\src\\Examples\\Basic\\BasicAssetPoolINIT_GLSLSrcs.hpp",
+    "WriteFormat" : "util::AssetPool::setGLSLSrc(\"${RelativePath}\", \"${Content}\");\n",
+    "WriteFormatEncapsulation" : "C:\\Users\\Devin\\Downloads\\Code\\VS\\Cpp\\OpenGL\\vendor\\bin\\TextFusion\\WriteFormatEncapsulations\\Examples-Basic-GLSLSrcs.cpp",
+    "ConsoleCallBacks" : [
+        "clang-format -i ${FileToWrite}"
+    ],
+    "WatchDirectoryDelay" : 1000,
+    "FilesStateDelay" : 1000,
+    "ConsoleDelay" : 1000
+}

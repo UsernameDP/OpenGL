@@ -19,6 +19,9 @@ namespace GLCore::Shaders {
 
 		extraDestructor();
 	}
+	void Shader::extraDestructor() {
+		//still need to define this despite {} since the function is being called in baseclass 
+	};
 
 	void Shader::addPrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH) {
 		PrimitiveShaders.push_back(new PrimitiveShader(SHADER_TYPE, GLSL_PATH));
@@ -57,6 +60,24 @@ namespace GLCore::Shaders {
 		glUseProgram(0);
 	}
 	
+	/*All uniform uploads*/
+	//Floats
+	void Shader::uploadFloat(const std::string& name, const float& value) {
+		int location = glGetUniformLocation(programID, name.c_str());
+		use();
+		glUniform1f(location, value);
+	}
+	void Shader::uploadMat4f(const std::string& name, const glm::mat4& value) {
+		int location = glGetUniformLocation(programID, name.c_str());
+		use();
+		glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
+	}
 	
-	void Shader::extraDestructor() {};
+
+	//ints
+	void Shader::uploadInt(const std::string& name, const int& value) {
+		int location = glGetUniformLocation(programID, name.c_str());
+		use();
+		glUniform1i(location, value);
+	}
 }

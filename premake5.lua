@@ -79,6 +79,11 @@ newaction {
     execute = function()
         cleanProject("./OpenGL-Core")
         cleanProject("./OpenGL-Examples")
+        cleanProject("./OpenGL-Core/vendor/glad")
+        cleanProject("./OpenGL-Core/vendor/GLFW")
+        cleanProject("./OpenGL-Core/vendor/imgui")
+        cleanProject("./OpenGL-Core/vendor/stb")
+
         print("Removing Solution Files")
         os.remove("**.sln")
     

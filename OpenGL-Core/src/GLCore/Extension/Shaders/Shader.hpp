@@ -46,7 +46,7 @@ namespace GLCore::Shaders {
 	public:
 		Shader(const std::string& name);
 		~Shader();
-		virtual void extraDestructor(); //LOG_DESTRUCTOR here
+		virtual void extraDestructor() = 0;
 		
 		void addPrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
 
@@ -57,6 +57,10 @@ namespace GLCore::Shaders {
 		inline std::string& getName() { return m_name; }
 	public: //All the uniform uploads
 
+		void uploadFloat(const std::string& name, const float& value);
+		void uploadMat4f(const std::string& name, const glm::mat4& value);
+
+		void uploadInt(const std::string& name, const int& value);
 
 	};
 }

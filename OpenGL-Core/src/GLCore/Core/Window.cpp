@@ -67,6 +67,9 @@ namespace GLCore {
 		initViewPort( (int) width,  (int) height);
 		glfwSetFramebufferSizeCallback(glfwWindow, (GLFWframebuffersizefun)framebuffer_size_callback);
 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		LOG_SUCCESS("GLFWWindow Created & Configured");
 	}
 	void Window::onUpdate() {

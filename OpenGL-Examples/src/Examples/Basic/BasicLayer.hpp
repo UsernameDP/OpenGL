@@ -35,7 +35,6 @@ private:
 			   1, 3, 2, // Triangle 2: Bottom right, Top right, Top left
 	};
 
-
 public:
 	BasicLayer() : Layer("BasicLayer") {};
 
@@ -57,6 +56,8 @@ public:
 
 	}
 	void onUpdate(const TimeStep& ts) {
+
+
 		vertexPipeline->bindAll();
 		shader->use();
 

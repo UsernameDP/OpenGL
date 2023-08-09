@@ -41,8 +41,17 @@ namespace GLCore {
 
 		LOG_DESTRUCTOR("Application");
 	}
+	void Application::extraDestructor() {};
 
+	void Application::init() {};
+	void Application::finalCheck() {
+		if (m_ImGuiLayer == nullptr) {
+			THROW_RUNTIME_ERROR("An ImGuiLayer must be specified!");
+		}
+	}
 	void Application::run() {
+		finalCheck();
+
 		LOG("Application has started running");
 
 		float currentTime;
@@ -50,7 +59,7 @@ namespace GLCore {
 
 		TimeStep timeStep;
 		while (m_Window->running()) {
-			currentTime = (float)glfwGetTime();
+			currentTime = (float)glfwGetTime(); //gets time since glfw started
 			timeStep.setTime(currentTime);
 
 			m_Window->onUpdate();
@@ -87,10 +96,6 @@ namespace GLCore {
 
 		return isKeyDown;
 	}
-
-	//Virtual / Overrideable functions
-	void Application::init() {};
-	void Application::extraDestructor() {};
 
 	Application* Application::s_Instance = nullptr;
 }

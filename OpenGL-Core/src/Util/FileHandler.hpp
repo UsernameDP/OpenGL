@@ -80,11 +80,14 @@ namespace exd
 
 	/*Directories*/
 	inline void getAllDirectoryWithNames(
-		std::vector<std::string> &arr,
+		std::vector<std::string> &directories,
 		const std::string &parentDir,
 		const std::vector<std::string> &names,
 		const bool &recursive = false)
 	{
+		if (!dirExists(parentDir)) {
+			THROW_RUNTIME_ERROR(parentDir + "\t does not exist or is not a directory");
+		}
 
 		for (const auto &entry : fs::directory_iterator(parentDir))
 		{
@@ -94,31 +97,62 @@ namespace exd
 				{
 					if (getFileOrDirectoryName(entry.path().string()) == name)
 					{
-						arr.push_back(entry.path().string());
+						directories.push_back(entry.path().string());
 					}
 					else if (recursive)
 					{
-						getAllDirectoryWithNames(arr, entry.path().string(), names, recursive);
+						getAllDirectoryWithNames(directories, entry.path().string(), names, recursive);
 					}
 				}
 			}
 		}
 	}
 
+	inline void getAllFilesWithNames(
+		std::vector<std::string>& files,
+		const std::string& parentDir,
+		const std::vector<std::string>& names,
+		const bool& recursive = false)
+	{
+		if (!dirExists(parentDir)) {
+			THROW_RUNTIME_ERROR(parentDir + "\t does not exist or is not a directory");
+		}
+
+		for (const auto& entry : fs::directory_iterator(parentDir))
+		{
+			if (entry.is_regular_file())
+			{
+				fs::path filePath = entry.path();
+
+				for (const std::string& name : names)
+				{
+					if (filePath.filename().string() == name)
+					{
+						files.push_back(entry.path().string());
+					}
+				}
+			}
+			else if (recursive)
+			{
+				getAllFilesWithNames(files, entry.path().string(), names, recursive);
+			}
+		}
+	}
+
 	/*Extensions*/
 	inline void filesWithExtensions(
-		std::vector<std::string> &arr,
-		const std::string &dirPath,
+		std::vector<std::string> &files,
+		const std::string & parentDir,
 		const std::vector<std::string> &extensions,
 		const bool &recursive = false)
 	{
 
-		if (!fs::exists(dirPath) || !fs::is_directory(dirPath))
+		if (!dirExists(parentDir))
 		{
-			THROW_RUNTIME_ERROR(dirPath + "\t does not exist or is not a directory");
+			THROW_RUNTIME_ERROR(parentDir + "\t does not exist or is not a directory");
 		}
 
-		for (const auto &entry : fs::directory_iterator(dirPath))
+		for (const auto &entry : fs::directory_iterator(parentDir))
 		{
 			if (entry.is_regular_file())
 			{
@@ -126,16 +160,13 @@ namespace exd
 				{
 					if (entry.path().extension() == extension)
 					{
-						arr.push_back(entry.path().string());
+						files.push_back(entry.path().string());
 					}
 				}
 			}
 			else if (recursive)
 			{
-				if (entry.is_directory() && entry.exists())
-				{
-					filesWithExtensions(arr, entry.path().string(), extensions, true);
-				}
+				filesWithExtensions(files, entry.path().string(), extensions, true);
 			}
 		}
 	}

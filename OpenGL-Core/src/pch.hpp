@@ -16,4 +16,6 @@
 #include "util/LogHandler.hpp"
 #include "util/PrimitiveTypeHandler.hpp"
 
-#include <glm/vector_relational.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>

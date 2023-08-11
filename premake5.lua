@@ -36,6 +36,11 @@ workspace "OpenGL-Examples"
         "Release"
     }
 
+    --Note that all relative paths are relative to the parent of the CWD (current working directory)
+    postbuildcommands {
+        "{COPYDIR} assets bin/"..outputdir.."/OpenGL-Examples/assets"
+    }
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" 
 
 IncludeDir = {}

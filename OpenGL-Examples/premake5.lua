@@ -36,3 +36,5 @@ project "OpenGL-Examples"
         buildoptions "/MT"
         runtime "Release"
         optimize "on"
+
+    -- local binPath = "bin/"..outputdir.."/%{prj.name}"

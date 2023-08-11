@@ -61,6 +61,7 @@ namespace GLCore::Shaders {
 		void uploadMat4f(const std::string& name, const glm::mat4& value);
 
 		void uploadInt(const std::string& name, const int& value);
+		void uploadTexture(const std::string& name, const unsigned int& slot);
 
 	};
 }

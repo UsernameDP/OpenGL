@@ -27,7 +27,7 @@ namespace exd
 		else
 		{
 			file.close();
-			THROW_RUNTIME_ERROR("Can't find" + path);
+			THROW_RUNTIME_ERROR("Can't find : " + path);
 		}
 
 		return data;
@@ -140,6 +140,11 @@ namespace exd
 	}
 
 	/*Extensions*/
+	inline std::string getFileExtension(const std::string& path) { //does not check if fileExists
+		fs::path path_fs = static_cast<fs::path>(path);
+		
+		return path_fs.extension().string();
+	}
 	inline void filesWithExtensions(
 		std::vector<std::string> &files,
 		const std::string & parentDir,
@@ -158,7 +163,7 @@ namespace exd
 			{
 				for (const std::string &extension : extensions)
 				{
-					if (entry.path().extension() == extension)
+					if (getFileExtension(entry.path().string()) == extension)
 					{
 						files.push_back(entry.path().string());
 					}

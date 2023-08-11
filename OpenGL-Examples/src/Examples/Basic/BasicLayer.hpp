@@ -34,6 +34,7 @@ private:
 			   0, 1, 2, // Triangle 1: Bottom left, Bottom right, Top left
 			   1, 3, 2, // Triangle 2: Bottom right, Top right, Top left
 	};
+	Primitives::Texture TestTexture;
 
 public:
 	BasicLayer() : Layer("BasicLayer") {};
@@ -51,6 +52,8 @@ public:
 		vertexPipeline->setEBO(&indices);
 		vertexPipeline->setVertexAttributes(vertexAttributes);
 		vertexPipeline->configure();
+
+		TestTexture = Primitives::Texture("C:\\Users\\Devin\\Downloads\\Code\\VS\\Cpp\\OpenGL\\OpenGL-Examples\\assets\\textures\\eclipse.jpg");
 	}
 	void onDetach() override {
 

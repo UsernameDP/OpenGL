@@ -20,7 +20,11 @@ namespace GLCore::util {
 	std::string* AssetPool::getGLSLSrc(const std::string& relativePath) {
 		LOG("GLCore::util::AssetPool::getGLSLSrc(" + relativePath + ")");
 		if (!exd::mapHas(get()->GLSLSrcs, relativePath)) {
-			THROW_RUNTIME_ERROR(relativePath + " GLSLSrc has yet to be set via. setGLSLSrc(path, content)");
+			fs::path cwd = fs::current_path();
+			fs::path solutionPath = cwd.parent_path();
+			fs::path absPath = solutionPath / relativePath;
+
+			setGLSLSrc(relativePath, exd::readFile(absPath.string()));
 		}
 
 		std::string* GLSLSrc = get()->GLSLSrcs[relativePath];

@@ -1,11 +1,11 @@
 #include "GLCore/Core/Runner.hpp"
 
 /*Examples*/
-#include "Examples/Basic/BasicApp.hpp"
+#include "Examples/Tutorial/Tutorial_App.hpp"
 
 int main()
 {
-    GLCore::Runner<BasicApp> runner;
+    GLCore::Runner<Tutorial_App> runner;
     runner.run();
     LOG("Program ended");
 

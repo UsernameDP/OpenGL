@@ -3,19 +3,19 @@
 
 using namespace GLCore;
 
-class BasicImGuiLayer : public ImGuiLayer {
+class Layer_ImGui_Tutorial : public ImGuiLayer {
 private:
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 public:
 
-    BasicImGuiLayer() : ImGuiLayer() {
+    Layer_ImGui_Tutorial() : ImGuiLayer() {
 
     }
 
     void onUpdate(const GLCore::TimeStep& ts) override {
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
+ /*       ImGuiIO& io = ImGui::GetIO(); (void)io;
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
@@ -48,6 +48,6 @@ public:
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
             ImGui::End();
-        }
+        }*/
     }
 };

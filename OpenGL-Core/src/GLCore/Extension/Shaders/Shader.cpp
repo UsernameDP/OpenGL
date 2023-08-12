@@ -65,9 +65,9 @@ namespace GLCore::Shaders {
 
 	
 	/*All uniform uploads*/
-	int Shader::GetUniformLocation(const std::string& name) {
+	int Shader::GetUniformLocation(const std::string& name, const bool& strict) {
 		int location = glGetUniformLocation(programID, name.c_str());
-		if (location == -1) { //location = -1 if the "name" uniform is never mentioned in main
+		if (location == -1 && strict) { //location = -1 if the "name" uniform is never mentioned in main
 			THROW_RUNTIME_ERROR(name + " doesn't exist!");
 		}
 
@@ -75,19 +75,19 @@ namespace GLCore::Shaders {
 	}
 
 	//Floats
-	void Shader::uploadFloat(const std::string& name, const float& value) {
-		glUniform1f(GetUniformLocation(name), value);
+	void Shader::uploadFloat(const std::string& name, const float& value, const bool& strict) {
+		glUniform1f(GetUniformLocation(name, strict), value);
 	}
-	void Shader::uploadMat4f(const std::string& name, const glm::mat4& value) {
-		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &value[0][0]);
+	void Shader::uploadMat4f(const std::string& name, const glm::mat4& value, const bool& strict) {
+		glUniformMatrix4fv(GetUniformLocation(name, strict), 1, GL_FALSE, &value[0][0]);
 	}
 	
 
 	//ints
-	void Shader::uploadInt(const std::string& name, const int& value) {
-		glUniform1i(GetUniformLocation(name), value);
+	void Shader::uploadInt(const std::string& name, const int& value, const bool& strict) {
+		glUniform1i(GetUniformLocation(name, strict), value);
 	}
-	void Shader::uploadTexture(const std::string& name, const unsigned int& slot) {
-		glUniform1i(GetUniformLocation(name), slot);
+	void Shader::uploadTexture(const std::string& name, const unsigned int& slot, const bool& strict) {
+		glUniform1i(GetUniformLocation(name, strict), slot);
 	}
 }

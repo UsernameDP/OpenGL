@@ -6,6 +6,9 @@ namespace GLCore::util {
 		for (auto& pair : GLSLSrcs) {
 			delete pair.second;
 		}
+		for (auto& pair : textures) {
+			delete pair.second;
+		}
 		for (auto& pair : Shaders) {
 			delete pair.second;
 		}

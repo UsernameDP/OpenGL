@@ -3,7 +3,7 @@
 
 using namespace GLCore;
 
-class BasicAssetPoolINIT : public util::AssetPoolINIT {
+class Tutorial_AssetPoolINIT : public util::AssetPoolINIT {
 	
 	void configure() override {
 		util::AssetPool::setShader(
@@ -12,5 +12,12 @@ class BasicAssetPoolINIT : public util::AssetPoolINIT {
 			"OpenGL-Examples\\assets\\shaders\\Square.vert",
 			"OpenGL-Examples\\assets\\shaders\\Square.frag"
 		));
+		util::AssetPool::setShader(
+			new Shaders::VertexPipelineShader(
+				"CubeShader",
+				"OpenGL-Examples\\assets\\shaders\\Cube.vert",
+				"OpenGL-Examples\\assets\\shaders\\Cube.frag"
+			)
+		);
 	}
 };

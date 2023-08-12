@@ -6,15 +6,15 @@ namespace GLCore::Primitives {
 	void Texture::texParameters() {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	}
 
 	Texture::Texture(const std::string& relativePath, const GLuint& format, const GLuint& internalFormat) 
 		:path(relativePath){
 		glGenTextures(1, &ID);
 		glBindTexture(GL_TEXTURE_2D, ID);
-		stbi_set_flip_vertically_on_load(1); //enable this if texture is upside down
+		stbi_set_flip_vertically_on_load(true); //enable this if texture is upside down
 
 		texParameters();
 

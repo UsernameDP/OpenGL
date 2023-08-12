@@ -55,14 +55,16 @@ namespace GLCore::Shaders {
 		void detach();
 
 		inline std::string& getName() { return m_name; }
-	public: //All the uniform uploads UNIFORMS ARE RAN AFTER Shader.use()!!
-		int GetUniformLocation(const std::string& name);
+	public: 
+		//All the uniform uploads UNIFORMS ARE RAN AFTER Shader.use()!!
+		//Strict requires that the uniform makes an impact on the final color
+		int GetUniformLocation(const std::string& name, const bool& strict = true);
 		
-		void uploadFloat(const std::string& name, const float& value);
-		void uploadMat4f(const std::string& name, const glm::mat4& value);
+		void uploadFloat(const std::string& name, const float& value, const bool& strict = true);
+		void uploadMat4f(const std::string& name, const glm::mat4& value, const bool& strict = true);
 
-		void uploadInt(const std::string& name, const int& value);
-		void uploadTexture(const std::string& name, const unsigned int& slot);
+		void uploadInt(const std::string& name, const int& value, const bool& strict = true);
+		void uploadTexture(const std::string& name, const unsigned int& slot, const bool& strict = true);
 
 	};
 }

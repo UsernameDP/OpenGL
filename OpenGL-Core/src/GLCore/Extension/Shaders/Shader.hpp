@@ -58,6 +58,7 @@ namespace GLCore::Shaders {
 	public: 
 		//All the uniform uploads UNIFORMS ARE RAN AFTER Shader.use()!!
 		//Strict requires that the uniform makes an impact on the final color
+		//The order you upload uniforms MATTER!! Make sure to upload .vert uniforms BEFORE .frag!!
 		int GetUniformLocation(const std::string& name, const bool& strict = true);
 		
 		void uploadFloat(const std::string& name, const float& value, const bool& strict = true);

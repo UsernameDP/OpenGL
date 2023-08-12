@@ -5,7 +5,7 @@
 
 using namespace GLCore;
 
-class Layer_CoordinateSystems2 : public Layer {
+class Layer_CoordinateSystemsCustom : public Layer {
 private:
 	Shaders::Shader* shader = nullptr;
 	Primitives::Texture* texture1 = nullptr;
@@ -77,7 +77,7 @@ private:
 
 
 public:
-	Layer_CoordinateSystems2() : Layer("CoordinateSystems2") {};
+	Layer_CoordinateSystemsCustom() : Layer("CoordinateSystemsCustom") {};
 
 	void onAttach() override {
 		shader = util::AssetPool::getShader("CubeShader");
@@ -100,14 +100,18 @@ public:
 
 	}
 	void onUpdate(const TimeStep& ts) override {
+		const int cube_n = 5;
+		const float mag = 3.0f;
+		const float rot_vel = 2.0f;
+
 		// create transformations
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -ts - cube_n));
 		Window* window = Application::getWindow();
 
-		projection = glm::perspective(glm::radians(45.0f), (float)window->getWidth() / (float)window->getHeight(), 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(45.0f), (float)window->getWidth() / (float)window->getHeight(), 0.1f, 1000.0f);
 
 
 		vertexPipeline->bindAll();
@@ -120,13 +124,14 @@ public:
 		shader->uploadTexture("texture1", 1, false);
 		shader->uploadTexture("texture2", 2, false);
 
-		for (unsigned int i = 0; i < 10; i++)
+		for (unsigned int i = 0; i < cube_n; i++)
 		{
 			// calculate the model matrix for each object and pass it to shader before drawing
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			float angle = 20.0f * i + float(ts * (i + i));
+			model = glm::scale(model, glm::vec3(cube_n -i, cube_n-i, cube_n-i));
+			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.0f, 0.5f));
+			model = glm::translate(model, glm::vec3(i * sin(ts * rot_vel), 0.0, (i * cos(ts * rot_vel))) * mag);
 			shader->uploadMat4f("model", model);
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);

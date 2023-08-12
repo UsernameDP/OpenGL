@@ -5,7 +5,7 @@
 
 using namespace GLCore;
 
-class Layer_CoordinateSystems2 : public Layer {
+class Layer_CameraCustom : public Layer {
 private:
 	Shaders::Shader* shader = nullptr;
 	Primitives::Texture* texture1 = nullptr;
@@ -75,9 +75,16 @@ private:
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	//Camera (view)
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	const glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	
+	float yaw = -90.0f; // theta X 
+	float pitch = 0.0f; //theta Y
 
 public:
-	Layer_CoordinateSystems2() : Layer("CoordinateSystems2") {};
+	Layer_CameraCustom() : Layer("CameraCustom") {};
 
 	void onAttach() override {
 		shader = util::AssetPool::getShader("CubeShader");
@@ -100,16 +107,46 @@ public:
 
 	}
 	void onUpdate(const TimeStep& ts) override {
-		// create transformations
-		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 view = glm::mat4(1.0f); //unit matrix
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		Window* window = Application::getWindow();
+		//Factors
+		const float sensitivity = 0.1f;
+		float cameraSpeed = 2.5f * ts.getDeltaSeconds();
 
+		/*View*/
+		//Move around
+		if (Application::getKey(GLFW_KEY_W, true)) {
+			cameraPos += cameraSpeed * cameraFront;
+		}
+		if (Application::getKey(GLFW_KEY_S, true)) {
+			cameraPos -= cameraSpeed * cameraFront;
+		}
+		if (Application::getKey(GLFW_KEY_D, true)) {
+			cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		}
+		if (Application::getKey(GLFW_KEY_A, true)) {
+			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		}
+		//Look around
+		glm::vec2 mouseDelta = Application::getMouseDelta(true) * sensitivity;
+		yaw += mouseDelta.x;
+		pitch -= mouseDelta.y; //lastPosY - currentPosY, when go up, currentPosY > lastPosY, hence 0 > lastPosY - currentPosY
+		
+		glm::vec3 direction;
+		direction.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+		direction.y = sin(glm::radians(pitch));
+		direction.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+
+		cameraFront = glm::normalize(direction);
+
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp); //cameraPos + cameraFront = cameraTarget
+
+		/*Projection*/
+		Window* window = Application::getWindow();
 		projection = glm::perspective(glm::radians(45.0f), (float)window->getWidth() / (float)window->getHeight(), 0.1f, 100.0f);
 
-
+		/*----------------------------------------------------------*/
 		vertexPipeline->bindAll();
 		texture1->bind(1);
 		texture2->bind(2);
@@ -119,19 +156,16 @@ public:
 
 		shader->uploadTexture("texture1", 1, false);
 		shader->uploadTexture("texture2", 2, false);
-
-		for (unsigned int i = 0; i < 10; i++)
-		{
-			// calculate the model matrix for each object and pass it to shader before drawing
+		/*----------------------------------------------------------*/
+		/*Model*/
+		for (int i = 0; i < cubePositions.size(); i++) {
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			shader->uploadMat4f("model", model);
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-
+		/*----------------------------------------------------------*/
 		texture1->unbind();
 		vertexPipeline->unbindAll();
 		shader->detach();

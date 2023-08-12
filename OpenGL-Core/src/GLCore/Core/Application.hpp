@@ -36,10 +36,15 @@ namespace GLCore {
 		inline void initializeAssetPool(std::unique_ptr<util::AssetPoolINIT> settings) { m_AssetPoolINIT = std::move(settings); m_AssetPoolINIT->configure(); }
 
 	public:
+		static inline bool imgui_windowIsFocused() {
+			return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow);
+		}
 		static bool getKey(uint16_t GLFW_KEY, bool return_false_if_any_imgui_windowIsFocused = false);
-		inline static Application* get() { return s_Instance; }
-		inline static Window* getWindow() { return get()->m_Window.get(); };
-		inline static GLFWwindow* getGLFWWindow() { return getWindow()->getGLFWWindow(); }
-		inline static std::string& getGLSLVersion() { return get()->m_glslVersion; }
+		static glm::vec2 getMouseDelta(bool return_false_if_any_imgui_windowIsFocused = false);
+		
+		static inline Application* get() { return s_Instance; }
+		static inline Window* getWindow() { return get()->m_Window.get(); };
+		static inline GLFWwindow* getGLFWWindow() { return getWindow()->getGLFWWindow(); }
+		static inline std::string& getGLSLVersion() { return get()->m_glslVersion; }
 	};
 };

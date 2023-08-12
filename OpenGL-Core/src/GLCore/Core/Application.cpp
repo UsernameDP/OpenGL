@@ -85,12 +85,22 @@ namespace GLCore {
 	bool Application::getKey(uint16_t GLFW_KEY_, bool return_false_if_any_imgui_windowIsFocused) {
 		bool isKeyDown = ImGui::GetIO().KeysDown[GLFW_KEY_];
 		if (return_false_if_any_imgui_windowIsFocused) {
-			if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow)) {
+			if (imgui_windowIsFocused()) {
 				return false;
 			}
 		}
 
 		return isKeyDown;
+	}
+	glm::vec2 Application::getMouseDelta(bool return_false_if_any_imgui_windowIsFocused) {
+		if (return_false_if_any_imgui_windowIsFocused) {
+			if (imgui_windowIsFocused()) {
+				return glm::vec2(0.0f, 0.0f);
+			}
+		}
+
+		ImVec2 mouseDelta = ImGui::GetIO().MouseDelta;
+		return glm::vec2(mouseDelta.x, mouseDelta.y);
 	}
 
 	Application* Application::s_Instance = nullptr;

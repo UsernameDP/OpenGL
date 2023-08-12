@@ -4,7 +4,10 @@
 #include "Tutorial_AssetPoolINIT.hpp"
 #include "Layer_Transformations.hpp"
 #include "Layer_CoordinateSystems.hpp"
-#include "Layer_CoordinateSystems2.h"
+#include "Layer_CoordinateSystems2.hpp"
+#include "Layer_CoordinateSystemsCustom.hpp"
+#include "Layer_Camera.hpp"
+#include "Layer_CameraCustom.hpp"
 
 using namespace GLCore;
 
@@ -19,6 +22,6 @@ public:
     void init() override {
         setImGuiLayer(std::make_unique<Layer_ImGui_Tutorial>());
         initializeAssetPool(std::make_unique<Tutorial_AssetPoolINIT>());
-        pushLayer(new Layer_CoordinateSystems2());
+        pushLayer(new Layer_CameraCustom());
     }
 };

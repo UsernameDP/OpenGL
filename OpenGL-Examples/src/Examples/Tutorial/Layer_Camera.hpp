@@ -5,7 +5,7 @@
 
 using namespace GLCore;
 
-class Layer_CoordinateSystems2 : public Layer {
+class Layer_Camera : public Layer {
 private:
 	Shaders::Shader* shader = nullptr;
 	Primitives::Texture* texture1 = nullptr;
@@ -75,9 +75,17 @@ private:
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	//Walk Around : 
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	const glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	//Look Around :
+	float yaw = -90.0f; //x mouse delta 
+	float pitch = -45.0f; //y mouse delta
+	const float mouseSensitivity = 0.1f;
 
 public:
-	Layer_CoordinateSystems2() : Layer("CoordinateSystems2") {};
+	Layer_Camera() : Layer("Camera") {};
 
 	void onAttach() override {
 		shader = util::AssetPool::getShader("CubeShader");
@@ -104,11 +112,95 @@ public:
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		//Rotate
+		//Gram-Schmidth method
+		/*
+		glm::vec3 cameraPos = glm::vec3(0.0, 0.0, 3.0f); //coords of where camera is
+		glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f); //coords of where camera is looking at
+		glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget); //getting direction of target relative to the cameraPos
+		
+		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); // unit y vector
+		glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+		glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight); //taking cross product gets a vector orthogonal to both vectors https://learnopengl.com/Getting-started/Transformations for more information
+		
+		const float rad = 10.0f;
+
+		float camX = sin(ts) * rad;
+		float camZ = cos(ts) * rad;
+
+		glm::vec3 cameraPos = glm::vec3(camX, 0.0, camZ);
+		glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+		view = glm::lookAt(cameraPos, cameraTarget, up); 
+		*/
+
+		//Walk Around
+		/*
+		deltaTime = ts - lastFrame;
+		lastFrame = ts;
+
+		float cameraSpeed = 2.5f * deltaTime;
+
+		if (Application::getKey(GLFW_KEY_W, true)) {
+			cameraPos += cameraSpeed * cameraFront;
+		}
+		if (Application::getKey(GLFW_KEY_S, true)) {
+			cameraPos -= cameraSpeed * cameraFront;
+		}
+		if (Application::getKey(GLFW_KEY_D, true)) {
+			cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		}
+		if (Application::getKey(GLFW_KEY_A, true)) {
+			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		}
+
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp); //cameraPos + cameraFront = cameraTarget
+		*/
+
+		//Walk Around & Look around
+		float cameraSpeed = 2.5f * ts.getDeltaSeconds();
+
+		if (Application::getKey(GLFW_KEY_W, true)) {
+			cameraPos += cameraSpeed * cameraFront;
+		}
+		if (Application::getKey(GLFW_KEY_S, true)) {
+			cameraPos -= cameraSpeed * cameraFront;
+		}
+		if (Application::getKey(GLFW_KEY_D, true)) {
+			cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		}
+		if (Application::getKey(GLFW_KEY_A, true)) {
+			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		}
+
+		//std::cout << "CameraPosition : (" + std::to_string(cameraPos.x) + " , " + std::to_string(cameraPos.y) + " , " + std::to_string(cameraPos.z) + ")" << std::endl;
+ 
+		glm::vec2 mouseDelta = Application::getMouseDelta(true) * mouseSensitivity;
+
+		yaw += mouseDelta.x;
+		pitch -= mouseDelta.y;
+		if (pitch > 89.0f)
+			pitch = 89.0f;
+		if (pitch < -89.0f)
+			pitch = -89.0f;
+		
+		glm::vec3 direction;
+		direction.x = cos(glm::radians(yaw) * cos(glm::radians(pitch)));
+		direction.y = sin(glm::radians(pitch));
+		direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+		//direction explained : https://uploads.disquscdn.com/images/58fa1f1a3dd8d736a9345b3b168dd55caf0f14d485e9dae7e06b8e185348a42a.png
+
+		cameraFront = glm::normalize(direction);
+
+
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp); //cameraPos + cameraFront = cameraTarget
+
+
+		/*----------------------------------------------------------------------------------------*/
+		//projection
 		Window* window = Application::getWindow();
-
 		projection = glm::perspective(glm::radians(45.0f), (float)window->getWidth() / (float)window->getHeight(), 0.1f, 100.0f);
-
 
 		vertexPipeline->bindAll();
 		texture1->bind(1);

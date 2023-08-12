@@ -80,7 +80,7 @@ public:
 		vertexPipeline->configure();
 
 		texture1 = util::AssetPool::getTexture("OpenGL-Examples/assets/textures/gears.png");
-		texture2 = util::AssetPool::getTexture("OpenGL-Examples/assets/textures/shinGodzilla.jpg");
+		texture2 = util::AssetPool::getTexture("OpenGL-Examples/assets/textures/sky.jpg");
 
 	}
 	void onDetach() override {

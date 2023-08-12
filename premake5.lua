@@ -84,7 +84,7 @@ function cleanProject(projectDir)
     os.rmdir("Generated")
 
     print("Removing misc. files")
-    os.remove("imgui.ini");
+    os.remove(projectDir.."/imgui.ini");
 
 end
 
@@ -92,12 +92,12 @@ newaction {
     trigger = "clean",
     description = "Remove all binaries and intermediate binaries, and vs files.",
     execute = function()
-        cleanProject("./OpenGL-Core")
-        cleanProject("./OpenGL-Examples")
-        cleanProject("./OpenGL-Core/vendor/glad")
-        cleanProject("./OpenGL-Core/vendor/GLFW")
-        cleanProject("./OpenGL-Core/vendor/imgui")
-        cleanProject("./OpenGL-Core/vendor/stb")
+        cleanProject("OpenGL-Core")
+        cleanProject("OpenGL-Examples")
+        cleanProject("OpenGL-Core/vendor/glad")
+        cleanProject("OpenGL-Core/vendor/GLFW")
+        cleanProject("OpenGL-Core/vendor/imgui")
+        cleanProject("OpenGL-Core/vendor/stb")
 
         print("Removing Solution Files")
         os.remove("**.sln")

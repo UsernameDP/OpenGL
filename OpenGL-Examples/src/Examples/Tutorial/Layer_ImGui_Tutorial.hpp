@@ -15,7 +15,7 @@ public:
     }
 
     void onUpdate(const GLCore::TimeStep& ts) override {
- /*       ImGuiIO& io = ImGui::GetIO(); (void)io;
+       ImGuiIO& io = ImGui::GetIO(); (void)io;
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
@@ -48,6 +48,6 @@ public:
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
             ImGui::End();
-        }*/
+        }
     }
 };

@@ -20,7 +20,7 @@ namespace GLCore::Primitives {
 
 		data = stbi_load(relativePath.c_str(), &width, &height, &nrChannels, 0);
 		if (!data) {
-			THROW_RUNTIME_ERROR("Texture from " + path + "did not successfully load");
+			THROW_RUNTIME_ERROR("Texture from " + path + " did not successfully load");
 		}
 
 		const std::string fileExtension = exd::getFileExtension(path);

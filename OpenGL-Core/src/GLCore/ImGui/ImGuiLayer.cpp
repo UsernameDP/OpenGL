@@ -3,10 +3,9 @@
 #include "GLCore/Core/Application.hpp"
 
 namespace GLCore {
+    ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {};
     ImGuiLayer::~ImGuiLayer() {
         onDetach();
-
-        LOG_DESTRUCTOR("ImGuiLayer");
     }
 
 	void ImGuiLayer::onAttach() {

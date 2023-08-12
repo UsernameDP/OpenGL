@@ -35,6 +35,7 @@ namespace GLCore::Shaders {
 		std::string* GLSL_SRC;
 
 		PrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
+		~PrimitiveShader();
 	};
 
 	class Shader {
@@ -45,8 +46,7 @@ namespace GLCore::Shaders {
 		GLuint programID = 0;
 	public:
 		Shader(const std::string& name);
-		~Shader();
-		virtual void extraDestructor() = 0;
+		virtual ~Shader();
 		
 		void addPrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
 
@@ -55,8 +55,9 @@ namespace GLCore::Shaders {
 		void detach();
 
 		inline std::string& getName() { return m_name; }
-	public: //All the uniform uploads
-
+	public: //All the uniform uploads UNIFORMS ARE RAN AFTER Shader.use()!!
+		int GetUniformLocation(const std::string& name);
+		
 		void uploadFloat(const std::string& name, const float& value);
 		void uploadMat4f(const std::string& name, const glm::mat4& value);
 

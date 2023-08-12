@@ -13,7 +13,8 @@ project "OpenGL-Core"
 
     files {
         "src/**.hpp",
-        "src/**.cpp"
+        "src/**.cpp",
+        "vendor/stb/src/stb_image.cpp"
     }
 
     includedirs {
@@ -41,5 +42,3 @@ project "OpenGL-Core"
         buildoptions "/MT"
         runtime "Release"
         optimize "on"
-
-        defines {"VERSION_RELEASE"}

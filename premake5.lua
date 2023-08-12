@@ -8,6 +8,9 @@ workspace "OpenGL-Core"
         "Release"
     }
 
+    filter {"configurations:Release"}
+        defines {"VERSION_RELEASE"}
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
@@ -40,6 +43,9 @@ workspace "OpenGL-Examples"
     postbuildcommands {
         "{COPYDIR} assets bin/"..outputdir.."/OpenGL-Examples/assets"
     }
+
+    filter {"configurations:Release"}
+        defines {"VERSION_RELEASE"}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" 
 
@@ -75,6 +81,10 @@ function cleanProject(projectDir)
     os.remove("**.vcxproj")
     os.remove("**.vcxproj.filters")
     os.remove("**.vcxproj.user")
+    os.rmdir("Generated")
+
+    print("Removing misc. files")
+    os.remove("imgui.ini");
 
 end
 

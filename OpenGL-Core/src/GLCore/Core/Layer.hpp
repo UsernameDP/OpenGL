@@ -8,6 +8,7 @@ namespace GLCore {
 		std::string m_DebugName;
 	public:
 		Layer(const std::string& name = "Layer");
+		virtual ~Layer();
 
 		virtual void onAttach() = 0;
 		virtual void onDetach() = 0;

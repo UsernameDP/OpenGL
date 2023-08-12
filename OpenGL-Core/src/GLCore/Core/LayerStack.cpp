@@ -4,6 +4,7 @@
 namespace GLCore {
 	LayerStack::~LayerStack() {
 		for (Layer* layer : m_Layers) {
+			layer->onDetach();
 			delete layer;
 		}
 

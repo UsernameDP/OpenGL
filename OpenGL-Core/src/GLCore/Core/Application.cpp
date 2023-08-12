@@ -36,14 +36,10 @@ namespace GLCore {
 
 		LOG_CONSTRUCTOR("Application");
 	}
-	Application::~Application() {		
-		extraDestructor();
-
+	Application::~Application() {	
 		LOG_DESTRUCTOR("Application");
 	}
-	void Application::extraDestructor() {};
 
-	void Application::init() {};
 	void Application::finalCheck() {
 		if (m_ImGuiLayer == nullptr) {
 			THROW_RUNTIME_ERROR("An ImGuiLayer must be specified!");

@@ -12,6 +12,5 @@ namespace GLCore::Shaders {
 		std::string* fragShaderSrc = nullptr;
 	public:
 		VertexPipelineShader(const std::string& name, const std::string& vertPath, const std::string& fragPath);
-		void extraDestructor() override;
 	};
 }

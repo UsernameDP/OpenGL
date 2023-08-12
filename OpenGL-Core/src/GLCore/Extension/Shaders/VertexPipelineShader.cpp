@@ -11,11 +11,5 @@ namespace GLCore::Shaders {
 		addPrimitiveShader(GL_FRAGMENT_SHADER, fragPath);
 
 		compile();
-
-		LOG_CONSTRUCTOR("VertexPipelineShader<name:" + getName() + ">");
-	}
-
-	void VertexPipelineShader::extraDestructor() {
-		LOG_DESTRUCTOR("VertexPipelineShader<name:" + getName() + ">");
 	}
 }

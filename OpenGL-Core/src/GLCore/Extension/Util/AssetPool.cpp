@@ -27,9 +27,19 @@ namespace GLCore::util {
 			setGLSLSrc(relativePath, exd::readFile(absPath.string()));
 		}
 
-		std::string* GLSLSrc = get()->GLSLSrcs[relativePath];
+		return get()->GLSLSrcs[relativePath];
+	}
+	Primitives::Texture* AssetPool::getTexture(const std::string& relativePath) {
+		LOG("GLCore::util::AssetPool::getTexture(" + relativePath + ")");
+		if (!exd::mapHas(get()->textures, relativePath)) {
+			fs::path cwd = fs::current_path();
+			fs::path solutionPath = cwd.parent_path();
+			fs::path absPath = solutionPath / relativePath;
 
-		return GLSLSrc;
+			setTexture(relativePath, new Primitives::Texture(absPath.string()));
+		}
+
+		return get()->textures[relativePath];
 	}
 	Shaders::Shader* AssetPool::getShader(const std::string& name) {
 		LOG("GLCore::util::AssetPool::getShader(" + name + ")");

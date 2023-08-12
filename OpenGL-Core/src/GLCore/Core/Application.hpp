@@ -23,10 +23,9 @@ namespace GLCore {
 			uint32_t width,
 			uint32_t height,
 			glm::vec4 backgroundColor);
-		~Application();
-		virtual void extraDestructor(); //extra things to detach beyond layerStack, Window, and ImGui
+		virtual ~Application();
 
-		virtual void init(); //other things to do before run() 
+		virtual void init() = 0; //other things to do before run() 
 		void finalCheck();
 		void run();
 

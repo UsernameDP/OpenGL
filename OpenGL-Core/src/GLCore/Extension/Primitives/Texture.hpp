@@ -1,6 +1,5 @@
 #pragma once
 #include "../Extension.hpp"
-#include "stb_image.h"
 
 namespace GLCore::Primitives {
 	class Texture {
@@ -15,7 +14,7 @@ namespace GLCore::Primitives {
 	public:
 		static GLint MAXTextureUnits;
 	public:
-		Texture(); //for CustomTextures (for ComputeShaders)
+		Texture() = default; //for CustomTextures (for ComputeShaders)
 		Texture(const std::string& relativePath, const GLuint& format = NULL, const GLuint& internalFormat = NULL);
 		~Texture();
 

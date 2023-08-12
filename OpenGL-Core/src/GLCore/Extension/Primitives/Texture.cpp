@@ -1,19 +1,20 @@
 #include "pch.hpp"
 #include "Texture.hpp"
+#include "stb_image.h"
 
 namespace GLCore::Primitives {
 	void Texture::texParameters() {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
 	Texture::Texture(const std::string& relativePath, const GLuint& format, const GLuint& internalFormat) 
 		:path(relativePath){
 		glGenTextures(1, &ID);
 		glBindTexture(GL_TEXTURE_2D, ID);
-		//stbi_set_flip_vertically_on_load(1); //enable this if texture is upside down
+		stbi_set_flip_vertically_on_load(1); //enable this if texture is upside down
 
 		texParameters();
 
@@ -51,13 +52,14 @@ namespace GLCore::Primitives {
 	}
 	Texture::~Texture() {
 		glDeleteTextures(1, &ID);
+		LOG_DESTRUCTOR("Texture<path=" + path + ">");
 	}
 
 	void Texture::bind(const unsigned int& slot) {
 		static bool MAXTextureUnits_set = false;
 		if (!MAXTextureUnits_set) {
 			glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Texture::MAXTextureUnits);
-			std::cout << MAXTextureUnits << std::endl;
+			MAXTextureUnits_set = true;
 		}
 
 
@@ -74,4 +76,5 @@ namespace GLCore::Primitives {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
+	GLint Texture::MAXTextureUnits = NULL;
 }

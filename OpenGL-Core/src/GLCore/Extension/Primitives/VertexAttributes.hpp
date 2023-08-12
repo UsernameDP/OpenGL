@@ -15,7 +15,7 @@ namespace GLCore::Primitives {
 	private:
 		std::vector<VertexAttribute*> vertexAttributes_vector;
 	public:
-		VertexAttributes() {};
+		VertexAttributes();
 		~VertexAttributes();
 
 		inline void addVertexAttribute(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer) {

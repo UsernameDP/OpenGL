@@ -2,6 +2,9 @@
 #include "LayerStack.hpp"
 
 namespace GLCore {
+	LayerStack::LayerStack() {
+		LOG_CONSTRUCTOR("LayerStack");
+	}
 	LayerStack::~LayerStack() {
 		for (Layer* layer : m_Layers) {
 			layer->onDetach();

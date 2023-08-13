@@ -8,6 +8,7 @@
 #include "Layer_CoordinateSystemsCustom.hpp"
 #include "Layer_Camera.hpp"
 #include "Layer_CameraCustom.hpp"
+#include "Layer_CameraClass.hpp"
 
 using namespace GLCore;
 
@@ -22,6 +23,6 @@ public:
     void init() override {
         setImGuiLayer(std::make_unique<Layer_ImGui_Tutorial>());
         initializeAssetPool(std::make_unique<Tutorial_AssetPoolINIT>());
-        pushLayer(new Layer_CameraCustom());
+        pushLayer(new Layer_CameraClass());
     }
 };

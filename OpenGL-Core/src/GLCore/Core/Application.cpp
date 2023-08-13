@@ -92,11 +92,12 @@ namespace GLCore {
 
 		return isKeyDown;
 	}
-	glm::vec2 Application::getMouseDelta(bool return_false_if_any_imgui_windowIsFocused) {
-		if (return_false_if_any_imgui_windowIsFocused) {
-			if (imgui_windowIsFocused()) {
-				return glm::vec2(0.0f, 0.0f);
-			}
+	glm::vec2 Application::getMouseDelta(bool return_nothing_if_any_imgui_windowIsFocused, bool return_nothing_if_rightIsHeld) {
+		if (return_nothing_if_any_imgui_windowIsFocused && imgui_windowIsFocused()) {
+			return glm::vec2(0.0f, 0.0f);
+		}
+		else if (return_nothing_if_rightIsHeld && !imgui_rightClickOnHold()) {
+			return glm::vec2(0.0f, 0.0f);
 		}
 
 		ImVec2 mouseDelta = ImGui::GetIO().MouseDelta;

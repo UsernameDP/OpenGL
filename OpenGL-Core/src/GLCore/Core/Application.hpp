@@ -1,10 +1,10 @@
 #pragma once
 #include "Core.hpp"
-#include "LayerStack.hpp"
-#include "Layer.hpp"
 #include "Window.hpp"
+#include "LayerStack.hpp"
 #include "GLCore/ImGui/ImGuiLayer.hpp"
 #include "GLCore/Extension/util/AssetPoolINIT.hpp"
+#include <glm/glm.hpp>
 
 namespace GLCore {
 
@@ -39,12 +39,15 @@ namespace GLCore {
 		static inline bool imgui_windowIsFocused() {
 			return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow);
 		}
+		static inline bool imgui_rightClickOnHold() {
+			return ImGui::IsMouseDown(ImGuiMouseButton_Right);
+		}
 		static bool getKey(uint16_t GLFW_KEY, bool return_false_if_any_imgui_windowIsFocused = false);
-		static glm::vec2 getMouseDelta(bool return_false_if_any_imgui_windowIsFocused = false);
+		static glm::vec2 getMouseDelta(bool return_nothing_if_any_imgui_windowIsFocused = false, bool return_nothing_if_rightIsHeld = false);
 		
 		static inline Application* get() { return s_Instance; }
 		static inline Window* getWindow() { return get()->m_Window.get(); };
 		static inline GLFWwindow* getGLFWWindow() { return getWindow()->getGLFWWindow(); }
-		static inline std::string& getGLSLVersion() { return get()->m_glslVersion; }
+		static inline const std::string& getGLSLVersion() { return get()->m_glslVersion; }
 	};
 };

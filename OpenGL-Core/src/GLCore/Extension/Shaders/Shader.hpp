@@ -51,7 +51,7 @@ namespace GLCore::Shaders {
 		void addPrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
 
 		void compile();
-		void use();
+		virtual void use();
 		void detach();
 
 		inline std::string& getName() { return m_name; }

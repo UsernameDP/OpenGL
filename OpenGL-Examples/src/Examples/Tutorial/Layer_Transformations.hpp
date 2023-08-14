@@ -1,6 +1,6 @@
 #pragma once
 #include "GLCoreLayer.hpp"
-#include "GLCoreExtension.hpp"
+#include "GLCoreGraphicsExtensions.hpp"
 
 using namespace GLCore;
 

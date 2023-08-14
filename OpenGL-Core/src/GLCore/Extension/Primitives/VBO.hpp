@@ -6,7 +6,7 @@ namespace GLCore::Primitives {
 	class VBO {
 	private:
 		GLuint VBOID;
-		size_t size;
+		unsigned int size;
 		std::vector<float>* vertices;
 		/*
 		* Using vectors will still work b/c
@@ -18,17 +18,10 @@ namespace GLCore::Primitives {
 		GLenum _DRAW_TYPE;
 	public:
 		VBO() {};
-		VBO(GLenum i_DRAW_TYPE,
-			size_t i_size, // sizeof(float) is already accounted for
-			std::vector<float>* i_vertices
-		) :
-			VBOID(0),
-			size(i_size),
-			vertices(i_vertices),
-			_DRAW_TYPE(i_DRAW_TYPE) {
-			
-		
-		};
+		VBO(const GLenum& _DRAW_TYPE,
+			const unsigned int& size, // sizeof(float) is already accounted for
+			std::vector<float>* vertices = nullptr
+		);
 
 		void create();
 

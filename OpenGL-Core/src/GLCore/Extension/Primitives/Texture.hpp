@@ -16,7 +16,7 @@ namespace GLCore::Primitives {
 	public:
 		Texture() = default; //for CustomTextures (for ComputeShaders)
 		Texture(const std::string& relativePath, const GLuint& format = NULL, const GLuint& internalFormat = NULL);
-		~Texture();
+		virtual ~Texture();
 
 		void bind(const unsigned int& slot = 0);
 		void unbind();

@@ -27,10 +27,10 @@ namespace GLCore::Uniforms {
 
 		if (pitch_limit) { //the limit exists here b/c this->cameraFront should not be updated 
 			if (this->pitch > pitch_limit) {
-				this->pitch = pitch_limit - 0.01;
+				this->pitch = pitch_limit - 0.01f;
 			}
 			else if (this->pitch < -pitch_limit) {
-				this->pitch = -pitch_limit + 0.01;
+				this->pitch = -pitch_limit + 0.01f;
 			}
 		}
 

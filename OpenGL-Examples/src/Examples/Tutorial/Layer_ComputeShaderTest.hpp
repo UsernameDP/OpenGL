@@ -8,65 +8,63 @@ using namespace GLCore;
 class Layer_ComputeShaderTest : public Layer {
 private:
 	Shaders::Shader* computeShader = nullptr;
-	Primitives::SSBO ssboInput1;
-	Primitives::SSBO ssboInput2;
-	Primitives::SSBO ssboOutput;
+	Primitives::SSBO ssbo;
+	Primitives::SSBO ssbo2;
 	
-	const int arraySize = 10;
+	const int arraySize = 1000;
 
-	std::vector<float> inputArr1;
-	std::vector<float> inputArr2;
-	std::vector<float> outputArr;
+	std::vector<float> data;
+	std::vector<float> data2;
 	
 
 public:
 	Layer_ComputeShaderTest() : Layer("ComputeShaderTest") {}
 	
 	void onAttach() override {
-	inputArr1 = std::vector<float>(arraySize);
-		inputArr2 = std::vector<float>(arraySize);
-		outputArr = std::vector<float>(arraySize);
-
+		data = std::vector<float>(arraySize);
+		data2 = std::vector<float>(arraySize);
+		
 		for (int i = 0; i < arraySize; i++) {
-			inputArr1[i] = static_cast<float>(i);
-			inputArr2[i] = static_cast<float>(i);
+			data[i] = static_cast<float>(i);
+			data2[i] = static_cast<float>(i);
 		}
 
+		std::vector<float> test(arraySize);
+		for (int i = 0; i < arraySize; i++) {
+			test[i] = data[i] + data2[i];
+		}
 
-
+		//Create ComputeShader
 		computeShader = new Shaders::ComputeShader(
 			"ComputeShaderTest",
-			"OpenGL-Examples\\assets\\shaders\\ComputeTest.comp",
-			glm::vec3 (256, 1, 1),
-			GL_SHADER_STORAGE_BARRIER_BIT
+			"OpenGL-Examples\\assets\\shaders\\ComputeTest.comp"
 			);
-		ssboInput1 = Primitives::SSBO(GL_STATIC_DRAW, inputArr1.size(), &inputArr1);
-		ssboInput1.create();
-		ssboInput1.unbind();
-		ssboInput2 = Primitives::SSBO(GL_STATIC_DRAW, inputArr2.size(), &inputArr2);
-		ssboInput2.create();
-		ssboInput2.unbind();
-		ssboOutput = Primitives::SSBO(GL_STATIC_DRAW, outputArr.size());
-		ssboOutput.create();
-		ssboOutput.unbind();
-	
-		ssboInput1.bind(0);
-		ssboInput2.bind(1);
-		ssboOutput.bind(2);
+
+		//Create SSBOs
+		ssbo = Primitives::SSBO(GL_STATIC_DRAW, arraySize, &data);
+		ssbo.create();
+		ssbo2 = Primitives::SSBO(GL_STATIC_DRAW, arraySize, &data2);
+		ssbo2.create();
+
+		//Run ComputeShader
+		ssbo.bind(0);
+		ssbo2.bind(1);
 		computeShader->use();
+		Shaders::ComputeShader::dispatchComputeShader(glm::ivec3(arraySize, 1, 1));
+		Shaders::ComputeShader::runWithMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
-
-		exd::printVector(outputArr);
-
+		ssbo.unbind();
+		ssbo2.unbind();
 		computeShader->detach();
-		ssboInput1.unbind();
-		ssboInput2.unbind();
-		ssboOutput.unbind();
+
+		exd::printVector(test);
+
+		ssbo.readDataTo(&data);
+		exd::printVector(data);
 	}
 	void onDetach() override {
-		ssboInput1.destroy();
-		ssboInput2.destroy();
-		ssboOutput.destroy();
+		ssbo.destroy();
+		ssbo2.destroy();
 
 		delete computeShader;
 	}

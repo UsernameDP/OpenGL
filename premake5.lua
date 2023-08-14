@@ -8,6 +8,9 @@ workspace "OpenGL-Core"
         "Release"
     }
 
+    filter {"configurations:Debug"}
+    defines {"VERSION_DEBUG"}
+
     filter {"configurations:Release"}
         defines {"VERSION_RELEASE"}
 
@@ -43,6 +46,9 @@ workspace "OpenGL-Examples"
     postbuildcommands {
         "{COPYDIR} assets bin/"..outputdir.."/OpenGL-Examples/assets"
     }
+
+    filter {"configurations:Debug"}
+        defines {"VERSION_DEBUG"}
 
     filter {"configurations:Release"}
         defines {"VERSION_RELEASE"}

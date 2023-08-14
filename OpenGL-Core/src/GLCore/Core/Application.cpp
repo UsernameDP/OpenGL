@@ -28,10 +28,9 @@ namespace GLCore {
 		}
 
 		s_Instance = this;
-		m_Window = std::make_unique<Window>(WindowProps(name, width, height, backgroundColor));
+		m_Window = std::make_unique<Window>(WindowProps(name, width, height, backgroundColor));		
 		m_Window->init();
 		m_LayerStack = std::make_unique<LayerStack>();
-
 		m_glslVersion = std::string("#version ") + std::to_string(getGLSLVersionInt());
 
 		LOG_CONSTRUCTOR("Application");

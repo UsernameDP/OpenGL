@@ -54,16 +54,7 @@ namespace exd
 	}
 }
 
-
-#ifdef VERSION_RELEASE // if you have the RELEASE macro, then debugs don't print
-#define EXIT_ERROR(content) exd::exit_error(content, __FILE__, __LINE__);
-#define WARNING(content) exd::warning(content, __FILE__, __LINE__);
-#define THROW_RUNTIME_ERROR(content) exd::throw_runtime_error(content, __FILE__, __LINE__)
-#define LOG(content)
-#define LOG_SUCCESS(content)
-#define LOG_CONSTRUCTOR(className)
-#define LOG_DESTRUCTOR(className)
-#else
+#ifdef VERSION_DEBUG 
 #define EXIT_ERROR(content) exd::exit_error(content, __FILE__, __LINE__);
 #define WARNING(content) exd::warning(content, __FILE__, __LINE__);
 #define THROW_RUNTIME_ERROR(content) exd::throw_runtime_error(content, __FILE__, __LINE__)
@@ -71,5 +62,14 @@ namespace exd
 #define LOG_SUCCESS(content) exd::log_success(content, __FILE__, __LINE__)
 #define LOG_CONSTRUCTOR(className) exd::log_success(std::string(className) + std::string(" constructor completed"), __FILE__, __LINE__)
 #define LOG_DESTRUCTOR(className) exd::log_success(std::string(className) + std::string(" destructor completed"), __FILE__, __LINE__)
+
+#else
+#define EXIT_ERROR(content) exd::exit_error(content, __FILE__, __LINE__);
+#define WARNING(content) exd::warning(content, __FILE__, __LINE__);
+#define THROW_RUNTIME_ERROR(content) exd::throw_runtime_error(content, __FILE__, __LINE__)
+#define LOG(content)
+#define LOG_SUCCESS(content)
+#define LOG_CONSTRUCTOR(className)
+#define LOG_DESTRUCTOR(className)
 
 #endif

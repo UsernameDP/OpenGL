@@ -44,6 +44,7 @@ namespace GLCore::Shaders {
 		std::vector<PrimitiveShader*> PrimitiveShaders;
 	protected:
 		GLuint programID = 0;
+		inline const GLuint& getProgramID() { return this->programID; }
 	public:
 		Shader(const std::string& name);
 		virtual ~Shader();
@@ -51,12 +52,11 @@ namespace GLCore::Shaders {
 		void addPrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
 
 		void compile();
-		virtual void use();
+		void use();
 		void detach();
 
 		inline std::string& getName() { return m_name; }
 	public: 
-		//All the uniform uploads UNIFORMS ARE RAN AFTER Shader.use()!!
 		//Strict requires that the uniform makes an impact on the final color
 		//The order you upload uniforms MATTER!! Make sure to upload .vert uniforms BEFORE .frag!!
 		int GetUniformLocation(const std::string& name, const bool& strict = true);

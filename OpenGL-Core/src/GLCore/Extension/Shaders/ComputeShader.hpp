@@ -3,15 +3,16 @@
 
 namespace GLCore::Shaders {
 	class ComputeShader : public Shader {
-	private:
-		glm::ivec3 dispatchDimensions;
-		GLbitfield memorySyncMethod;
-
 	public:
-		ComputeShader(const std::string& name, const std::string& computePath, 
-			const glm::ivec3& dispatchDimensions, 
-			const GLbitfield& memorySyncMethod = GL_ALL_BARRIER_BITS);
+		ComputeShader(const std::string& name, const std::string& computePath);
+	public:
+		static inline void dispatchComputeShader(const glm::ivec3& dispatchDimensions) {
+			glDispatchCompute(dispatchDimensions.x, dispatchDimensions.y, dispatchDimensions.z);
+		}
 
-		void use() override;
+
+		static inline void runWithMemoryBarrier(const GLbitfield& barrierMethod = GL_ALL_BARRIER_BITS) {
+			glMemoryBarrier(barrierMethod);
+		}
 	};
 }

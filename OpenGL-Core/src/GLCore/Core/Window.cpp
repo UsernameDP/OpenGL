@@ -28,7 +28,7 @@ namespace GLCore {
 	{
 		glViewport(0, 0, width, height);
 	}
-	static void error_callback(int error, const char* description)
+	static void glfw_error_callback(int error, const char* description)
 	{
 		fprintf(stderr, "Error : %s\n", description);
 	}
@@ -51,8 +51,8 @@ namespace GLCore {
 	}
 
 	void Window::init() {
-		initGLFW();
-		glfwSetErrorCallback((GLFWerrorfun)error_callback);
+		glfwInit(); //"my goodness, it was glfwInit() all along not initGLFW()" - UsernameDP 8/14/2023....
+		glfwSetErrorCallback((GLFWerrorfun)glfw_error_callback);
 
 		glfwWindow = glfwCreateWindow((int)width, (int)height, title.c_str(), NULL, NULL);
 		if (glfwWindow == NULL) {
@@ -60,16 +60,17 @@ namespace GLCore {
 		}
 		glfwMakeContextCurrent(glfwWindow);
 		glfwSwapInterval(1); //Enable vsync
-		
+
+		/*-----------------------------------------------------*/
 
 		initGLAD(); //glfw context needs to be made before glad can be initialized
-		
-		initViewPort( (int) width,  (int) height);
-		glfwSetFramebufferSizeCallback(glfwWindow, (GLFWframebuffersizefun)framebuffer_size_callback);
 
+		initViewPort((int)width, (int)height);
+		glfwSetFramebufferSizeCallback(glfwWindow, (GLFWframebuffersizefun)framebuffer_size_callback);
+		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_DEPTH_TEST);  
+		glEnable(GL_DEPTH_TEST);
 
 		LOG_SUCCESS("GLFWWindow Created & Configured");
 	}

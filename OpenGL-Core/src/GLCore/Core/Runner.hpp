@@ -2,8 +2,9 @@
 #include "Application.hpp"
 #include "GLCore/Extension/util/AssetPool.hpp"
 
-namespace GLCore {
+#include "OpenGLDebug.hpp"
 
+namespace GLCore {
 	template <typename T, typename = std::enable_if_t<std::is_base_of_v<Application, T>>>
 	class Runner {
 	private:
@@ -20,6 +21,9 @@ namespace GLCore {
 			util::AssetPool::init();
 			try { //In constructor, try creating app
 				app = std::make_unique<T>(name, width, height, backgroundColor);
+#ifdef VERSION_DEBUG
+				enableGLDebugging();
+#endif
 				app->init();
 			}
 			catch (const std::exception e) {

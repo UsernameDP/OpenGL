@@ -76,6 +76,7 @@ namespace GLCore::Shaders {
 
 	//Floats
 	void Shader::uploadFloat(const std::string& name, const float& value, const bool& strict) {
+		Shader::use();
 		glUniform1f(GetUniformLocation(name, strict), value);
 	}
 	void Shader::uploadMat4f(const std::string& name, const glm::mat4& value, const bool& strict) {
@@ -85,9 +86,11 @@ namespace GLCore::Shaders {
 
 	//ints
 	void Shader::uploadInt(const std::string& name, const int& value, const bool& strict) {
+		Shader::use();
 		glUniform1i(GetUniformLocation(name, strict), value);
 	}
 	void Shader::uploadTexture(const std::string& name, const unsigned int& slot, const bool& strict) {
+		Shader::use();
 		glUniform1i(GetUniformLocation(name, strict), slot);
 	}
 }

@@ -9,6 +9,7 @@ namespace GLCore::Primitives {
 		const size_t& size,
 		std::vector<float>* data) {
 		this->size = static_cast<unsigned int>(size);
+		this->size_with_dataType = size * sizeof(float);
 		this->_DRAW_TYPE = _DRAW_TYPE;
 		this->data = data;
 	}
@@ -16,12 +17,11 @@ namespace GLCore::Primitives {
 	void SSBO::create() {
 		glGenBuffers(1, &SSBOID);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBOID);
-
 		if (data == nullptr) {
-			glBufferData(GL_SHADER_STORAGE_BUFFER, size * sizeof(float), nullptr, _DRAW_TYPE);
+			glBufferData(GL_SHADER_STORAGE_BUFFER, this->size_with_dataType, nullptr, _DRAW_TYPE);
 		}
 		else {
-			glBufferData(GL_SHADER_STORAGE_BUFFER, data->size() * sizeof(float), data->data(), _DRAW_TYPE);
+			glBufferData(GL_SHADER_STORAGE_BUFFER, this->size_with_dataType, data->data(), _DRAW_TYPE);
 		}
 	}
 
@@ -35,5 +35,20 @@ namespace GLCore::Primitives {
 	}
 	void SSBO::destroy() {
 		glDeleteBuffers(1, &SSBOID);
+	}
+
+	void SSBO::readDataTo(std::vector<float>* destination) {
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBOID); //determines which ssbo to read(map from)
+		
+		//Map the buffer and copy data
+		void* mappedBuffer = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+		if (mappedBuffer) {
+			if (destination->size() != this->size) destination->resize(this->size);
+
+			memcpy(destination->data(), mappedBuffer, this->size_with_dataType);
+			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+		}
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 }

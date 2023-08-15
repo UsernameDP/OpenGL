@@ -11,7 +11,7 @@ private:
 	Primitives::SSBO ssbo;
 	Primitives::SSBO ssbo2;
 	
-	const int arraySize = 1000;
+	const int arraySize = 10;
 
 	std::vector<float> data;
 	std::vector<float> data2;
@@ -26,7 +26,7 @@ public:
 		
 		for (int i = 0; i < arraySize; i++) {
 			data[i] = static_cast<float>(i);
-			data2[i] = static_cast<float>(i);
+			data2[i] = static_cast<float>(i * 2);
 		}
 
 		std::vector<float> test(arraySize);
@@ -42,13 +42,9 @@ public:
 
 		//Create SSBOs
 		ssbo = Primitives::SSBO(GL_STATIC_DRAW, arraySize, &data);
-		ssbo.create();
-		ssbo2 = Primitives::SSBO(GL_STATIC_DRAW, arraySize, &data2);
-		ssbo2.create();
 
 		//Run ComputeShader
 		ssbo.bind(0);
-		ssbo2.bind(1);
 		computeShader->use();
 		Shaders::ComputeShader::dispatchComputeShader(glm::ivec3(arraySize, 1, 1));
 		Shaders::ComputeShader::runWithMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
@@ -56,8 +52,6 @@ public:
 		ssbo.unbind();
 		ssbo2.unbind();
 		computeShader->detach();
-
-		exd::printVector(test);
 
 		ssbo.readDataTo(&data);
 		exd::printVector(data);

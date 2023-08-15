@@ -22,20 +22,20 @@ namespace GLCore {
 		case GL_DEBUG_SEVERITY_HIGH:
 			if ((int)s_DebugLogLevel > 0)
 			{
-				THROW_RUNTIME_ERROR("[OpenGL Debug HIGH] {0}", message);
+				THROW_RUNTIME_ERROR("[OpenGL Debug HIGH] {0}" + std::string(message));
 			}
 			break;
 		case GL_DEBUG_SEVERITY_MEDIUM:
 			if ((int)s_DebugLogLevel > 2)
-				WARNING("[OpenGL Debug MEDIUM] {0}", message);
+				WARNING("[OpenGL Debug MEDIUM] {0}", +std::string(message));
 			break;
 		case GL_DEBUG_SEVERITY_LOW:
 			if ((int)s_DebugLogLevel > 3)
-				LOG("[OpenGL Debug LOW] {0}", message);
+				LOG("[OpenGL Debug LOW] {0}", +std::string(message));
 			break;
 		case GL_DEBUG_SEVERITY_NOTIFICATION:
 			if ((int)s_DebugLogLevel > 4)
-				LOG("[OpenGL Debug NOTIFICATION] {0}", message);
+				LOG("[OpenGL Debug NOTIFICATION] {0}", +std::string(message));
 			break;
 		}
 	}

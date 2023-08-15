@@ -2,7 +2,6 @@
 #include "../Extension.hpp"
 
 namespace GLCore::Primitives {
-
 	class SSBO {
 	private:
 		GLuint SSBOID = 0;
@@ -15,6 +14,8 @@ namespace GLCore::Primitives {
 		unsigned long int BATCH_OFFSET_WITH_DATATYPE = 0;
 
 	public:
+		SSBO operator=(const SSBO&) = delete; //Prevents copy assignment, since &SSBOID matters
+
 		SSBO() = default;
 		/*When uploading one array only */
 		template<typename T>
@@ -70,6 +71,8 @@ namespace GLCore::Primitives {
 			void* mappedBuffer = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
 			if (mappedBuffer) {
 				if (destination->size() != this->SIZE) destination->resize(this->SIZE);
+
+				
 
 				memcpy(destination->data(), mappedBuffer, this->SIZE_WITH_DATATYPE);
 			}

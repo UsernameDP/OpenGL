@@ -7,66 +7,64 @@ using namespace GLCore;
 
 class Layer_ComputeShaderTest : public Layer {
 private:
-	Shaders::Shader* computeShader = nullptr;
-	Primitives::SSBO ssbo;
-	Primitives::SSBO ssbo2;
-	
-	const int arraySize = 10;
+    struct MyStruct {
+        glm::vec4 position;
+        glm::vec4 direction;
+    };
 
-	std::vector<float> data;
-	std::vector<float> data2;
-	
+    Shaders::Shader* computeShader = nullptr;
+    Primitives::SSBO* ssbo;
+
+    const int arraySize = 5;
+
+    std::vector<MyStruct> data;
 
 public:
-	Layer_ComputeShaderTest() : Layer("ComputeShaderTest") {}
-	
-	void onAttach() override {
-		data = std::vector<float>(arraySize);
-		data2 = std::vector<float>(arraySize);
-		
-		for (int i = 0; i < arraySize; i++) {
-			data[i] = static_cast<float>(i);
-			data2[i] = static_cast<float>(i * 2);
-		}
+    Layer_ComputeShaderTest() : Layer("ComputeShaderTest") {}
 
-		std::vector<float> test(arraySize);
-		for (int i = 0; i < arraySize; i++) {
-			test[i] = data[i] + data2[i];
-		}
+    void onAttach() override {
+        data = std::vector<MyStruct>(arraySize);
 
-		//Create ComputeShader
-		computeShader = new Shaders::ComputeShader(
-			"ComputeShaderTest",
-			"OpenGL-Examples\\assets\\shaders\\ComputeTest.comp"
-			);
+        for (int i = 0; i < arraySize; i++) {
+            data[i].position = glm::vec4(i, i, i, 1.0f);
+            data[i].direction = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f); // Example direction
+        }
 
-		//Create SSBOs
-		ssbo = Primitives::SSBO(GL_STATIC_DRAW, arraySize, &data);
+        // Create ComputeShader
+        computeShader = new Shaders::ComputeShader(
+            "ComputeShaderTest",
+            "OpenGL-Examples\\assets\\shaders\\ComputeTest.comp"
+        );
 
-		//Run ComputeShader
-		ssbo.bind(0);
-		computeShader->use();
-		Shaders::ComputeShader::dispatchComputeShader(glm::ivec3(arraySize, 1, 1));
-		Shaders::ComputeShader::runWithMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+        // Create SSBO
+        ssbo = new Primitives::SSBO(GL_STATIC_DRAW, arraySize, &data);
 
-		ssbo.unbind();
-		ssbo2.unbind();
-		computeShader->detach();
+        // Run ComputeShader
+        ssbo->bind(0);
+        computeShader->use();
+        Shaders::ComputeShader::dispatchComputeShader(glm::ivec3(arraySize, 1, 1));
+        Shaders::ComputeShader::runWithMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
-		ssbo.readDataTo(&data);
-		exd::printVector(data);
-	}
-	void onDetach() override {
-		ssbo.destroy();
-		ssbo2.destroy();
+        ssbo->unbind();
+        computeShader->detach();
 
-		delete computeShader;
-	}
-	void onUpdate(const TimeStep& ts) override {
+        // Read modified data back
+        ssbo->readDataTo(&data);
 
-	}
-	void onImguiUpdate(const TimeStep& ts) override {
+        for (const MyStruct& myStruct : data) {
+            std::cout << "Updated Position: (" << myStruct.position.x << ", "
+                << myStruct.position.y << ", " << myStruct.position.z << ", " << myStruct.position.w << ")" << std::endl;
+            std::cout << "Updated Direction: (" << myStruct.direction.x << ", "
+                << myStruct.direction.y << ", " << myStruct.direction.z << ", " << myStruct.direction.w << ")" << std::endl;
+        }
+    }
 
-	}
-	
+    void onDetach() override {
+        delete ssbo;
+        delete computeShader;
+    }
+
+    void onUpdate(const TimeStep& ts) override {}
+
+    void onImguiUpdate(const TimeStep& ts) override {}
 };

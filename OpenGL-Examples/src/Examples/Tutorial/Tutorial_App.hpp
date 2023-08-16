@@ -10,7 +10,8 @@
 #include "Layer_CameraCustom.hpp"
 #include "Layer_CameraClass.hpp"
 
-#include "Layer_ComputeShaderTest.hpp"
+#include "Layer_ComputeShaderStruct.hpp"
+#include "Layer_ComputeShaderMultiple.hpp"
 
 using namespace GLCore;
 
@@ -25,6 +26,6 @@ public:
     void init() override {
         setImGuiLayer(std::make_unique<Layer_ImGui_Tutorial>());
         initializeAssetPool(std::make_unique<Tutorial_AssetPoolINIT>());
-        pushLayer(new Layer_ComputeShaderTest());
+        pushLayer(new Layer_ComputeShaderMultiple());
     }
 };

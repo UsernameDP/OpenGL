@@ -63,7 +63,7 @@ namespace GLCore::Primitives {
 		}
 
 
-		if (slot > MAXTextureUnits) {
+		if (slot > static_cast<unsigned int>(MAXTextureUnits)) {
 			std::string message = "Texture Slot<" + std::to_string(slot) + 
 				"> is over your MAXTextureUnits< " + std::to_string(Texture::MAXTextureUnits) + ">";
 			THROW_RUNTIME_ERROR(message);

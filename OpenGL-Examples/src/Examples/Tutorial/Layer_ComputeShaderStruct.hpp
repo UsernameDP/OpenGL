@@ -5,7 +5,7 @@
 
 using namespace GLCore;
 
-class Layer_ComputeShaderTest : public Layer {
+class Layer_ComputeShaderStruct : public Layer {
 private:
     struct MyStruct {
         glm::vec4 position;
@@ -20,7 +20,7 @@ private:
     std::vector<MyStruct> data;
 
 public:
-    Layer_ComputeShaderTest() : Layer("ComputeShaderTest") {}
+    Layer_ComputeShaderStruct() : Layer("ComputeShaderStruct") {}
 
     void onAttach() override {
         data = std::vector<MyStruct>(arraySize);

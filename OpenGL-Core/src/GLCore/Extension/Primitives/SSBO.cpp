@@ -2,24 +2,24 @@
 #include "SSBO.hpp"
 
 namespace GLCore::Primitives {
+	SSBO::SSBO(const GLenum& _DRAW_TYPE, const size_t SIZE, const size_t& SIZE_WITH_DATATYPE) {
+		this->_DRAW_TYPE = _DRAW_TYPE;
+		this->SIZE = SIZE;
+		this->SIZE_WITH_DATATYPE = static_cast<unsigned long int>(SIZE_WITH_DATATYPE);
+
+		glGenBuffers(1, &SSBOID);
+		BasicBind();
+
+		glBufferData(GL_SHADER_STORAGE_BUFFER, this->SIZE_WITH_DATATYPE, nullptr, this->_DRAW_TYPE);
+		BasicUnbind();
+	}
 	SSBO::~SSBO() {
 		destroy();
 	}
 
-	void SSBO::createBatchData() {
-		if (batchedData != nullptr || BATCH_OFFSET_WITH_DATATYPE > 0) {
-			THROW_RUNTIME_ERROR("Make sure to run destroyBatchData() after createBatchData() for SSBO");
-		}
 
-		BasicBind();
-		batchedData = glMapBuffer(SSBOID, GL_WRITE_ONLY);
-	}
-	void SSBO::destroyBatchData() {
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-		BasicUnbind();
-
-		BATCH_OFFSET_WITH_DATATYPE = 0;
-		batchedData = nullptr;
+	void SSBO::resetOffset() {
+		this->MULTIPLE_BUFFER_OFFSET = 0;
 	}
 
 

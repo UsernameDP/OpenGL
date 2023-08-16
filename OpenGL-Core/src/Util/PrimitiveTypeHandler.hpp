@@ -34,7 +34,6 @@ namespace exd
 
 		std::cout << log.str();
 	}
-
 	template <typename I, typename O>
 	inline void printMap(const std::unordered_map<I, O> &map, bool commas = false, bool newline = true)
 	{
@@ -105,6 +104,25 @@ namespace exd
 
 		size_t end = str.find_last_not_of(" \t\n\r\f\v");
 		return str.substr(start, end - start + 1);
+	}
+
+	//vectors & arrays
+	template<typename T>
+	inline void memcpy_SubVector_from_Array(void* sourceArr, const size_t& sourceArr_SIZE,
+		std::vector<T>* destinationVec,
+		int startIndx = -1, int endIndx = -1) { //startIndx and endIndx INCLUSIVE
+		unsigned int sliceSize = 0;
+
+		if (startIndx < 0) startIndx = 0; //checking startIndx
+		else if (startIndx >= sourceArr_SIZE) startIndx = static_cast<unsigned int>(sourceArr_SIZE) - 1;
+
+		if (endIndx < 0 || endIndx >= sourceArr_SIZE) endIndx = static_cast<unsigned int>(sourceArr_SIZE) - 1; //checking endIndx
+
+		sliceSize = endIndx - startIndx + 1; //checking sliceSize
+
+		if (destinationVec->size() != sliceSize) destinationVec->resize(sliceSize);
+		
+		memcpy(destinationVec->data(), reinterpret_cast<const T*>(sourceArr) + startIndx, sliceSize * sizeof(T));		
 	}
 
 	// unordered_map

@@ -1,17 +1,13 @@
 #pragma once
 #include "GLCore.hpp"
-#include "Layer_ImGui_Tutorial.hpp"
-#include "Tutorial_AssetPoolINIT.hpp"
+#include "Layer_ImGui.hpp"
+#include "AssetPoolINIT.hpp"
 #include "Layer_Transformations.hpp"
 #include "Layer_CoordinateSystems.hpp"
 #include "Layer_CoordinateSystems2.hpp"
 #include "Layer_CoordinateSystemsCustom.hpp"
 #include "Layer_Camera.hpp"
 #include "Layer_CameraCustom.hpp"
-#include "Layer_CameraClass.hpp"
-
-#include "Layer_ComputeShaderStruct.hpp"
-#include "Layer_ComputeShaderMultiple.hpp"
 
 using namespace GLCore;
 
@@ -26,6 +22,6 @@ public:
     void init() override {
         setImGuiLayer(std::make_unique<Layer_ImGui_Tutorial>());
         initializeAssetPool(std::make_unique<Tutorial_AssetPoolINIT>());
-        pushLayer(new Layer_ComputeShaderMultiple());
+        pushLayer(new Layer_CameraCustom());
     }
 };

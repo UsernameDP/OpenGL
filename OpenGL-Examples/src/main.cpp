@@ -1,11 +1,11 @@
 #include "GLCore/Core/Runner.hpp"
 
-/*Examples*/
-#include "Examples/Tutorial/Tutorial_App.hpp"
+/*GLCoreExamples*/
+#include "Examples/LorenzComputeShader/App.hpp"
 
 int main()
 {
-    GLCore::Runner<Tutorial_App> runner;
+    GLCore::Runner<Lorenz_App> runner;
     runner.run();
     LOG("Program ended");
 

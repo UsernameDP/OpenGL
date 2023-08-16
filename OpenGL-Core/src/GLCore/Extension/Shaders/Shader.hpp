@@ -54,18 +54,19 @@ namespace GLCore::Shaders {
 		void compile();
 		void use();
 		void detach();
+		void destroy();
 
 		inline std::string& getName() { return m_name; }
 	public: 
 		//Strict requires that the uniform makes an impact on the final color
 		//The order you upload uniforms MATTER!! Make sure to upload .vert uniforms BEFORE .frag!!
-		int GetUniformLocation(const std::string& name, const bool& strict = true);
+		int GetUniformLocation(const std::string& name, const bool& strict = false);
 		
-		void uploadFloat(const std::string& name, const float& value, const bool& strict = true);
-		void uploadMat4f(const std::string& name, const glm::mat4& value, const bool& strict = true);
+		void uploadFloat(const std::string& name, const float& value, const bool& strict = false);
+		void uploadMat4f(const std::string& name, const glm::mat4& value, const bool& strict = false);
 
-		void uploadInt(const std::string& name, const int& value, const bool& strict = true);
-		void uploadTexture(const std::string& name, const unsigned int& slot, const bool& strict = true);
+		void uploadInt(const std::string& name, const int& value, const bool& strict = false);
+		void uploadTexture(const std::string& name, const unsigned int& slot, const bool& strict = false);
 
 	};
 }

@@ -64,7 +64,28 @@ public:
         delete computeShader;
     }
 
-    void onUpdate(const TimeStep& ts) override {}
+    void onUpdate(const TimeStep& ts) override {
+        // Run ComputeShader
+        ssbo->bind(0);
+        computeShader->use();
+        Shaders::ComputeShader::dispatchComputeShader(glm::ivec3(arraySize, 1, 1));
+        Shaders::ComputeShader::runWithMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
+        ssbo->unbind();
+        computeShader->detach();
+
+        // Read modified data back
+        ssbo->readDataTo(&data);
+
+        for (const MyStruct& myStruct : data) {
+            std::cout << "Updated Position: (" << myStruct.position.x << ", "
+                << myStruct.position.y << ", " << myStruct.position.z << ", " << myStruct.position.w << ")" << std::endl;
+            std::cout << "Updated Direction: (" << myStruct.direction.x << ", "
+                << myStruct.direction.y << ", " << myStruct.direction.z << ", " << myStruct.direction.w << ")" << std::endl;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
 
     void onImguiUpdate(const TimeStep& ts) override {}
 };

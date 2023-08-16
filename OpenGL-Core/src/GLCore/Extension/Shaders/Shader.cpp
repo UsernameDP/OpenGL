@@ -17,7 +17,7 @@ namespace GLCore::Shaders {
 		LOG_CONSTRUCTOR("Shader<name=" + m_name + ">");
 	};
 	Shader::~Shader() {
-		glDeleteProgram(programID);
+		destroy();
 		for (PrimitiveShader* p : PrimitiveShaders) {
 			delete p;
 		}
@@ -59,6 +59,9 @@ namespace GLCore::Shaders {
 	}
 	void Shader::detach() {
 		glUseProgram(0);
+	}
+	void Shader::destroy() {
+		glDeleteProgram(programID);
 	}
 
 

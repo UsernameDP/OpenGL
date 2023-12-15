@@ -36,6 +36,12 @@ Note that anything under `OpenGL-Core/src/` is accessible by default using `GLCo
 - **VBO** : Vertex buffer object
 - **EBO** : Element buffer object
 
+### Utils
+
+#### Cameras
+
+- **PerspectiveCamera** - a perspective camera class
+
 # Todo
 
 Notes :

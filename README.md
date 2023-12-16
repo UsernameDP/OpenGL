@@ -70,6 +70,6 @@ Notes :
 
 Priorities :
 
-1. Getting all the thirdparty libraries
+1. Getting all the thirdparty libraries (DONE)
 2. Configuring CMake to fit everything in Compiling
 3. Writing the OpenGL-Core code

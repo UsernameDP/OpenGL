@@ -13,6 +13,9 @@ add_subdirectory(vendor/imgui)
 add_subdirectory(vendor/glm)
 add_subdirectory(vendor/spdlog)
 
+target_link_libraries(OpenGL_Core opengl32 glfw imgui_glfw_opengl3 spdlogd)
+
+# Core
 target_include_directories(OpenGL_Core PUBLIC src)
 
 file(GLOB_RECURSE core_sources CONFIGURE_DEPENDS src/*.cpp)

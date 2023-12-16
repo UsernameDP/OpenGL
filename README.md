@@ -1,3 +1,20 @@
+# Compiling
+
+Build Options :
+
+- Debug : Program is compiled with Debug Flags
+- Release : Program is compiled with Release Flags
+
+OS :
+
+- Windows : Windows macro is inserted
+- Linux : Linux macro is inserted
+
+Compilers :
+
+- MSVC : For Visual Studio work
+- g++ : For general purpose compiling
+
 # Organization
 
 This framework for OpenGL is organized based on the directory underneath underneath the `/OpenGL-Core/src/...`. Such that `OpenGL-Core/src/[dir]` corresponds to the `GLCore::[dir]` namespace.
@@ -50,3 +67,9 @@ Notes :
 - Use imgui key & mouse inputs under Core/inputs.hpp
 
 - Check if the general code for setting up the GLFW & ImGui is the same (as in methods) for all OS. If it is the same, import the right header files based on OS macro. Otherwise, I am going to have to do some extra editing.
+
+Priorities :
+
+1. Getting all the thirdparty libraries
+2. Configuring CMake to fit everything in Compiling
+3. Writing the OpenGL-Core code

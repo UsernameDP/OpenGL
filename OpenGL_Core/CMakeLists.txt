@@ -17,6 +17,8 @@ target_include_directories(OpenGL_Core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 file(GLOB_RECURSE core_sources CONFIGURE_DEPENDS src/*.cpp)
 target_sources(OpenGL_Core PRIVATE ${core_sources})
 
+target_precompile_headers(OpenGL_Core PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.hpp")
+
 # Linking all libraries
 target_link_libraries(OpenGL_Core PUBLIC glad glfw glm imgui spdlog
 )

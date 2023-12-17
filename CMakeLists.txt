@@ -5,6 +5,15 @@ cmake_minimum_required(VERSION 3.15)
 project(PROJECT)
 # -----------------------------------------------
 
+# Project
+add_executable(${CMAKE_PROJECT_NAME} "${CMAKE_PROJECT_NAME}/src/main.cpp")
+
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "${CMAKE_PROJECT_NAME}/include")
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_PROJECT_NAME}/src/*.cpp")
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${PROJECT_SOURCES}")
+
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OpenGL_Core)
+
 # Executables and Library Locations
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -22,17 +31,15 @@ else() # BUILD_TYPE is specified on BUILD TIME unlike visual studio (NEEDS TO BE
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG") #if compiled using --config Debug, DEBUG macro will be defined and compiled using /MTd
 endif()
     
+# OS Specific MACROs
 
-
+if(WIN32)
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC WIN32)
+elseif (APPLE)
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC APPLE)
+elseif(UNIX AND NOT APPLE)
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC LINUX)
+endif()
 
 # Vendor
 add_subdirectory(OpenGL_Core)
-
-# Project
-add_executable(${CMAKE_PROJECT_NAME} "${CMAKE_PROJECT_NAME}/src/main.cpp")
-
-target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "${CMAKE_PROJECT_NAME}/include")
-file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_PROJECT_NAME}/src/*.cpp")
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${PROJECT_SOURCES}")
-
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OpenGL_Core)

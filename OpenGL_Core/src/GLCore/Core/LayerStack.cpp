@@ -5,8 +5,11 @@ namespace GLCore {
 	LayerStack::LayerStack() {}
 	LayerStack::~LayerStack() {
 		for (Layer* layer : layers) {
+			layer->onDetach();
 			delete layer;
 		}
+
+		LOG_INFO("LayerStack Destroyed");
 	}
 
 	void LayerStack::pushLayer(Layer* layer) {

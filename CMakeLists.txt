@@ -24,8 +24,19 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Configuration Types
-    
+
+# OS Specific MACROs
+
+if(WIN32)
+    target_compile_definitions(OpenGL_Core PUBLIC WIN32)
+elseif (APPLE)
+    target_compile_definitions(OpenGL_Core PUBLIC APPLE)
+elseif(UNIX AND NOT APPLE)
+    target_compile_definitions(OpenGL_Core PUBLIC LINUX)
+endif()
+
+# MSVC Configurations
+
 if(MSVC) # For Visual Studio
     set(CMAKE_CONFIGURATION_TYPES "Debug;Release") # limits the CONFIGURATION_TYPES to Debug and Release
     set(CMAKE_CXX_FLAGS_RELEASE "-DRELEASE /MT") #if compiled using --config Release , RELEASE will be defined and compiled using /MT
@@ -36,3 +47,13 @@ else() # BUILD_TYPE is specified on BUILD TIME unlike visual studio (NEEDS TO BE
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG") #if compiled using --config Debug, DEBUG macro will be defined and compiled using /MTd
 endif()
 
+# Project is a "Window App" not "Console App"
+if(MSVC)
+    if(WIN32)
+        target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
+            "$<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS>"
+            "$<$<CONFIG:Release>:/ENTRY:mainCRTStartup>"
+        )
+    endif()
+
+endif()

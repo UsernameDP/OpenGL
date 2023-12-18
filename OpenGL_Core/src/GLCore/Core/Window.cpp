@@ -16,7 +16,7 @@ namespace GLCore
 		fprintf(stderr, "Error : %s\n", description);
 	}
 
-	void INIT_GLFW()
+	static void INIT_GLFW()
 	{
 		if (!glfwInit())
 		{
@@ -32,7 +32,7 @@ namespace GLCore
 
 		LOG_INFO("GLFW initialized");
 	}
-	void INIT_GLAD()
+	static void INIT_GLAD()
 	{
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -96,7 +96,6 @@ namespace GLCore
 
 	void Window::onUpdate()
 	{
-		glfwMakeContextCurrent(this->GLFWWindow);
 		glfwPollEvents();
 		glClearColor(props.backgroundColor.r, props.backgroundColor.g, props.backgroundColor.b, props.backgroundColor.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

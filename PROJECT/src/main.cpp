@@ -5,7 +5,7 @@
 class ExampleApplication : public GLCore::Application {
     
 public:
-    ExampleApplication() : GLCore::Application("OpenGL_Example", 1280, 960, glm::vec4(0.0, 0.0, 0.0, 1.0))
+    ExampleApplication() : GLCore::Application("OpenGL_Example")
     {
 
     }
@@ -18,8 +18,9 @@ public:
 
 int main()
 {
-    std::unique_ptr<GLCore::Application> app = std::make_unique<ExampleApplication>();
-    app->init();
+   std::unique_ptr<GLCore::Application> app = std::make_unique<ExampleApplication>();
+   app->init();
     
-    app->run();
+    
+   app->run();
 }

@@ -4,9 +4,6 @@
 #include <glad/glad.h>
 
 namespace GLCore {
-	void INIT_GLFW();
-	void INIT_GLAD();
-
 	struct WindowProps {
 		std::string name;
 		uint32_t width;

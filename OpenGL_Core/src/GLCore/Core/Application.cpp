@@ -4,12 +4,12 @@
 namespace GLCore
 {
 
-	Application* Application::instance = nullptr;
+	Application *Application::instance = nullptr;
 
-	Application::Application(const std::string& name,
-		uint32_t width,
-		uint32_t height,
-		const glm::vec4& backgroundColor)
+	Application::Application(const std::string &name,
+							 uint32_t width,
+							 uint32_t height,
+							 const glm::vec4 &backgroundColor)
 	{
 		if (instance == nullptr)
 		{
@@ -21,8 +21,11 @@ namespace GLCore
 			LOG_ERROR("Application instance already exists");
 		}
 
+		this->layers = std::make_unique<LayerStack>();
+
 		WindowProps props = WindowProps(name, width, height, backgroundColor);
 		this->window = std::make_unique<Window>(props);
+		this->window->init();
 
 		imguiLayer = new ImGuiLayer();
 		pushLayerFront(imguiLayer);
@@ -30,7 +33,8 @@ namespace GLCore
 
 	void Application::run()
 	{
-		if (window.get() == nullptr) {
+		if (window.get() == nullptr)
+		{
 			LOG_ERROR("Application's window is not set!!");
 		}
 
@@ -38,17 +42,21 @@ namespace GLCore
 
 		TimeStep timeStep;
 
-		while ( window->running() )
+		while (window->running())
 		{
 			currentTime = (float)glfwGetTime();
 			timeStep.setTime(currentTime);
 
-			for (Layer* layer : *layers) {
+			window->onUpdate();
+
+			for (Layer *layer : *layers)
+			{
 				layer->onUpdate(timeStep);
 			}
 
 			imguiLayer->begin();
-			for (Layer* layer : *layers) {
+			for (Layer *layer : *layers)
+			{
 				layer->onImguiUpdate(timeStep);
 			}
 			imguiLayer->end();
@@ -57,4 +65,11 @@ namespace GLCore
 		}
 	}
 
+
+	bool Application::getKeyPressed(uint16_t GLFW_KEY) {
+		return ImGui::GetIO().KeysDown[GLFW_KEY];
+	}
+	bool Application::isImGuiFocused(ImGuiFocusedFlags flag) {
+		return ImGui::IsWindowFocused(flag);
+	}
 }

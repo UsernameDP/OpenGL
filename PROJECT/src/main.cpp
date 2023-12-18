@@ -4,4 +4,7 @@
 int main()
 {
     GLCore::Log::init();
+    while (true) {
+        std::cout << "yessss" << std::endl;
+    }
 }

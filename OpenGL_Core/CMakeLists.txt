@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.20)
 project(OpenGL_Core)
 
 add_library(OpenGL_Core STATIC)
-target_compile_features(OpenGL_Core PUBLIC cxx_std_20)
+target_compile_features(OpenGL_Core PRIVATE cxx_std_20)
 
 # Vendors
+option(SPDLOG_USE_STD_FORMAT ON)
+target_compile_definitions(OpenGL_Core PUBLIC _SECURE_SCL=FALSE)
+
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/imgui-docking)
@@ -22,3 +25,13 @@ target_precompile_headers(OpenGL_Core PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/p
 # Linking all libraries
 target_link_libraries(OpenGL_Core PUBLIC glad glfw glm imgui spdlog
 )
+
+# OS Specific MACROs
+
+if(WIN32)
+    target_compile_definitions(OpenGL_Core PUBLIC WIN32)
+elseif (APPLE)
+    target_compile_definitions(OpenGL_Core PUBLIC APPLE)
+elseif(UNIX AND NOT APPLE)
+    target_compile_definitions(OpenGL_Core PUBLIC LINUX)
+endif()

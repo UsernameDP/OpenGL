@@ -1,7 +1,4 @@
 #include "pch.hpp"
-#include <glm/glm.hpp>
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
 #include "GLCore/Core/Window.hpp"
 
 namespace GLCore
@@ -57,7 +54,9 @@ namespace GLCore
 																 height(height),
 																 backgroundColor(backgroundColor){};
 
-	Window::Window(const WindowProps &props) : props(props) {}
+	Window::Window(const WindowProps &props) : 
+		props(props), 
+		GLFWWindow(nullptr) {}
 
 	Window::~Window()
 	{
@@ -90,11 +89,14 @@ namespace GLCore
 		initViewPort((int)props.width, (int)props.height);
 		glfwSetFramebufferSizeCallback(GLFWWindow, (GLFWframebuffersizefun)framebuffer_size_callback);
 
-		firstWindowInstance = false;
+		if (firstWindowInstance) {
+			firstWindowInstance = false;
+		}
 	}
 
 	void Window::onUpdate()
 	{
+		glfwMakeContextCurrent(this->GLFWWindow);
 		glfwPollEvents();
 		glClearColor(props.backgroundColor.r, props.backgroundColor.g, props.backgroundColor.b, props.backgroundColor.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

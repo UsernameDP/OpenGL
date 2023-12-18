@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace GLCore {
 	void INIT_GLFW();

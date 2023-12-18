@@ -35,3 +35,4 @@ else() # BUILD_TYPE is specified on BUILD TIME unlike visual studio (NEEDS TO BE
     set(CMAKE_CXX_FLAGS_RELEASE "-DRELEASE") #if compiled using --config Release , RELEASE will be defined and compiled using /MT
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG") #if compiled using --config Debug, DEBUG macro will be defined and compiled using /MTd
 endif()
+

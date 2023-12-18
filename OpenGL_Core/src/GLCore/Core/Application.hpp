@@ -1,39 +1,36 @@
 #pragma once
 #include "Window.hpp"
 #include "LayerStack.hpp"
+#include "ImGuiLayer.hpp"
 
 namespace GLCore
 {
-
-	struct WindowLayer
-	{
-		std::shared_ptr<Window> window;
-		std::shared_ptr<LayerStack> layers;
-
-		WindowLayer(std::shared_ptr<Window> window, std::shared_ptr<LayerStack> layers);
-	};
-
 	class Application
 	{
 	private:
 		static Application *instance;
 
 	private:
-		std::unordered_map<std::string, std::shared_ptr<WindowLayer>> windowLayers;
+		std::unique_ptr<Window> window;
+		std::unique_ptr<LayerStack> layers;
+		ImGuiLayer* imguiLayer;
 
 	public:
-		Application();
-		virtual ~Application();
+		Application(const std::string& name,
+			uint32_t width,
+			uint32_t height,
+			const glm::vec4& backgroundColor);
+		virtual ~Application() = default;
 		virtual void init() = 0;
 		virtual void run();
 
-		void pushWindowLayer(std::shared_ptr<Window> window, std::shared_ptr<LayerStack> layers);
+		inline void pushLayer(Layer* layer) { this->layers->pushLayer(layer); }
+		inline void pushLayerFront(Layer* layer) { this->layers->pushLayerFront(layer); }
 
-		bool running();
-		inline std::shared_ptr<WindowLayer> getWindowLayer(const std::string &name) { return this->windowLayers.at(name); }
+		inline Window& getWindow() { return *(this->window); }
 
 	public:
-		static inline Application *get() { return Application::instance; }
+		static inline Application& get() { return *Application::instance; }
 	};
 
 }

@@ -1,83 +1,59 @@
 #include "pch.hpp"
-#include "Window.hpp"
 #include "Application.hpp"
 
 namespace GLCore
 {
 
-	Application *instance = nullptr;
+	Application* Application::instance = nullptr;
 
-	WindowLayer::WindowLayer(std::shared_ptr<Window> window, std::shared_ptr<LayerStack> layers)
-	{
-		this->window = window;
-		this->layers = layers;
-	}
-
-	Application::Application()
+	Application::Application(const std::string& name,
+		uint32_t width,
+		uint32_t height,
+		const glm::vec4& backgroundColor)
 	{
 		if (instance == nullptr)
 		{
+			GLCore::Log::init();
 			Application::instance = this;
 		}
 		else
 		{
 			LOG_ERROR("Application instance already exists");
 		}
-	}
-	Application::~Application() {}
 
-	void Application::pushWindowLayer(
-		std::shared_ptr<Window> window,
-		std::shared_ptr<LayerStack> layers)
-	{
+		WindowProps props = WindowProps(name, width, height, backgroundColor);
+		this->window = std::make_unique<Window>(props);
 
-		if (windowLayers.at(window->getName()).get() != nullptr)
-		{
-			LOG_ERROR("Window with name {0} already exists", window->getName());
-		}
-		else
-		{
-			windowLayers[window->getName()] = std::make_shared<WindowLayer>(
-				window, layers);
-		}
-	}
-
-	bool Application::running()
-	{
-		for (const auto &windowLayer : windowLayers)
-		{
-			if (windowLayer.second.get()->window.get()->running())
-			{
-				return true;
-			}
-		}
-		return false;
+		imguiLayer = new ImGuiLayer();
+		pushLayerFront(imguiLayer);
 	}
 
 	void Application::run()
 	{
+		if (window.get() == nullptr) {
+			LOG_ERROR("Application's window is not set!!");
+		}
 
 		float currentTime;
 
 		TimeStep timeStep;
 
-		while (running())
+		while ( window->running() )
 		{
 			currentTime = (float)glfwGetTime();
 			timeStep.setTime(currentTime);
 
-			for (const auto &windowLayer : windowLayers)
-			{
-				Window *window = windowLayer.second->window.get();
-				LayerStack *layers = windowLayer.second->layers.get();
-
-				for (const std::shared_ptr<Layer> layer : *layers)
-				{
-					layer->onUpdate(timeStep);
-				}
-
-				glfwSwapBuffers(window->getGLFWWindow());
+			for (Layer* layer : *layers) {
+				layer->onUpdate(timeStep);
 			}
+
+			imguiLayer->begin();
+			for (Layer* layer : *layers) {
+				layer->onImguiUpdate(timeStep);
+			}
+			imguiLayer->end();
+
+			glfwSwapBuffers(window->getGLFWWindow());
 		}
 	}
 

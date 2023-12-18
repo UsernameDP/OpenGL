@@ -1,10 +1,25 @@
 #include <iostream>
-#include "GLCore/Core/Log.hpp"
+#include <GLCore/Core/Core.hpp>
+
+#include "ExampleLayer.hpp"
+class ExampleApplication : public GLCore::Application {
+    
+public:
+    ExampleApplication() : GLCore::Application("OpenGL_Example", 1280, 960, glm::vec4(0.0, 0.0, 0.0, 1.0))
+    {
+
+    }
+       
+
+    virtual void init() override {
+        pushLayer(new ExampleLayer());
+    }
+};
 
 int main()
 {
-    GLCore::Log::init();
-    while (true) {
-        std::cout << "yessss" << std::endl;
-    }
+    std::unique_ptr<GLCore::Application> app = std::make_unique<ExampleApplication>();
+    app->init();
+    
+    app->run();
 }

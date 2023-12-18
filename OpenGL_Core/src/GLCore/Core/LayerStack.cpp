@@ -3,16 +3,19 @@
 
 namespace GLCore {
 	LayerStack::LayerStack() {}
-	LayerStack::~LayerStack() {}
+	LayerStack::~LayerStack() {
+		for (Layer* layer : layers) {
+			delete layer;
+		}
+	}
 
 	void LayerStack::pushLayer(Layer* layer) {
-		std::shared_ptr<Layer> newLayer(layer);
-
-		layers.push_back(newLayer);
-		newLayer->onAttach();
-	}
-	void LayerStack::pushLayer(std::shared_ptr<Layer> layer) {
 		layers.push_back(layer);
-		layer.get()->onAttach();
+		layer->onAttach();
+	}
+
+	void LayerStack::pushLayerFront(Layer* layer) {
+		layers.emplace_back(layer);
+		layer->onAttach();
 	}
 }

@@ -2,20 +2,25 @@
 #include "Window.hpp"
 #include "Application.hpp"
 
-namespace GLCore {
+namespace GLCore
+{
 
-	Application* instance = nullptr;
+	Application *instance = nullptr;
 
-	WindowLayer::WindowLayer(std::shared_ptr<Window> window, std::shared_ptr<LayerStack> layers) {
+	WindowLayer::WindowLayer(std::shared_ptr<Window> window, std::shared_ptr<LayerStack> layers)
+	{
 		this->window = window;
 		this->layers = layers;
 	}
 
-	Application::Application() {
-		if (instance == nullptr) {
+	Application::Application()
+	{
+		if (instance == nullptr)
+		{
 			Application::instance = this;
 		}
-		else {
+		else
+		{
 			LOG_ERROR("Application instance already exists");
 		}
 	}
@@ -23,44 +28,51 @@ namespace GLCore {
 
 	void Application::pushWindowLayer(
 		std::shared_ptr<Window> window,
-		std::shared_ptr<LayerStack> layers) {
+		std::shared_ptr<LayerStack> layers)
+	{
 
-		if (windowLayers.at(window->getName()).get() != nullptr) {
+		if (windowLayers.at(window->getName()).get() != nullptr)
+		{
 			LOG_ERROR("Window with name {0} already exists", window->getName());
 		}
-		else {
+		else
+		{
 			windowLayers[window->getName()] = std::make_shared<WindowLayer>(
-				window, layers
-			);
+				window, layers);
 		}
 	}
 
-	bool Application::running() {
-		bool isRunning = false;
-		for (const auto& windowLayer : windowLayers) {
-			if (windowLayer.second.get()->window.get()->running()) {
-				isRunning = true;
+	bool Application::running()
+	{
+		for (const auto &windowLayer : windowLayers)
+		{
+			if (windowLayer.second.get()->window.get()->running())
+			{
+				return true;
 			}
 		}
-
-		return isRunning;
+		return false;
 	}
 
-	void Application::run() {
+	void Application::run()
+	{
 
 		float currentTime;
 
 		TimeStep timeStep;
 
-		while (running()) {
+		while (running())
+		{
 			currentTime = (float)glfwGetTime();
 			timeStep.setTime(currentTime);
 
-			for (const auto& windowLayer : windowLayers) {
-				Window* window = windowLayer.second->window.get();
-				LayerStack* layers = windowLayer.second->layers.get();
-			
-				for (const std::shared_ptr<Layer> layer : *layers) {
+			for (const auto &windowLayer : windowLayers)
+			{
+				Window *window = windowLayer.second->window.get();
+				LayerStack *layers = windowLayer.second->layers.get();
+
+				for (const std::shared_ptr<Layer> layer : *layers)
+				{
 					layer->onUpdate(timeStep);
 				}
 

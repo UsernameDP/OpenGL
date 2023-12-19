@@ -18,7 +18,6 @@ target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
 # Vendor
 add_subdirectory(OpenGL_Core)
 
-
 # Executables and Library Locations
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -38,22 +37,24 @@ endif()
 # MSVC Configurations
 
 if(MSVC) # For Visual Studio
-    set(CMAKE_CONFIGURATION_TYPES "Debug;Release") # limits the CONFIGURATION_TYPES to Debug and Release
-    set(CMAKE_CXX_FLAGS_RELEASE "-DRELEASE /MT") #if compiled using --config Release , RELEASE will be defined and compiled using /MT
-    set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG /MTd") #if compiled using --config Debug, DEBUG macro will be defined and compiled using /MTd
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        COMPILE_DEFINITIONS "$<$<CONFIG:Debug>:DEBUG> $<$<CONFIG:Release>:RELEASE>"
+        CMAKE_CXX_FLAGS_DEBUG "/MTd"
+        CMAKE_CXX_FLAGS_RELEASE "/MT"
+    )
+
 else() # BUILD_TYPE is specified on BUILD TIME unlike visual studio (NEEDS TO BE TESTED USING OTHER COMPILERS LATER)
-    set(CMAKE_CONFIGURATION_TYPES "Debug;Release") # limits the CONFIGURATION_TYPES to Debug and Release
-    set(CMAKE_CXX_FLAGS_RELEASE "-DRELEASE") #if compiled using --config Release , RELEASE will be defined and compiled using /MT
-    set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG") #if compiled using --config Debug, DEBUG macro will be defined and compiled using /MTd
+        set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        COMPILE_DEFINITIONS "$<$<CONFIG:Debug>:DEBUG> $<$<CONFIG:Release>:RELEASE>"
+        CMAKE_CXX_FLAGS_DEBUG "/MTd"
+        CMAKE_CXX_FLAGS_RELEASE "/MT"
+    )
 endif()
 
 # Project is a "Window App" not "Console App"
 if(MSVC)
     if(WIN32)
-        target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
-            "$<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS>"
-            "$<$<CONFIG:Release>:/ENTRY:mainCRTStartup>"
-        )
+        set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
     endif()
 
 endif()

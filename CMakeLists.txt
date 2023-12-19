@@ -5,8 +5,17 @@ cmake_minimum_required(VERSION 3.20)
 project(PROJECT)
 # -----------------------------------------------
 
-# Project
+# Executables and Library Locations
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BINARY_DIR}/Debug/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BINARY_DIR}/Debug/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BINARY_DIR}/Debug/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR}/Release/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR}/Release/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR}/Release/bin)
+
+# PROJECT
 add_executable(${CMAKE_PROJECT_NAME} "${CMAKE_PROJECT_NAME}/src/main.cpp")
+
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "${CMAKE_PROJECT_NAME}/include")
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_PROJECT_NAME}/src/*.cpp")
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${PROJECT_SOURCES}")
@@ -15,46 +24,40 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OpenGL_Core)
 # Project Properties
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
 
+
+# Compiler Flags Library
+add_library(project_compiler_flags INTERFACE)
+# OS Specific MACROs
+if(WIN32)
+    target_compile_definitions(project_compiler_flags INTERFACE WIN32)
+elseif (APPLE)
+    target_compile_definitions(project_compiler_flags INTERFACE APPLE)
+elseif(UNIX AND NOT APPLE)
+    target_compile_definitions(project_compiler_flags INTERFACE LINUX)
+endif()
+target_compile_definitions(project_compiler_flags INTERFACE 
+    "$<$<CONFIG:Debug>:DEBUG>"
+    "$<$<CONFIG:Release>:RELEASE>"
+)
+if(WIN32)
+    target_compile_definitions(project_compiler_flags INTERFACE
+        "$<$<CONFIG:Release>:ASSETS_PATH=./assets/>"
+    )
+    target_compile_definitions(project_compiler_flags INTERFACE
+    "$<$<CONFIG:Debug>:ASSETS_PATH=\\\"${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/assets/>"
+    )
+endif()
+
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE project_compiler_flags)
+
+# Copying assets folder to the output
+add_custom_command(
+    TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/assets
+        "$<$<CONFIG:Debug>:${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}/assets>$<$<CONFIG:Release>:${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/assets>"
+)
+
+
 # Vendor
 add_subdirectory(OpenGL_Core)
-
-# Executables and Library Locations
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-
-# OS Specific MACROs
-
-if(WIN32)
-    target_compile_definitions(OpenGL_Core PUBLIC WIN32)
-elseif (APPLE)
-    target_compile_definitions(OpenGL_Core PUBLIC APPLE)
-elseif(UNIX AND NOT APPLE)
-    target_compile_definitions(OpenGL_Core PUBLIC LINUX)
-endif()
-
-# MSVC Configurations
-
-if(MSVC) # For Visual Studio
-    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-        COMPILE_DEFINITIONS "$<$<CONFIG:Debug>:DEBUG> $<$<CONFIG:Release>:RELEASE>"
-        CMAKE_CXX_FLAGS_DEBUG "/MTd"
-        CMAKE_CXX_FLAGS_RELEASE "/MT"
-    )
-
-else() # BUILD_TYPE is specified on BUILD TIME unlike visual studio (NEEDS TO BE TESTED USING OTHER COMPILERS LATER)
-        set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-        COMPILE_DEFINITIONS "$<$<CONFIG:Debug>:DEBUG> $<$<CONFIG:Release>:RELEASE>"
-        CMAKE_CXX_FLAGS_DEBUG "/MTd"
-        CMAKE_CXX_FLAGS_RELEASE "/MT"
-    )
-endif()
-
-# Project is a "Window App" not "Console App"
-if(MSVC)
-    if(WIN32)
-        set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-    endif()
-
-endif()

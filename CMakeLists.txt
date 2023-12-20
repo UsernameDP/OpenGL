@@ -41,7 +41,7 @@ target_compile_definitions(project_compiler_flags INTERFACE
 )
 if(WIN32)
     target_compile_definitions(project_compiler_flags INTERFACE
-        $<$<CONFIG:Release>:ASSETS_PATH="./assets">
+        $<$<CONFIG:Release>:ASSETS_PATH="assets/">
         $<$<CONFIG:Debug>:ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/assets/">
     )
 endif()

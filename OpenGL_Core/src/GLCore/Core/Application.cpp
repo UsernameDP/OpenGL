@@ -1,6 +1,8 @@
 #include "pch.hpp"
 #include "Application.hpp"
 
+#include "GLCore/Extension/AssetPool.hpp"
+
 namespace GLCore
 {
 
@@ -14,11 +16,12 @@ namespace GLCore
 		if (instance == nullptr)
 		{
 			GLCore::Log::init();
+			
 			Application::instance = this;
 		}
 		else
 		{
-			LOG_ERROR("Application instance already exists");
+			LOG_WARN("Application instance already exists");
 		}
 
 		this->layers = std::make_unique<LayerStack>();
@@ -33,7 +36,7 @@ namespace GLCore
 
 	void Application::run()
 	{
-		if (window.get() == nullptr)
+		if (window == nullptr)
 		{
 			LOG_ERROR("Application's window is not set!!");
 		}

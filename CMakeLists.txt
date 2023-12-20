@@ -41,12 +41,11 @@ target_compile_definitions(project_compiler_flags INTERFACE
 )
 if(WIN32)
     target_compile_definitions(project_compiler_flags INTERFACE
-        "$<$<CONFIG:Release>:ASSETS_PATH=./assets/>"
-    )
-    target_compile_definitions(project_compiler_flags INTERFACE
-    "$<$<CONFIG:Debug>:ASSETS_PATH=\\\"${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/assets/>"
+        $<$<CONFIG:Release>:ASSETS_PATH="./assets">
+        $<$<CONFIG:Debug>:ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/assets/">
     )
 endif()
+
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE project_compiler_flags)
 

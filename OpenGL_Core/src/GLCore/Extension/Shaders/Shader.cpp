@@ -8,13 +8,11 @@ namespace GLCore::Extension::Shaders {
 		this->GLSL_PATH = GLSL_PATH;
 		this->GLSL_SRC = &AssetPool::getGLSL_SRC(GLSL_PATH);
 	};
-	PrimitiveShader::~PrimitiveShader() {
-		//LOG_DESTRUCTOR("PrimitiveShader<GLSL_PATH = " + GLSL_PATH + ">");
-	}
 
 
 	Shader::Shader(const std::string& name) : name(name) {};
 	Shader::~Shader() {
+		detach();
 		destroy();
 		for (PrimitiveShader* p : PrimitiveShaders) {
 			delete p;

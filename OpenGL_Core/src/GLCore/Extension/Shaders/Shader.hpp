@@ -37,7 +37,6 @@ namespace GLCore::Extension::Shaders {
 		std::string* GLSL_SRC;
 
 		PrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
-		~PrimitiveShader();
 	};
 
 	class Shader {

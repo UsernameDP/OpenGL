@@ -61,15 +61,29 @@ Note that anything under `OpenGL-Core/src/` is accessible by default using `GLCo
 
 # Todo
 
-Notes :
+- [ ] Importing Third Party Libraries
+  - [x] glad
+  - [x] glfw
+  - [x] imgui
+  - [x] spdlog
+  - [ ] stb_image
+- [x] Core
+  - [x] Application
+  - [x] Window
+  - [x] Layer & LayerStack & ImGuiLayer
+  - [x] OpenGLDebug
+  - [x] Log
+- [x] Extension
 
-- GLFW is used for window
-- Use imgui key & mouse inputs under Core/inputs.hpp
+  - [ ] Primitives
+    - [x] VertexPipeline
+    - [ ] SSBO
+    - [ ] Texture
+  - [x] Shaders
+    - [x] Shader (Base Class)
+    - [x] VertexPipelineShader
+    - [x] ComputeShader
+  - [x] AssetPool
 
-- Check if the general code for setting up the GLFW & ImGui is the same (as in methods) for all OS. If it is the same, import the right header files based on OS macro. Otherwise, I am going to have to do some extra editing.
-
-Priorities :
-
-1. Getting all the thirdparty libraries (DONE)
-2. Setting up Debug and Release Configurations (DONE)
-3. Writing the OpenGL-Core code
+- [x] Windows Support
+- [ ] Linux Support

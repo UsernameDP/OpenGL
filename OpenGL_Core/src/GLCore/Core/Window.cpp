@@ -1,6 +1,7 @@
 #include "pch.hpp"
 #include "GLCore/Core/Window.hpp"
 
+
 namespace GLCore
 {
 	static void initViewPort(const int width, const int height)
@@ -22,8 +23,10 @@ namespace GLCore
 		{
 			LOG_ERROR("GLFW didn't initialize properly");
 		}
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+		//Currently, we are using opengl 4.6
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); 
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef APPLE
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -54,9 +57,8 @@ namespace GLCore
 																 height(height),
 																 backgroundColor(backgroundColor){};
 
-	Window::Window(const WindowProps &props) : 
-		props(props), 
-		GLFWWindow(nullptr) {}
+	Window::Window(const WindowProps &props) : props(props),
+											   GLFWWindow(nullptr) {}
 
 	Window::~Window()
 	{
@@ -89,7 +91,8 @@ namespace GLCore
 		initViewPort((int)props.width, (int)props.height);
 		glfwSetFramebufferSizeCallback(GLFWWindow, (GLFWframebuffersizefun)framebuffer_size_callback);
 
-		if (firstWindowInstance) {
+		if (firstWindowInstance)
+		{
 			firstWindowInstance = false;
 		}
 	}
@@ -101,9 +104,10 @@ namespace GLCore
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	const int Window::getGLSLVersion() {
+	const int Window::getGLSLVersion()
+	{
 		// Get the OpenGL version string
-		const char* versionStr = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+		const char *versionStr = reinterpret_cast<const char *>(glGetString(GL_VERSION));
 
 		// Extract the major and minor version numbers from the version string
 		int majorVersion = 0;
@@ -119,8 +123,9 @@ namespace GLCore
 
 		return combinedVersion;
 	}
-	
-	const std::string Window::getGLSLVersionStr() {
+
+	const std::string Window::getGLSLVersionStr()
+	{
 		return "#version " + std::to_string(getGLSLVersion());
 	}
 }

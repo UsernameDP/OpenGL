@@ -27,9 +27,9 @@
 #ifndef GLAD_GL_H_
 #define GLAD_GL_H_
 
-#ifdef __gl_h_
-    #error OpenGL header already included (API: gl), remove previous include!
-#endif
+//#ifdef __gl_h_
+//    #error OpenGL header already included (API: gl), remove previous include!
+//#endif
 #define __gl_h_ 1
 
 

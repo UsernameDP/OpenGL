@@ -2,6 +2,7 @@
 #include "Application.hpp"
 
 #include "GLCore/Extension/AssetPool.hpp"
+#include "OpenGLDebug.hpp"
 
 namespace GLCore
 {
@@ -17,7 +18,7 @@ namespace GLCore
 		{
 			GLCore::Log::init();
 			GLCore::Extension::AssetPool::init();
-			
+
 			Application::instance = this;
 		}
 		else
@@ -33,6 +34,13 @@ namespace GLCore
 
 		imguiLayer = new ImGuiLayer();
 		pushLayerFront(imguiLayer);
+
+#ifdef DEBUG
+		setGLDebugLogLevel(DebugLogLevel::HighAssert);
+#else
+		setGLDebugLogLevel(DebugLogLevel::None);
+#endif
+		enableGLDebugging();
 	}
 
 	void Application::run()
@@ -52,7 +60,6 @@ namespace GLCore
 			timeStep.setTime(currentTime);
 			window->onUpdate();
 
-
 			for (Layer *layer : *layers)
 			{
 				layer->onUpdate(timeStep);
@@ -69,11 +76,12 @@ namespace GLCore
 		}
 	}
 
-
-	bool Application::getKeyPressed(uint16_t GLFW_KEY) {
+	bool Application::getKeyPressed(uint16_t GLFW_KEY)
+	{
 		return ImGui::GetIO().KeysDown[GLFW_KEY];
 	}
-	bool Application::isImGuiFocused(ImGuiFocusedFlags flag) {
+	bool Application::isImGuiFocused(ImGuiFocusedFlags flag)
+	{
 		return ImGui::IsWindowFocused(flag);
 	}
 }

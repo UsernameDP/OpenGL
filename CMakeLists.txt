@@ -13,21 +13,17 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR}/Release/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR}/Release/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR}/Release/bin)
 
-# PROJECT
+# PROJECT Files
 add_executable(${CMAKE_PROJECT_NAME} "${CMAKE_PROJECT_NAME}/src/main.cpp")
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "${CMAKE_PROJECT_NAME}/include")
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_PROJECT_NAME}/src/*.cpp")
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${PROJECT_SOURCES}")
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OpenGL_Core)
 
-# Project Properties
-target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
-
-
-# Compiler Flags Library
+# compiler flags interface library
 add_library(project_compiler_flags INTERFACE)
 # OS Specific MACROs
+target_compile_features( project_compiler_flags INTERFACE cxx_std_20)
 if(WIN32)
     target_compile_definitions(project_compiler_flags INTERFACE WIN32)
 elseif (APPLE)
@@ -46,17 +42,17 @@ if(WIN32)
     )
 endif()
 
+# Vendor
+add_subdirectory(OpenGL_Core)
 
+#Linking Libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE project_compiler_flags)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OpenGL_Core)
 
-# Copying assets folder to the output
+# Post Commands
 add_custom_command(
     TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/assets
         "$<$<CONFIG:Debug>:${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}/assets>$<$<CONFIG:Release>:${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/assets>"
 )
-
-
-# Vendor
-add_subdirectory(OpenGL_Core)

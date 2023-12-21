@@ -12,9 +12,9 @@ namespace GLCore::Extension::Primitives {
 		
 		vertices->size() * sizeof(float) is the same as sizeof(float[]) 
 		*/
-		GLenum _DRAW_TYPE;
+		GLenum DRAW_TYPE;
 	public:
-		VBO(const GLenum& _DRAW_TYPE,
+		VBO(const GLenum& DRAW_TYPE,
 			std::vector<float>* vertices = nullptr
 		);
 

@@ -13,4 +13,12 @@ namespace GLCore {
 		logger = spdlog::stdout_color_mt("GLCORE");
 		logger->set_level(spdlog::level::trace);
 	}
+
+	std::shared_ptr<spdlog::logger>& GLCore::Log::getLogger()
+	{
+		if (logger == nullptr) {
+			init();
+		}
+		return logger;
+	}
 }

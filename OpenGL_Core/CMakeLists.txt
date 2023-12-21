@@ -23,5 +23,5 @@ target_sources(OpenGL_Core PRIVATE ${core_sources})
 target_precompile_headers(OpenGL_Core PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.hpp")
 
 # Linking all libraries
-target_link_libraries(OpenGL_Core PUBLIC opengl32 glad glfw glm imgui spdlog)
+target_link_libraries(OpenGL_Core PUBLIC glad glfw glm imgui spdlog opengl32)
 target_link_libraries(OpenGL_Core PRIVATE project_compiler_flags)

@@ -1,6 +1,5 @@
 #include "pch.hpp"
 #include "AssetPool.hpp"
-
 #include "GLCore/util/FileHandler.hpp"
 
 namespace GLCore::Extension {
@@ -32,6 +31,7 @@ namespace GLCore::Extension {
 	}
 
 	std::string& AssetPool::getGLSL_SRC(const std::string& relativePath) {
+		
 		if (AssetPool::instance->GLSL_SRCS[relativePath] == nullptr) {
 			std::string absPath = ASSETS_PATH + relativePath;
 			std::string GLSL = util::FileHandler::readFile(absPath);
@@ -61,12 +61,11 @@ namespace GLCore::Extension {
 	}
 	Shaders::ComputeShader& AssetPool::getComputeShader(const std::string& name)
 	{
-		Shaders::ComputeShader* shader = AssetPool::instance->computeShaders.at(name);
-		if (shader == nullptr) {
+		if (AssetPool::instance->computeShaders[name] == nullptr) {
 			LOG_ERROR("{0} shader needs to be set before", name);
 		}
 
-		return *shader;
+		return *AssetPool::instance->computeShaders[name];
 	}
 	void AssetPool::setComputeShader(Shaders::ComputeShader* shader)
 	{

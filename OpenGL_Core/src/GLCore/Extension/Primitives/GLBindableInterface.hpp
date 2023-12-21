@@ -5,7 +5,7 @@ namespace GLCore::Extension::Primitives {
 	
 	class GLBindableInterface {
 	protected:
-		GLuint ID;
+		GLuint ID = 0;
 	public:
 		GLBindableInterface(const GLBindableInterface&) = delete;
 		GLBindableInterface& operator=(const GLBindableInterface&) = delete;

@@ -8,7 +8,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-namespace GLCore {
+namespace GLCore
+{
 
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
@@ -21,28 +22,28 @@ namespace GLCore {
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+		ImGuiIO &io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;	  // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;	  // Enable Multi-Viewport / Platform Windows
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
 
 		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
-		ImGuiStyle& style = ImGui::GetStyle();
+		ImGuiStyle &style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			style.WindowRounding = 0.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
-		Application& app = Application::get();
-		GLFWwindow* window = app.getWindow().getGLFWWindow();
+		Application &app = Application::get();
+		GLFWwindow *window = app.getWindow().getGLFWWindow();
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init( app.getWindow().getGLSLVersionStr().c_str() );
+		ImGui_ImplOpenGL3_Init(app.getWindow().getGLSLVersionStr().c_str());
 	}
 
 	void ImGuiLayer::onDetach()
@@ -61,8 +62,8 @@ namespace GLCore {
 
 	void ImGuiLayer::end()
 	{
-		ImGuiIO& io = ImGui::GetIO();
-		Application& app = Application::get();
+		ImGuiIO &io = ImGui::GetIO();
+		Application &app = Application::get();
 		io.DisplaySize = ImVec2((float)app.getWindow().getWidth(), (float)app.getWindow().getHeight());
 
 		// Rendering
@@ -71,7 +72,7 @@ namespace GLCore {
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			GLFWwindow *backup_current_context = glfwGetCurrentContext();
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(backup_current_context);

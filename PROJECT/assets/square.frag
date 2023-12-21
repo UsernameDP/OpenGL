@@ -1,7 +1,9 @@
 #version 330 core
 
-out vec4 FragColor;
+in vec3 fragColor; // Input color from vertex shader
+
+out vec4 finalColor; // Output color to framebuffer
 
 void main() {
-    FragColor = vec4(1.0, 0.5, 0.2, 1.0); // Orange color
+    finalColor = vec4(fragColor, 1.0);
 }

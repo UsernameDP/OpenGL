@@ -1,7 +1,12 @@
 #pragma once
 
-#include <spdlog/spdlog.h>
-#include <spdlog/fmt/ostr.h>
+#include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
+
+/*
+	DUE TO GLCore::Log::logger being a shared pointer, you can not call 
+	getLogger inside of destructors because logger might already be deleted
+*/
 
 namespace GLCore {
 
@@ -10,8 +15,7 @@ namespace GLCore {
 		static std::shared_ptr<spdlog::logger> logger;
 	public:
 		static void init();
-
-		inline static std::shared_ptr<spdlog::logger>& getLogger() { return logger; }
+		static std::shared_ptr<spdlog::logger>& getLogger();
 	};
 }
 

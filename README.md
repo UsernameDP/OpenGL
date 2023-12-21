@@ -59,7 +59,14 @@ Note that anything under `OpenGL-Core/src/` is accessible by default using `GLCo
 
 - **PerspectiveCamera** - a perspective camera class
 
-# Todo
+# Production CheckList
+
+- [x] Release & Debug Configurations
+- [x] MSVC Support
+- [ ] g++ support
+
+- [x] Windows Support
+- [ ] Linux Support
 
 - [ ] Importing Third Party Libraries
   - [x] glad
@@ -85,5 +92,7 @@ Note that anything under `OpenGL-Core/src/` is accessible by default using `GLCo
     - [x] ComputeShader
   - [x] AssetPool
 
-- [x] Windows Support
-- [ ] Linux Support
+# TODO
+
+- [ ] SSBO
+- [ ] Test ComputeShaders

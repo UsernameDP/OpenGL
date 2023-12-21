@@ -2,5 +2,5 @@
 
 namespace GLCore::util::FileHandler {
 	
-	std::string& readFile(const std::string& path);
+	std::string readFile(const std::string& path);
 }

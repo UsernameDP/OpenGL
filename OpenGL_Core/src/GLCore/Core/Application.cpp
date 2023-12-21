@@ -16,6 +16,7 @@ namespace GLCore
 		if (instance == nullptr)
 		{
 			GLCore::Log::init();
+			GLCore::Extension::AssetPool::init();
 			
 			Application::instance = this;
 		}

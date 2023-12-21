@@ -15,6 +15,7 @@ namespace GLCore::Extension::Primitives {
 
 	class VertexAttributes {
 	private:
+
 		std::vector<VertexAttribute*> vertexAttributes;
 	public:
 		VertexAttributes() = default;

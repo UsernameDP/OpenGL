@@ -57,7 +57,7 @@ namespace GLCore::Extension::Shaders {
 		void detach();
 		void destroy();
 
-		inline std::string& getName() { return this->name; }
+		inline const std::string& getName() { return this->name; }
 	public:
 		//Strict requires that the uniform makes an impact on the final color
 		//The order you upload uniforms MATTER!! Make sure to upload .vert uniforms BEFORE .frag!!

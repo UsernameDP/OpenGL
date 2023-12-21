@@ -5,7 +5,7 @@
 #include <filesystem>
 
 namespace GLCore::util {
-	std::string& FileHandler::readFile(const std::string& path) {
+	std::string FileHandler::readFile(const std::string& path) {
 		std::ifstream file(path);
 
 		if (!file.is_open()) {

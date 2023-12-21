@@ -32,17 +32,17 @@ namespace GLCore::Extension {
 	}
 
 	std::string& AssetPool::getGLSL_SRC(const std::string& relativePath) {
-		std::string* GLSL_SRC = AssetPool::instance->GLSL_SRCS.at(relativePath);
-
-		if (GLSL_SRC == nullptr) {
-			GLSL_SRC = new std::string(util::FileHandler::readFile(relativePath));
+		if (AssetPool::instance->GLSL_SRCS[relativePath] == nullptr) {
+			std::string absPath = ASSETS_PATH + relativePath;
+			std::string GLSL = util::FileHandler::readFile(absPath);
+			AssetPool::instance->GLSL_SRCS[relativePath] = new std::string(GLSL);
 		}
 
-		return *GLSL_SRC;
+		return *(AssetPool::instance->GLSL_SRCS[relativePath]);
 	}
 	Shaders::Shader& AssetPool::getShader(const std::string& name)
 	{
-		Shaders::Shader* shader = AssetPool::instance->shaders.at(name);
+		Shaders::Shader* shader = AssetPool::instance->shaders[name];
 		if (shader == nullptr) {
 			LOG_ERROR("{0} shader needs to be set before", name);
 		}
@@ -51,7 +51,13 @@ namespace GLCore::Extension {
 	}
 	void AssetPool::setShader(Shaders::Shader* shader)
 	{
-		AssetPool::instance->shaders[shader->getName()] = shader;
+		if (shader == nullptr) {
+			LOG_ERROR("You are setting a nullptr shader");
+		}
+		else {
+			shader->compile();
+			AssetPool::instance->shaders[shader->getName()] = shader;
+		}
 	}
 	Shaders::ComputeShader& AssetPool::getComputeShader(const std::string& name)
 	{
@@ -64,6 +70,7 @@ namespace GLCore::Extension {
 	}
 	void AssetPool::setComputeShader(Shaders::ComputeShader* shader)
 	{
+		shader->compile();
 		AssetPool::instance->computeShaders[shader->getName()] = shader;
 	}
 }

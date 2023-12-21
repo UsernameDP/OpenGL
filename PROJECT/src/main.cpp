@@ -12,6 +12,9 @@ public:
        
 
     virtual void init() override {
+        AssetPool::setShader(new VertexPipelineShader("Square", "square.vert", "square.frag"));
+
+
         pushLayer(new ExampleLayer());
     }
 };

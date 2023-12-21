@@ -42,7 +42,7 @@ namespace GLCore {
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 410");
+		ImGui_ImplOpenGL3_Init( app.getWindow().getGLSLVersionStr().c_str() );
 	}
 
 	void ImGuiLayer::onDetach()

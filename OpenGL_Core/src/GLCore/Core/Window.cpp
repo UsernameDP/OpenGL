@@ -101,4 +101,26 @@ namespace GLCore
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
+	const int Window::getGLSLVersion() {
+		// Get the OpenGL version string
+		const char* versionStr = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+
+		// Extract the major and minor version numbers from the version string
+		int majorVersion = 0;
+		int minorVersion = 0;
+
+		std::stringstream versionStream(versionStr);
+		versionStream >> majorVersion;
+		versionStream.ignore(1); // Ignore the dot
+		versionStream >> minorVersion;
+
+		// Combine major and minor version to get the desired format (e.g., 3.3 or 330)
+		int combinedVersion = majorVersion * 100 + minorVersion * 10;
+
+		return combinedVersion;
+	}
+	
+	const std::string Window::getGLSLVersionStr() {
+		return "#version " + std::to_string(getGLSLVersion());
+	}
 }

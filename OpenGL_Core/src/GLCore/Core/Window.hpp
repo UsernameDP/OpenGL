@@ -28,6 +28,8 @@ namespace GLCore {
 		void init();
 		void onUpdate();
 
+		const int getGLSLVersion();
+		const std::string getGLSLVersionStr();
 		inline bool running() { return !glfwWindowShouldClose(GLFWWindow); }
 		inline GLFWwindow* getGLFWWindow() { return GLFWWindow; }
 		inline const std::string& getName() { return props.name; }

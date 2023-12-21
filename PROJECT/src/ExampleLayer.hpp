@@ -1,14 +1,13 @@
 #pragma once
 #include "GLCore/Core/Core.hpp"
 #include "GLCore/Extension/Extension.hpp"
-#include <glad/glad.h>
 
 using namespace GLCore;
 using namespace GLCore::Extension;
 using namespace GLCore::Extension::Primitives;
 using namespace GLCore::Extension::Shaders;
 
-class ExampleLayer : public GLCore::Layer {
+class ExampleLayer : public Layer {
 private:
 	Shader* shader;
 	std::shared_ptr<VertexAttributes> vertexAttributes;
@@ -23,8 +22,7 @@ private:
 
 	// Indices for a rectangle
 	std::vector<unsigned int> indices = {
-		0, 1, 2,
-		2, 3, 0
+		0, 1, 3, 2
 	};
 
 public:
@@ -57,7 +55,7 @@ public:
 		pipeline->bindAll();
 		shader->use();
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
 
 		pipeline->unbindAll();
 		shader->detach();

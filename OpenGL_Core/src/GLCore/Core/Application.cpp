@@ -50,8 +50,8 @@ namespace GLCore
 		{
 			currentTime = (float)glfwGetTime();
 			timeStep.setTime(currentTime);
-
 			window->onUpdate();
+
 
 			for (Layer *layer : *layers)
 			{

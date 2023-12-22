@@ -23,7 +23,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${PROJECT_SOURCES}")
 # compiler flags interface library
 add_library(project_compiler_flags INTERFACE)
 # OS Specific MACROs
-target_compile_features( project_compiler_flags INTERFACE cxx_std_20)
+target_compile_features( project_compiler_flags INTERFACE cxx_std_23)
 if(WIN32)
     target_compile_definitions(project_compiler_flags INTERFACE WIN32)
 elseif (APPLE)

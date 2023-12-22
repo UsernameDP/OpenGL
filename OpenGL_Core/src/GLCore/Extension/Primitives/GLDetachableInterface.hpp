@@ -2,9 +2,10 @@
 #include "GLBindableInterface.hpp"
 
 namespace GLCore::Extension::Primitives {
-	class GLBindableAtInterface {
+
+	class GLDetachableInterface {
 	public:
-		virtual void bindAt(const GLuint& loc) = 0;
+		virtual void detach() = 0;
 	};
 
 }

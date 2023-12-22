@@ -2,34 +2,11 @@
 #pragma once
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <string>
+#include <vector>
+#include <unordered_map>
 
 namespace GLCore::Extension::Shaders {
-	static void checkShaderSuccess(const std::string& shaderPath, GLuint& shaderID) {
-		int  success;
-		char infoLog[512];
-		glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
-		if (!success) {
-			glGetProgramInfoLog(shaderID, 512, NULL, infoLog);
-			std::string message = "SHADER COMPILATION FAILED " + shaderPath + "\n" +
-				"InfoLog : " + infoLog;
-
-			LOG_ERROR(message);
-		}
-	}
-	static void checkProgramSuccess(GLuint& programID) {
-		int  success;
-		char infoLog[512];
-		glGetProgramiv(programID, GL_LINK_STATUS, &success);
-
-		if (!success) {
-			glGetProgramInfoLog(programID, 512, NULL, infoLog);
-			std::string message = std::string("SHADER_PROGRAM LINKING FAILED ") + "\n" +
-				"InfoLog : " + infoLog;
-
-			LOG_ERROR(message);
-		}
-	}
-
 	struct PrimitiveShader {
 		GLuint shaderID;
 		GLenum SHADER_TYPE;
@@ -43,6 +20,7 @@ namespace GLCore::Extension::Shaders {
 	private:
 		std::string name;
 		std::vector<PrimitiveShader*> PrimitiveShaders;
+		std::unordered_map<std::string, int*> uniformLocations; //optimization
 	protected:
 		GLuint programID = 0;
 		inline const GLuint& getProgramID() { return this->programID; }
@@ -59,15 +37,14 @@ namespace GLCore::Extension::Shaders {
 
 		inline const std::string& getName() { return this->name; }
 	public:
-		//Strict requires that the uniform makes an impact on the final color
 		//The order you upload uniforms MATTER!! Make sure to upload .vert uniforms BEFORE .frag!!
-		int GetUniformLocation(const std::string& name, const bool& strict = false);
+		const int& getUniformLocation(const std::string& name);
 
-		void uploadFloat(const std::string& name, const float& value, const bool& strict = false);
-		void uploadMat4f(const std::string& name, const glm::mat4& value, const bool& strict = false);
+		void uploadFloat(const std::string& name, const float& value);
+		void uploadMat4f(const std::string& name, const glm::mat4& value);
 
-		void uploadInt(const std::string& name, const int& value, const bool& strict = false);
-		void uploadTexture(const std::string& name, const unsigned int& slot, const bool& strict = false);
+		void uploadInt(const std::string& name, const int& value);
+		void uploadTexture(const std::string& name, const unsigned int& slot);
 
 	};
 }

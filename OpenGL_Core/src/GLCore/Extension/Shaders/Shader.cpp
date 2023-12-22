@@ -4,7 +4,34 @@
 
 namespace GLCore::Extension::Shaders
 {
-	PrimitiveShader::PrimitiveShader(const GLenum &SHADER_TYPE, const std::string &GLSL_PATH)
+	static void checkShaderSuccess(const std::string& shaderPath, GLuint& shaderID) {
+		int  success;
+		char infoLog[512];
+		glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
+		if (!success) {
+			glGetProgramInfoLog(shaderID, 512, NULL, infoLog);
+			std::string message = "SHADER COMPILATION FAILED " + shaderPath + "\n" +
+				"InfoLog : " + infoLog;
+
+			LOG_ERROR(message);
+		}
+	}
+	static void checkProgramSuccess(GLuint& programID) {
+		int  success;
+		char infoLog[512];
+		glGetProgramiv(programID, GL_LINK_STATUS, &success);
+
+		if (!success) {
+			glGetProgramInfoLog(programID, 512, NULL, infoLog);
+			std::string message = std::string("SHADER_PROGRAM LINKING FAILED ") + "\n" +
+				"InfoLog : " + infoLog;
+
+			LOG_ERROR(message);
+		}
+	}
+
+	PrimitiveShader::PrimitiveShader(const GLenum &SHADER_TYPE, const std::string &GLSL_PATH) 
+		: shaderID(0)
 	{
 		this->SHADER_TYPE = SHADER_TYPE;
 		this->GLSL_PATH = GLSL_PATH;
@@ -20,6 +47,12 @@ namespace GLCore::Extension::Shaders
 		{
 			delete p;
 		}
+		PrimitiveShaders.clear();
+
+		for	(auto& pair : uniformLocations) {
+			delete pair.second;
+		}
+		uniformLocations.clear();
 	}
 
 	void Shader::addPrimitiveShader(const GLenum &SHADER_TYPE, const std::string &GLSL_PATH)
@@ -72,37 +105,37 @@ namespace GLCore::Extension::Shaders
 	}
 
 	/*All uniform uploads*/
-	int Shader::GetUniformLocation(const std::string &name, const bool &strict)
+	const int& Shader::getUniformLocation(const std::string &name)
 	{
-		int location = glGetUniformLocation(programID, name.c_str());
-		if (location == -1 && strict)
-		{ // location = -1 if the "name" uniform is never mentioned in main
-			LOG_ERROR("{0} doesn't exist!", name);
+		if (uniformLocations[name] == nullptr) {
+			int location = glGetUniformLocation(programID, name.c_str());
+			if (location == -1)
+			{ // location = -1 if the "name" uniform is never mentioned in main
+				LOG_ERROR("{0} doesn't exist! Program will run without uniform", name);
+			}
+			uniformLocations[name] = new int(location);
 		}
 
-		return location;
+		return *uniformLocations[name];
 	}
 
 	// Floats
-	void Shader::uploadFloat(const std::string &name, const float &value, const bool &strict)
+	void Shader::uploadFloat(const std::string &name, const float &value)
 	{
-		Shader::use();
-		glUniform1f(GetUniformLocation(name, strict), value);
+		glUniform1f(getUniformLocation(name), value);
 	}
-	void Shader::uploadMat4f(const std::string &name, const glm::mat4 &value, const bool &strict)
+	void Shader::uploadMat4f(const std::string &name, const glm::mat4 &value)
 	{
-		glUniformMatrix4fv(GetUniformLocation(name, strict), 1, GL_FALSE, &value[0][0]);
+		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &value[0][0]);
 	}
 
 	// ints
-	void Shader::uploadInt(const std::string &name, const int &value, const bool &strict)
+	void Shader::uploadInt(const std::string &name, const int &value)
 	{
-		Shader::use();
-		glUniform1i(GetUniformLocation(name, strict), value);
+		glUniform1i(getUniformLocation(name), value);
 	}
-	void Shader::uploadTexture(const std::string &name, const unsigned int &slot, const bool &strict)
+	void Shader::uploadTexture(const std::string &name, const unsigned int &slot)
 	{
-		Shader::use();
-		glUniform1i(GetUniformLocation(name, strict), slot);
+		glUniform1i(getUniformLocation(name), slot);
 	}
 }

@@ -52,6 +52,7 @@ public:
 	{
 		pipeline->bindAll();
 		shader->use();
+		shader->uploadFloat("time", ts.getSeconds());
 
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 

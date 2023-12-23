@@ -11,12 +11,16 @@ private:
 	Extension::Shaders::Shader* shader;
 	std::unique_ptr<Extension::Primitives::VBO> vbo;
 	std::unique_ptr<Extension::Primitives::VAO> vao;
+	std::unique_ptr<Extension::Primitives::EBO> ebo;
 	std::unique_ptr<Extension::Primitives::VertexAttributes> vertexAttributes;
 
 	std::vector<float> vertices = {
 		-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // Vertex 0 (position + color)
 		0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Vertex 1 (position + color)
 		0.0f, 0.5f, 0.0f,  0.0f, 0.0f, 1.0f	  // Vertex 2 (position + color)
+	};
+	std::vector<unsigned int> indices = {
+		0, 1, 2
 	};
 
 	Extension::Shaders::ComputeShader* computeShader;
@@ -55,6 +59,8 @@ public:
 
 		vao = std::make_unique<Extension::Primitives::VAO>();
 		vbo = std::make_unique<Extension::Primitives::VBO>(GL_DYNAMIC_DRAW, &vertices);
+		ebo = std::make_unique<Extension::Primitives::EBO>(&indices);
+
 		vertexAttributes->setAttributes();
 
 		//ComputeShader Testing
@@ -86,6 +92,7 @@ public:
 		shader->uploadFloat("time", ts.getSeconds());
 
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
 		vertexAttributes->disableAttributes();
 		vao->unbind();

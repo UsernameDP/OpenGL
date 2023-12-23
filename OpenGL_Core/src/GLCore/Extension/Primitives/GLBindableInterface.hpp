@@ -14,7 +14,6 @@ namespace GLCore::Extension::Primitives {
 		virtual ~GLBindableInterface() = default;
 		
 
-		virtual void create() {};
 		virtual void bind() = 0;
 		virtual void unbind() = 0;
 		virtual void destroy() {};

@@ -4,9 +4,8 @@
 namespace GLCore::Extension::Primitives {
 	class VAO : public GLBindableInterface {
 	public:
-		VAO() = default;
+		VAO();
 
-		void create() override;
 		void bind() override;
 		void unbind() override;
 		void destroy() override;

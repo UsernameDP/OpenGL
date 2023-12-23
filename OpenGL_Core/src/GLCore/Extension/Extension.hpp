@@ -5,7 +5,6 @@
 #include "Primitives/VBO.hpp"
 #include "Primitives/VAO.hpp"
 #include "Primitives/VertexAttributes.hpp"
-#include "Primitives/VertexPipeline.hpp"
 
 //Shaders
 #include "Shaders/Shader.hpp"

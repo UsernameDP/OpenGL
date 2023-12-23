@@ -3,12 +3,9 @@
 
 namespace GLCore::Extension::Primitives {
 	class EBO : public GLBufferObject {
-	private:
-		std::vector<unsigned int>* indices;
 	public:
 		EBO(std::vector<unsigned int>* indices);
 
-		void create() override;
 		void destroy() override;
 	public:
 		//static void generateIndices(unsigned int n_polygon, unsigned int vertices,

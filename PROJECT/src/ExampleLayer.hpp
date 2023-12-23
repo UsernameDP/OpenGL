@@ -18,9 +18,8 @@ private:
 		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f	  // Vertex 2 (position + color)
 	};
 
-	// Indices for a rectangle
-	std::vector<unsigned int> indices = {
-		0, 1, 2};
+	std::unique_ptr<Extension::Primitives::VBO> vbo;
+	std::unique_ptr<Extension::Primitives::VAO> vao;
 
 public:
 	ExampleLayer() : Layer("ExampleLayer")
@@ -40,10 +39,11 @@ public:
 
 		pipeline = Extension::Primitives::VertexPipeline::create();
 		pipeline->setVAO();
-		pipeline->setEBO(&indices);
 		pipeline->setVBO(GL_STATIC_DRAW, &vertices);
 		pipeline->setVertexAttributes(vertexAttributes);
 		pipeline->configure();
+
+		
 	}
 	virtual void onDetach() override
 	{
@@ -54,7 +54,7 @@ public:
 		shader->use();
 		shader->uploadFloat("time", ts.getSeconds());
 
-		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		pipeline->unbindAll();
 		shader->detach();

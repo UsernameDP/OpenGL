@@ -1,5 +1,4 @@
 #pragma once 
-#include "GLBindableInterface.hpp"
 
 namespace GLCore::Extension::Primitives {
 

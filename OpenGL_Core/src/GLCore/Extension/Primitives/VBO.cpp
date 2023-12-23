@@ -9,7 +9,6 @@ namespace GLCore::Extension::Primitives
 	{
 		glGenBuffers(1, &ID);
 		glBindBuffer(GL_ARRAY_BUFFER, ID);
-
 		glBufferData(GL_ARRAY_BUFFER, vertices->size() * sizeof(float), vertices->data(), this->DRAW_TYPE);
 	}
 

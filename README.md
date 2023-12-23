@@ -84,15 +84,10 @@ Note that anything under `OpenGL-Core/src/` is accessible by default using `GLCo
 
   - [ ] Primitives
     - [x] VertexPipeline
-    - [ ] SSBO
+    - [x] SSBO
     - [ ] Texture
   - [x] Shaders
     - [x] Shader (Base Class)
     - [x] VertexPipelineShader
     - [x] ComputeShader
   - [x] AssetPool
-
-# TODO
-
-- [ ] SSBO
-- [ ] Test ComputeShaders

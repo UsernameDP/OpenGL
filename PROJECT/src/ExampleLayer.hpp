@@ -73,17 +73,11 @@ public:
 		ssbo->unbind();
 		computeShader->detach();
 
-		ssbo->bind();
-		void* p = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-		if (p) {
-			memcpy(points.data(), p, points.size() * sizeof(Point));
-			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-
-			for (const Point& point : points) {
-				std::cout << "Position: (" << point.pos.x << ", " << point.pos.y << ", " << point.pos.z << "), "
-					<< "Color: (" << point.color.r << ", " << point.color.g << ", " << point.color.b << ")" << std::endl;
-			}
-		}		
+		ssbo->readDataTo(&points);
+		for (const Point& point : points) {
+			std::cout << "Position: (" << point.pos.x << ", " << point.pos.y << ", " << point.pos.z << "), "
+				<< "Color: (" << point.color.r << ", " << point.color.g << ", " << point.color.b << ")" << std::endl;
+		}
 
 
 		shader->use();

@@ -12,7 +12,7 @@ namespace GLCore::Extension::Primitives {
 		SSBO(const GLenum& DRAW_TYPE, std::vector<T>* data) : GLBufferObject(GL_SHADER_STORAGE_BUFFER) {
 			glGenBuffers(1, &ID);
 			bind();
-			glBufferData(GL_SHADER_STORAGE_BUFFER, data->size() * sizeof(T), data->data(), DRAW_TYPE);
+			glBufferData(GL_SHADER_STORAGE_BUFFER, data->size() * sizeof(T), data->data(), DRAW_TYPE); //once data is allocated on GPU, it is stored there
 			unbind();
 		}
 
@@ -26,6 +26,17 @@ namespace GLCore::Extension::Primitives {
 		template<typename T>
 		void updateData(std::vector<T>* data) {
 			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, data->size() * sizeof(T), data->data());
+		}
+
+		template<typename T>
+		void readDataTo(std::vector<T>* dest) {
+			bind();
+			void* src = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY); //a pointer to the SSBO data stored on GPU
+			if (src) {
+				memcpy(dest->data(), src, dest->size() * sizeof(T));
+			}
+			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+			unbind();
 		}
 	};
 

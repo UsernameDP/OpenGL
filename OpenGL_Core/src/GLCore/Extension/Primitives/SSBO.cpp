@@ -26,9 +26,4 @@ namespace GLCore::Extension::Primitives {
 	{
 		glDeleteBuffers(1, &ID);
 	}
-
-	template<typename T>
-	void updateData(std::vector<T>* data, const GLuint& offset_bytes = 0) {
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, offset_bytes, data->size() * sizeof(T), data->data());
-	}
 }

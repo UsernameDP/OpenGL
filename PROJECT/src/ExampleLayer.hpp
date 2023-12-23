@@ -2,6 +2,8 @@
 #include "GLCore/Core/Core.hpp"
 #include "GLCore/Extension/Extension.hpp"
 
+#include <stack>
+
 using namespace GLCore;
 
 class ExampleLayer : public Layer

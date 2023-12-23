@@ -18,6 +18,9 @@ namespace GLCore::Extension::Primitives {
 
 		void destroy() override;
 
-		//void dynamicData(std::vector<float>* i_vertices);
+		template<typename T>
+		void updateData(std::vector<T>* data, const GLuint& offset_bytes = 0) {
+			glBufferSubData(GL_ARRAY_BUFFER, offset_bytes, data->size() * sizeof(T), data->data());
+		}
 	};
 }

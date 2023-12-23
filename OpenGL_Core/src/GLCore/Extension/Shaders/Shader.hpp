@@ -11,9 +11,10 @@ namespace GLCore::Extension::Shaders {
 		GLuint shaderID;
 		GLenum SHADER_TYPE;
 		std::string GLSL_PATH;
-		std::string* GLSL_SRC;
+		std::string GLSL_SRC;
 
 		PrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
+		PrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH, const std::string& GLSL_SRC);
 	};
 
 	class Shader {
@@ -28,7 +29,7 @@ namespace GLCore::Extension::Shaders {
 		Shader(const std::string& name);
 		virtual ~Shader();
 
-		void addPrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH);
+		void addPrimitiveShader(PrimitiveShader* primitiveShader);
 
 		void compile();
 		void use();

@@ -7,7 +7,7 @@ namespace GLCore::Extension::Shaders {
 		const std::string& vertPath, 
 		const std::string& fragPath) : Shader(name)
 	{ 
-		addPrimitiveShader(GL_VERTEX_SHADER, vertPath);
-		addPrimitiveShader(GL_FRAGMENT_SHADER, fragPath);
+		addPrimitiveShader(new PrimitiveShader(GL_VERTEX_SHADER, vertPath));
+		addPrimitiveShader(new PrimitiveShader(GL_FRAGMENT_SHADER, fragPath));
 	}
 }

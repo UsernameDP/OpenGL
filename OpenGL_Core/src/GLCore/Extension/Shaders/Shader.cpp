@@ -35,8 +35,13 @@ namespace GLCore::Extension::Shaders
 	{
 		this->SHADER_TYPE = SHADER_TYPE;
 		this->GLSL_PATH = GLSL_PATH;
-		this->GLSL_SRC = &AssetPool::getGLSL_SRC(GLSL_PATH);
+		this->GLSL_SRC = AssetPool::getGLSL_SRC(GLSL_PATH);
 	};
+	PrimitiveShader::PrimitiveShader(const GLenum& SHADER_TYPE, const std::string& GLSL_PATH, const std::string& GLSL_SRC) {
+		this->SHADER_TYPE = SHADER_TYPE;
+		this->GLSL_PATH = GLSL_PATH;
+		this->GLSL_SRC = GLSL_SRC;
+	}
 
 	Shader::Shader(const std::string &name) : name(name){};
 	Shader::~Shader()
@@ -55,9 +60,9 @@ namespace GLCore::Extension::Shaders
 		uniformLocations.clear();
 	}
 
-	void Shader::addPrimitiveShader(const GLenum &SHADER_TYPE, const std::string &GLSL_PATH)
+	void Shader::addPrimitiveShader(PrimitiveShader* primitiveShader)
 	{
-		PrimitiveShaders.push_back(new PrimitiveShader(SHADER_TYPE, GLSL_PATH));
+		PrimitiveShaders.push_back(primitiveShader);
 	}
 
 	void Shader::compile()
@@ -65,9 +70,9 @@ namespace GLCore::Extension::Shaders
 		// Compile PrimitiveShaders
 		for (PrimitiveShader *p : PrimitiveShaders)
 		{
-			const char *SHADER_SRC_C = p->GLSL_SRC->c_str();
+			const char *SHADER_SRC_C = p->GLSL_SRC.c_str();
 
-			if (p->GLSL_SRC->empty())
+			if (p->GLSL_SRC.empty())
 				LOG_ERROR("{0} is empty", p->GLSL_PATH);
 
 			p->shaderID = glCreateShader(p->SHADER_TYPE);

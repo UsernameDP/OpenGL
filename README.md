@@ -41,7 +41,7 @@ Note that anything under `OpenGL-Core/src/` is accessible by default using `GLCo
 ### Shaders
 
 - **VertexPipelineShader** : Shader for rendering vertices to the window.
-- **ComputeShder** : Shader for sending and recieving data computed in parallel from the GPU.
+- **ComputeShder** : Shader for sending and recieving data computed in parallel from the GPU. **IMPORTANT** whenever you upload a vecN to the shader, the sum of all the vecN in the struct must be a multiple of 4 floats. ComputeShaders are optimized for vec4 so that is probably why; if you don't do this, you'll see weird outputs from the ssbo in the CPU.
 
 ### Primitives
 

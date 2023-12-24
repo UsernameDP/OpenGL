@@ -29,14 +29,14 @@ private:
 	std::unique_ptr<Extension::Primitives::SSBO> ssbo;
 
 	struct Point {
-		glm::vec3 pos;
-		glm::vec3 color;
+		glm::vec2 pos;
+		glm::vec2 color;
 	};
 
 	std::vector<Point> points = {
-		{glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
-		{glm::vec3(2.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)},
-		{glm::vec3(3.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
+		{glm::vec2(1.0f, 0.0f), glm::vec2(1.0f, 0.0f)},
+		{glm::vec2(2.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
+		{glm::vec2(3.0f, 0.0f), glm::vec2(0.0f, 0.0f)},
 		// ... add more points as needed
 	};
 	
@@ -83,8 +83,8 @@ public:
 
 		ssbo->readDataTo(&points);
 		for (const Point& point : points) {
-			std::cout << "Position: (" << point.pos.x << ", " << point.pos.y << ", " << point.pos.z << "), "
-				<< "Color: (" << point.color.r << ", " << point.color.g << ", " << point.color.b << ")" << std::endl;
+			std::cout << "Position: (" << point.pos.x << ", " << point.pos.y  << "), "
+				<< "Color: (" << point.color.r << ", " << point.color.g << ")" << std::endl;
 		}
 
 

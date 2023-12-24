@@ -20,7 +20,7 @@ public:
 
 int main()
 {
-     std::unique_ptr<GLCore::Application> app = std::make_unique<ExampleApplication>();
+    std::unique_ptr<GLCore::Application> app = std::make_unique<ExampleApplication>();
     app->init();
     app->run();
 }

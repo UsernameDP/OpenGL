@@ -77,6 +77,7 @@ namespace GLCore
 
 			glViewport(0, 0, (int)this->props.dimensions.x, (int)this->props.dimensions.y);
 			glfwSetFramebufferSizeCallback(GLFWWindow, Window::framebuffer_size_callback);
+			glfwSetWindowPos(GLFWWindow, this->props.getPosX(), this->props.getPosY());
 			glfwSetWindowPosCallback(GLFWWindow, Window::window_pos_callback);
 		}
 		else {

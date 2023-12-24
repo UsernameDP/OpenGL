@@ -6,7 +6,7 @@ namespace GLCore {
 	struct WindowProps {
 		std::string name = "GLFW Window";
 		glm::ivec2 dimensions = glm::ivec2(1280, 720);
-		glm::ivec2 position = glm::ivec2(0, 0);
+		glm::ivec2 position = glm::ivec2(100, 100);
 		glm::vec4 backgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 		bool enableVsync = true;
 		bool maximized = false;

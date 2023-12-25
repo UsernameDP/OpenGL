@@ -14,7 +14,8 @@ public:
 
     virtual void init() override {
 
-        Extension::AssetPool::setShader(new Extension::Shaders::VertexPipelineShader("Triangle", "triangle.vert", "triangle.frag"));
+        Extension::AssetPool::setShader(new Extension::Shaders::VertexPipelineShader("Cube", "cube.vert", "cube.frag"));
+        Extension::AssetPool::setShader(new Extension::Shaders::VertexPipelineShader("Axis", "axis.vert", "axis.frag"));
         Extension::AssetPool::setComputeShader(new Extension::Shaders::ComputeShader("Point", "point.comp"));
 
         pushLayer(new ExampleLayer());

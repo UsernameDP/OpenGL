@@ -15,13 +15,13 @@ namespace GLCore::Extension::Cameras {
 		void moveDeltaY(const float& deltaPosY);
 		void moveDeltaZ(const float& deltaPosZ);
 		
-		void rotateYaw(const float& yaw);
-		void rotateDeltaYaw(const float& deltaYaw);
-		void rotatePitch(const float& pitch);
-		void rotateDeltaPitch(const float& deltaPitch);
+		void rotateYaw(const float& angle);
+		void rotateDeltaYaw(const float& deltaAngle);
+		void rotatePitch(const float& angle);
+		void rotateDeltaPitch(const float& deltaAngle);
 
-		void rotateDeltaAngleHorizontalAboutTarget(const float& deltaAngle);
-		void rotateDeltaAngleVerticalAboutTarget(const float& deltaAngle);
+		void rotateDeltaTargetYaw(const float& deltaAngle);
+		void rotateDeltaTargetPitch(const float& deltaAngle);
 
 		void zoomDeltaFov(const float& changeSinceInitialFOV);
 

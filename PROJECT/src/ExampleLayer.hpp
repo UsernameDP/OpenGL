@@ -123,32 +123,30 @@ public:
 
 	virtual void onAttach() override
 	{
-		//Extension::Cameras::PerspectiveCameraProps cameraProps(
-		//	glm::vec3(0.0f, 0.0f, 3.0f),
-		//	0.0f,
-		//	-90.0f,
-		//	glm::vec3(0.0f, 1.0f, 0.0f),
-		//	45.0f,
-		//	0.1f,
-		//	100.0f
-		//);
 		Extension::Cameras::PerspectiveCameraProps cameraProps(
-			10.0f,
+			glm::vec3(0.0f, 0.0f, 3.0f),
+			-90.0f,
 			0.0f,
-			90.0f,
-			glm::vec3(0.0f, 0.0f, 0.0f),
-			glm::vec3(0.0, 1.0f, 0.0f),
+			glm::vec3(0.0f, 1.0f, 0.0f),
 			45.0f,
 			0.1f,
 			100.0f
 		);
+		//Extension::Cameras::PerspectiveCameraProps cameraProps(
+		//	10.0f,
+		//	90.0f,
+		//	0.0f,
+		//	glm::vec3(0.0f, 0.0f, 0.0f),
+		//	glm::vec3(0.0, 1.0f, 0.0f),
+		//	45.0f,
+		//	0.1f,
+		//	100.0f
+		//);
 		cameraProps.enableFOVWithScroll();
-		//cameraProps.enableMovementWithKeys();
-		//cameraProps.enableRotateWithRightClick();
-		//cameraProps.enableRotateWithKeys();
-		cameraProps.enableRotateAboutWithKeys();
-		cameraProps.setCameraSpeedFactor(50.0f);
-		cameraProps.setMouseSensitivity(0.2f);
+		cameraProps.enableMovementWithKeys();
+		cameraProps.enableRotateWithRightClick();
+		cameraProps.enableRotateWithKeys();
+		//cameraProps.enableRotateAboutTargetWithKeys();
 		camera = std::make_unique<Extension::Cameras::PerspectiveCamera>(cameraProps);
 
 		WindowProps& props = Application::get().getWindow().getProps();
@@ -274,8 +272,8 @@ public:
 		*/
 	
 
-		camera->onUpdate(ts, Extension::Cameras::PerspectiveCameraOptions::ROTATE_USING_CAMERA_TARGET);
-		//camera->onUpdate(ts, Extension::Cameras::PerspectiveCameraOptions::ROTATE_USING_PITCH_YAW);
+		//camera->onUpdate(ts, Extension::Cameras::PerspectiveCameraOptions::ROTATE_USING_CAMERA_TARGET);
+		camera->onUpdate(ts, Extension::Cameras::PerspectiveCameraOptions::ROTATE_USING_PITCH_YAW);
 
 		/*Cube*/
 		cubeShader->use();

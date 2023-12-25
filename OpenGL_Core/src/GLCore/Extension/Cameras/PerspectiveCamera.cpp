@@ -33,44 +33,46 @@ namespace GLCore::Extension::Cameras {
 		props.cameraPos.z += deltaPosZ;
 	}
 
-	void PerspectiveCamera::rotateYaw(const float& yaw)
+	void PerspectiveCamera::rotateYaw(const float& angle)
 	{
-		props.yaw = yaw;
+		props.yaw = angle;
+		props.yaw = fmod(props.yaw, 360.0f);
 	}
 
-	void PerspectiveCamera::rotateDeltaYaw(const float& deltaYaw)
+	void PerspectiveCamera::rotateDeltaYaw(const float& deltaAngle)
 	{
-		props.yaw += deltaYaw;
+		props.yaw += deltaAngle;
+		props.yaw = fmod(props.yaw, 360.0f);
 	}
 
-	void PerspectiveCamera::rotatePitch(const float& pitch)
+	void PerspectiveCamera::rotatePitch(const float& angle)
 	{
-		props.pitch = pitch;
+		props.pitch = angle;
+		props.pitch = glm::clamp(props.pitch, -89.9f, 89.9f);
 	}
 
-	void PerspectiveCamera::rotateDeltaPitch(const float& deltaPitch)
+	void PerspectiveCamera::rotateDeltaPitch(const float& deltaAngle)
 	{
-		props.pitch += deltaPitch;
+		props.pitch += deltaAngle;
+		props.pitch = glm::clamp(props.pitch, -89.9f, 89.9f);
 	}
 
-	void PerspectiveCamera::rotateDeltaAngleHorizontalAboutTarget(const float& deltaAngle)
+	void PerspectiveCamera::rotateDeltaTargetYaw(const float& deltaAngle)
 	{
-		props.angleH += deltaAngle;
+		props.targetYaw += deltaAngle;
+		props.targetYaw = fmod(props.targetYaw, 360.0f);
 	}
 
-	void PerspectiveCamera::rotateDeltaAngleVerticalAboutTarget(const float& deltaAngle)
+	void PerspectiveCamera::rotateDeltaTargetPitch(const float& deltaAngle)
 	{
-		props.angleV += deltaAngle;
+		props.targetPitch += deltaAngle;
+		props.targetPitch = glm::clamp(props.targetPitch, -89.9f, 89.9f);
 	}
 
 	void PerspectiveCamera::zoomDeltaFov(const float& changeSinceInitialFOV)
 	{
 		props.FOV = props.initFOV + changeSinceInitialFOV;
-
-		if (props.FOV < 0.5f)
-			props.FOV = 0.5f;
-		if (props.FOV > 89.5f)
-			props.FOV = 89.5f;
+		props.FOV = glm::clamp(props.FOV, 0.1f, 89.9f);
 	}
 
 	void PerspectiveCamera::onUpdate(const TimeStep& ts, const PerspectiveCameraOptions& rotate_option)
@@ -92,18 +94,20 @@ namespace GLCore::Extension::Cameras {
 			}
 
 			if (props.rotateWithKeys) {
-				float rotateSpeed = props.rotateSpeedFactor * ts.getDeltaSeconds();
-				if (windowProps.getKeyPressed(props.ROTATE_UP_KEY)) {
-					rotateDeltaPitch(rotateSpeed);
-				}
-				if (windowProps.getKeyPressed(props.ROTATE_DOWN_KEY)) {
-					rotateDeltaPitch(-rotateSpeed);
-				}
-				if (windowProps.getKeyPressed(props.ROTATE_LEFT_KEY)) {
-					rotateDeltaYaw(-rotateSpeed);
-				}
-				if (windowProps.getKeyPressed(props.ROTATE_RIGHT_KEY)) {
-					rotateDeltaYaw(rotateSpeed);
+				float rotateSpeed = props.cameraRotateSpeedFactor * ts.getDeltaSeconds();
+				if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow)) {
+					if (windowProps.getKeyPressed(props.ROTATE_UP_KEY)) {
+						rotateDeltaPitch(rotateSpeed);
+					}
+					if (windowProps.getKeyPressed(props.ROTATE_DOWN_KEY)) {
+						rotateDeltaPitch(-rotateSpeed);
+					}
+					if (windowProps.getKeyPressed(props.ROTATE_LEFT_KEY)) {
+						rotateDeltaYaw(-rotateSpeed);
+					}
+					if (windowProps.getKeyPressed(props.ROTATE_RIGHT_KEY)) {
+						rotateDeltaYaw(rotateSpeed);
+					}
 				}
 			}
 
@@ -115,18 +119,20 @@ namespace GLCore::Extension::Cameras {
 			
 
 			if (props.movementWithKeys) {
-				float cameraSpeed = props.cameraSpeedFactor * ts.getDeltaSeconds();
-				if (windowProps.getKeyPressed(props.MOVE_FORWARD_KEY)) {
-					moveDelta(props.cameraFront * cameraSpeed);
-				}
-				if (windowProps.getKeyPressed(props.MOVE_BACKWARD_KEY)) {
-					moveDelta(-props.cameraFront * cameraSpeed);
-				}
-				if (windowProps.getKeyPressed(props.MOVE_LEFT_KEY)) {
-					moveDelta(-glm::normalize(glm::cross(props.cameraFront, props.cameraUp)) * cameraSpeed);
-				}
-				if (windowProps.getKeyPressed(props.MOVE_RIGHT_KEY)) {
-					moveDelta(glm::normalize(glm::cross(props.cameraFront, props.cameraUp)) * cameraSpeed);
+				float cameraSpeed = props.cameraMovementSpeedFactor * ts.getDeltaSeconds();
+				if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow)) {
+					if (windowProps.getKeyPressed(props.MOVE_FORWARD_KEY)) {
+						moveDelta(props.cameraFront * cameraSpeed);
+					}
+					if (windowProps.getKeyPressed(props.MOVE_BACKWARD_KEY)) {
+						moveDelta(-props.cameraFront * cameraSpeed);
+					}
+					if (windowProps.getKeyPressed(props.MOVE_LEFT_KEY)) {
+						moveDelta(-glm::normalize(glm::cross(props.cameraFront, props.cameraUp)) * cameraSpeed);
+					}
+					if (windowProps.getKeyPressed(props.MOVE_RIGHT_KEY)) {
+						moveDelta(glm::normalize(glm::cross(props.cameraFront, props.cameraUp)) * cameraSpeed);
+					}
 				}
 			}
 
@@ -134,26 +140,28 @@ namespace GLCore::Extension::Cameras {
 		}
 		else {
 						
-			if (props.rotateAboutCameraTargetWithKeys) {
-				float cameraSpeed = props.cameraSpeedFactor * ts.getDeltaSeconds();
-				if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_UP_KEY)) {
-					rotateDeltaAngleVerticalAboutTarget(cameraSpeed);
-				}
-				if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_DOWN_KEY)) {
-					rotateDeltaAngleVerticalAboutTarget(-cameraSpeed);
-				}
-				if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_LEFT_KEY)) {
-					rotateDeltaAngleHorizontalAboutTarget(cameraSpeed);
-				}
-				if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_RIGHT_KEY)) {
-					rotateDeltaAngleHorizontalAboutTarget(-cameraSpeed);
+			if (props.rotateAboutTargetWithKeys) {
+				float cameraSpeed = props.cameraRotateSpeedFactor * ts.getDeltaSeconds();
+				if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow)) {
+					if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_UP_KEY)) {
+						rotateDeltaTargetPitch(cameraSpeed);
+					}
+					if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_DOWN_KEY)) {
+						rotateDeltaTargetPitch(-cameraSpeed);
+					}
+					if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_LEFT_KEY)) {
+						rotateDeltaTargetYaw(cameraSpeed);
+					}
+					if (windowProps.getKeyPressed(props.ROTATE_ABOUT_CAMERA_TARGET_RIGHT_KEY)) {
+						rotateDeltaTargetYaw(-cameraSpeed);
+					}
 				}
 			}
 
 			glm::vec3 deltaDistFromTarget;
-			deltaDistFromTarget.x = props.radius * cos(glm::radians(props.angleH)) * cos(glm::radians(props.angleV));
-			deltaDistFromTarget.y = props.radius * sin(glm::radians(props.angleV));
-			deltaDistFromTarget.z = props.radius * sin(glm::radians(props.angleH)) * cos(glm::radians(props.angleV));
+			deltaDistFromTarget.x = props.radius * cos(glm::radians(props.targetYaw)) * cos(glm::radians(props.targetPitch));
+			deltaDistFromTarget.y = props.radius * sin(glm::radians(props.targetPitch));
+			deltaDistFromTarget.z = props.radius * sin(glm::radians(props.targetYaw)) * cos(glm::radians(props.targetPitch));
 			props.cameraPos = deltaDistFromTarget + props.cameraTarget;
 
 			props.view = glm::lookAt(props.cameraPos, props.cameraTarget, props.cameraUp);

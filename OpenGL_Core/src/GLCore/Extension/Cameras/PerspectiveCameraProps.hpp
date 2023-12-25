@@ -22,8 +22,8 @@ namespace GLCore::Extension::Cameras {
 
 		//ROTATE_USING_CAMERA_TARGET
 		float radius; //distance from the cameraTarget
-		float angleH; //horizontal angle relative to cameraTarget
-		float angleV; //vertical angle relative to cameraTarget
+		float targetYaw; //horizontal angle relative to cameraTarget
+		float targetPitch; //vertical angle relative to cameraTarget
 
 		float initFOV = 45.0f;
 		float FOV = initFOV;
@@ -36,13 +36,13 @@ namespace GLCore::Extension::Cameras {
 		glm::mat4 VP; // view * projection
 
 
-		float mouseSensitivity = 0.1f;
+		float mouseSensitivity = 0.2f;
 		float scrollSensitivity = 1.0f;
-		float cameraSpeedFactor = 2.5f;
-		float rotateSpeedFactor = 100.0f;
+		float cameraMovementSpeedFactor = 2.5f;
+		float cameraRotateSpeedFactor = 50.0f;
 
 		bool movementWithKeys = false;
-		bool rotateAboutCameraTargetWithKeys = false;
+		bool rotateAboutTargetWithKeys = false;
 		bool FOVWithScroll = false;
 		bool rotateWithRightClick = false;
 		bool rotateWithKeys = false;
@@ -64,16 +64,16 @@ namespace GLCore::Extension::Cameras {
 		uint16_t ROTATE_ABOUT_CAMERA_TARGET_RIGHT_KEY = GLFW_KEY_D;
 
 		PerspectiveCameraProps() = default;
-		PerspectiveCameraProps(const glm::vec3& cameraPos, const float& pitch, const float& yaw, const glm::vec3& cameraUp, const float& initFOV, const float& nearDist, const float& farDist);
-		PerspectiveCameraProps(const float& radius, const float& angleV, const float& angleH, const glm::vec3& cameraTarget, const glm::vec3& cameraUp, const float& initFOV, const float& nearDist, const float& farDist);
+		PerspectiveCameraProps(const glm::vec3& cameraPos, const float& yaw, const float& pitch, const glm::vec3& cameraUp, const float& initFOV, const float& nearDist, const float& farDist);
+		PerspectiveCameraProps(const float& radius, const float& targetYaw, const float& targetPitch, const glm::vec3& cameraTarget, const glm::vec3& cameraUp, const float& initFOV, const float& nearDist, const float& farDist);
 
 		inline void setMouseSensitivity(const float& mouseSensitivity) { this->mouseSensitivity = mouseSensitivity; }
 		inline void setScrollSensitivity(const float& scrollSensitivity) { this->scrollSensitivity = scrollSensitivity; }
-		inline void setCameraSpeedFactor(const float& cameraSpeedFactor) { this->cameraSpeedFactor = cameraSpeedFactor; }
-		inline void setRotateSpeedFactor(const float& rotateSpeedFactor) { this->rotateSpeedFactor = rotateSpeedFactor; }
+		inline void setCameraMovementSpeedFactor(const float& cameraMovementSpeedFactor) { this->cameraMovementSpeedFactor = cameraMovementSpeedFactor; }
+		inline void setCameraRotateSpeedFactor(const float& cameraRotateSpeedFactor) { this->cameraRotateSpeedFactor = cameraRotateSpeedFactor; }
 
 		inline void enableMovementWithKeys() { this->movementWithKeys = true; }
-		inline void enableRotateAboutWithKeys() { this->rotateAboutCameraTargetWithKeys = true; }
+		inline void enableRotateAboutTargetWithKeys() { this->rotateAboutTargetWithKeys = true; }
 		inline void enableRotateWithRightClick() { this->rotateWithRightClick = true; }
 		inline void enableFOVWithScroll() { this->FOVWithScroll = true; }
 		inline void enableRotateWithKeys() { this->rotateWithKeys = true; }

@@ -12,7 +12,6 @@ private:
 	Extension::Shaders::Shader* cubeShader;
 	std::unique_ptr<Extension::Primitives::VBO> cubeVbo;
 	std::unique_ptr<Extension::Primitives::VAO> cubeVao;
-	std::unique_ptr<Extension::Primitives::VertexAttributes> cubeVertexAttributes;
 
 	std::vector<float> cubeVertices = {
 		// Front face (Green)
@@ -67,7 +66,6 @@ private:
 	Extension::Shaders::Shader* axisShader;
 	std::unique_ptr<Extension::Primitives::VBO> axisVbo;
 	std::unique_ptr<Extension::Primitives::VAO> axisVao;
-	std::unique_ptr<Extension::Primitives::VertexAttributes> axisVertexAttributes;
 	std::vector<float> axisVertices = {
 		//X Axis (Red)
 		0.0f, 0.0f, 0.0f,
@@ -140,27 +138,20 @@ public:
 
 		WindowProps& props = Application::get().getWindow().getProps();
 
-		//VertexPipelineShader Testing
+		/*Cube*/
 		cubeShader = &Extension::AssetPool::getShader("Cube");
-
-		cubeVertexAttributes = std::make_unique<Extension::Primitives::VertexAttributes>();
-		cubeVertexAttributes->addVertexAttribute(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);					// Position
-		cubeVertexAttributes->addVertexAttribute(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float))); // Color
-
 		cubeVao = std::make_unique<Extension::Primitives::VAO>();
 		cubeVbo = std::make_unique<Extension::Primitives::VBO>(GL_DYNAMIC_DRAW, &cubeVertices);
+		cubeVao->addVertexAttributeFloat(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		cubeVao->addVertexAttributeFloat(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		cubeVao->disableAttributes();
 
-		cubeVertexAttributes->setAttributes();
-
+		/*Axis*/
 		axisShader = &Extension::AssetPool::getShader("Axis");
-
-		axisVertexAttributes = std::make_unique<Extension::Primitives::VertexAttributes>();
-		axisVertexAttributes->addVertexAttribute(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);					// Position
-
 		axisVao = std::make_unique<Extension::Primitives::VAO>();
 		axisVbo = std::make_unique<Extension::Primitives::VBO>(GL_DYNAMIC_DRAW, &axisVertices);
-
-		axisVertexAttributes->setAttributes();
+		axisVao->addVertexAttributeFloat(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		axisVao->disableAttributes();
 
 		//ComputeShader Testing
 		computeShader = &Extension::AssetPool::getComputeShader("Point");
@@ -184,11 +175,9 @@ public:
 		cubeShader->use();
 		cubeShader->uploadMat4f("VP", camera->getViewProjection());
 		cubeVao->bind();
-		cubeVertexAttributes->enableAttributes();
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		cubeVertexAttributes->disableAttributes();
 		cubeVao->unbind();
 		cubeShader->detach();
 
@@ -196,11 +185,9 @@ public:
 		axisShader->use();
 		axisShader->uploadMat4f("VP", camera->getViewProjection());
 		axisVao->bind();
-		axisVertexAttributes->enableAttributes();
 
 		glDrawArrays(GL_LINES, 0, 6);
 
-		axisVertexAttributes->disableAttributes();
 		axisVao->unbind();
 		axisShader->detach();
 	}

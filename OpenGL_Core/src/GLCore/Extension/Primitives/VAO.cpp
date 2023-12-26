@@ -29,7 +29,7 @@ namespace GLCore::Extension::Primitives {
 		glEnableVertexAttribArray(index);
 		attributes.push_back(index);
 	}
-	void VAO::addVertexAttributeInt(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer)
+	void VAO::addVertexAttributeInt(GLuint index, GLint size, GLenum type, GLsizei stride, const void* pointer)
 	{
 		glVertexAttribIPointer(index, size, type, stride, pointer);
 		glEnableVertexAttribArray(index);

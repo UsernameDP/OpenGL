@@ -84,7 +84,7 @@ private:
 
 
 	Extension::Shaders::ComputeShader* computeShader;
-	std::unique_ptr<Extension::Primitives::SSBO> ssbo;
+	std::unique_ptr<Extension::Primitives::SSBO> points_ssbo;
 
 	struct Point {
 		glm::vec2 pos;
@@ -132,38 +132,13 @@ public:
 			0.1f,
 			100.0f
 		);
-		//Extension::Cameras::PerspectiveCameraProps cameraProps(
-		//	10.0f,
-		//	90.0f,
-		//	0.0f,
-		//	glm::vec3(0.0f, 0.0f, 0.0f),
-		//	glm::vec3(0.0, 1.0f, 0.0f),
-		//	45.0f,
-		//	0.1f,
-		//	100.0f
-		//);
 		cameraProps.enableFOVWithScroll();
 		cameraProps.enableMovementWithKeys();
 		cameraProps.enableRotateWithRightClick();
 		cameraProps.enableRotateWithKeys();
-		//cameraProps.enableRotateAboutTargetWithKeys();
 		camera = std::make_unique<Extension::Cameras::PerspectiveCamera>(cameraProps);
 
 		WindowProps& props = Application::get().getWindow().getProps();
-
-		//Camera
-		model = glm::mat4(1.0f);
-		view = glm::mat4(1.0f);
-		projection = glm::mat4(1.0f);
-
-		cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-		cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-		cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
-
-		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // (model matrix, rotation angle rad, axis of rotation)
-		//projection = glm::perspective(glm::radians(initFOV), (float)props.getWidth() / (float)props.getHeight(), 0.1f, 100.0f); // (view angle, window width to height ratio, min visible dist, max visible dist)
-		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 		//VertexPipelineShader Testing
 		cubeShader = &Extension::AssetPool::getShader("Cube");
@@ -189,96 +164,25 @@ public:
 
 		//ComputeShader Testing
 		computeShader = &Extension::AssetPool::getComputeShader("Point");
-		ssbo = std::make_unique<Extension::Primitives::SSBO>(GL_STATIC_DRAW, &points);
+		points_ssbo = std::make_unique<Extension::Primitives::SSBO>(GL_STATIC_DRAW, &points);		
 	}
 	virtual void onDetach() override
 	{
 	}
 	virtual void onUpdate(const GLCore::TimeStep &ts) override
 	{
-		ssbo->bindAt(1);
+		points_ssbo->bindAt(1);
 		computeShader->use();
 		computeShader->dispatch(glm::ivec3(points.size(), 1, 1), GL_SHADER_STORAGE_BARRIER_BIT);
 
-		ssbo->unbind();
+		points_ssbo->unbind();
 		computeShader->detach();
 
-		//ssbo->readDataTo(&points);
-		//for (const Point& point : points) {
-		//	std::cout << "Position: (" << point.pos.x << ", " << point.pos.y  << "), "
-		//		<< "Color: (" << point.color.r << ", " << point.color.g << ")" << std::endl;
-		//}
-		
-		/*
-		//Coordinate Systems
-		model = glm::rotate(model, ts.getDeltaSeconds() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-		*/
-
-		/*
-		//(Camera) Rotating about Target
-		const float radius = 10.0f;
-		glm::vec3 cameraPos =  glm::vec3( glm::sin(ts.getSeconds()) * radius, 5.0f,  glm::cos(ts.getSeconds()) * radius);
-		glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-
-		view = glm::lookAt(cameraPos, cameraTarget, up);
-		*/
-
-		/*
-		//(Camera) Rotationg using pitch yaw 
-		Application& app = Application::get();
-		WindowProps& props = app.getWindow().getProps();
-		const float cameraSpeed = 2.5f * ts.getDeltaSeconds(); //cameraspeed accounted for by dt
-		if (app.getKeyPressed(GLFW_KEY_W)) {
-			cameraPos += cameraFront * cameraSpeed;
-		}
-		if (app.getKeyPressed(GLFW_KEY_S)) {
-			cameraPos -= cameraFront * cameraSpeed;
-		}
-		if (app.getKeyPressed(GLFW_KEY_D)) {
-			cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-		}
-		if (app.getKeyPressed(GLFW_KEY_A)) {
-			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-		}
-
-		//const float sensitivity = 0.1f;
-		//float deltaYaw = props.getMousePosDeltaX(); // X angle
-		//float deltaPitch = props.getMousePosDeltaY(); // Y angle
-
-		//yaw += deltaYaw * sensitivity;
-		//pitch -= deltaPitch * sensitivity;
-
-		//if (pitch > 89.0f)
-		//	pitch = 89.0f;
-		//if (pitch < -89.0f)
-		//	pitch = -89.0f;
-
-		glm::vec3 direction;
-		direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-		direction.y = sin(glm::radians(pitch));
-		direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-		cameraFront = glm::normalize(direction);
-
-		float scrollY = props.getScrollY();
-		float fov = initFOV - scrollY;
-		if (fov < 1.0f)
-			fov = 1.0f;
-		if (fov > 45.0f)
-			fov = 45.0f;
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(glm::radians(fov), (float)props.getWidth() / (float)props.getHeight(), 0.1f, 100.0f);
-		*/
-	
-
-		//camera->onUpdate(ts, Extension::Cameras::PerspectiveCameraOptions::ROTATE_USING_CAMERA_TARGET);
 		camera->onUpdate(ts, Extension::Cameras::PerspectiveCameraOptions::ROTATE_USING_PITCH_YAW);
 
 		/*Cube*/
 		cubeShader->use();
-		cubeShader->uploadMat4f("model", model);
-		cubeShader->uploadMat4f("view_projection", camera->getViewProjection());
+		cubeShader->uploadMat4f("VP", camera->getViewProjection());
 		cubeVao->bind();
 		cubeVertexAttributes->enableAttributes();
 
@@ -290,7 +194,7 @@ public:
 
 		/*Axis*/
 		axisShader->use();
-		axisShader->uploadMat4f("view_projection", camera->getViewProjection());
+		axisShader->uploadMat4f("VP", camera->getViewProjection());
 		axisVao->bind();
 		axisVertexAttributes->enableAttributes();
 

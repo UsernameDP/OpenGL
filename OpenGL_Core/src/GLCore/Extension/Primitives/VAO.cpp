@@ -2,9 +2,13 @@
 #include "VAO.hpp"
 
 namespace GLCore::Extension::Primitives {
-	VAO::VAO() {
+	VAO::VAO() : GLBindableInterface() {
 		glGenVertexArrays(1, &ID);
 		bind();
+	}
+	VAO::~VAO() {
+		unbind();
+		destroy();
 	}
 
 	void VAO::bind() {
@@ -13,7 +17,6 @@ namespace GLCore::Extension::Primitives {
 	void VAO::unbind() {
 		glBindVertexArray(0);
 	}
-
 	void Primitives::VAO::destroy()
 	{
 		glDeleteVertexArrays(1, &ID);

@@ -27,7 +27,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 
 # Compiler flags interface library
 add_library(project_compiler_flags INTERFACE)
-set_property(TARGET project_compiler_flags PROPERTY CXX_STANDARD 23)
+target_compile_features(project_compiler_flags INTERFACE cxx_std_23)
 
 # OS Specific MACROs
 if(WIN32)
@@ -46,13 +46,8 @@ if(MSVC)
     # Unified ASSETS_PATH and build type definitions
     # Macros
     target_compile_definitions(project_compiler_flags INTERFACE 
-        $<$<CONFIG:Debug>:DEBUG;ASSETS_PATH="${ASSETS_DEBUG_PATH}">
+        $<$<CONFIG:Debug>:DEBUG;ASSETS_PATH="${ASSETS_DEBUG_PATH}"/>
         $<$<CONFIG:Release>:RELEASE;ASSETS_PATH="${ASSETS_RELEASE_PATH}">
-    )
-    # Compiler Flags
-    target_compile_options(project_compiler_flags INTERFACE 
-    $<$<CONFIG:Debug>:/MTd>
-    $<$<CONFIG:Release>:/MT>
     )
     # Post Commands
     add_custom_command(
@@ -77,8 +72,6 @@ elseif(DEFINED CMAKE_BUILD_TYPE)
             DEBUG;ASSETS_PATH="${ASSETS_RELEASE_PATH}"
         )
     endif()
-
-    # target_compile_options(project_compiler_flags INTERFACE "-fpermissive")
 
     # Compiler Flags
     add_custom_command(

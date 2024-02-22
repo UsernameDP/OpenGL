@@ -12,7 +12,6 @@ namespace GLCore::Extension::Primitives
 		VBO(const GLenum &DRAW_TYPE,
 			std::vector<T> *vertexData) : GLBufferObject(GL_ARRAY_BUFFER)
 		{
-			'-fpermissive';
 			glGenBuffers(1, &ID);
 			bind();
 			glBufferData(GL_ARRAY_BUFFER, vertexData->size() * sizeof(T), vertexData->data(), DRAW_TYPE);

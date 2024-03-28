@@ -1,7 +1,6 @@
 #include "pch.hpp"
 #include "GLCore/Core/Window.hpp"
 
-#include "Application.hpp"
 
 namespace GLCore
 {

@@ -1,5 +1,4 @@
 #pragma once
-#include "../Extension.hpp"
 #include "Shader.hpp"
 
 namespace GLCore::Extension::Shaders {

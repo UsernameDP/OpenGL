@@ -18,7 +18,14 @@ file(GLOB_RECURSE core_sources CONFIGURE_DEPENDS src/*.cpp)
 target_sources(OpenGL_Core PRIVATE ${core_sources})
 
 target_precompile_headers(OpenGL_Core PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.hpp")
+#target_compile_definitions(OpenGL_Core PRIVATE ASSETS_PATH="Testing" )
 
 # Linking all libraries
-target_link_libraries(OpenGL_Core PUBLIC glad glfw glm imgui spdlog opengl32)
+
+if (WIN32 OR APPLE)
+  target_link_libraries(OpenGL_Core PUBLIC opengl32) 
+else()
+  target_link_libraries(OpenGL_Core PUBLIC libGL.so)
+endif()
+target_link_libraries(OpenGL_Core PUBLIC glad glfw glm imgui spdlog)
 target_link_libraries(OpenGL_Core PRIVATE project_compiler_flags)

@@ -1,7 +1,24 @@
 #pragma once
-#include "GLCore/Core/Core.hpp"
-#include "GLCore/Extension/Extension.hpp"
+#include <memory>
+#include <vector>
+#include <unordered_map>
 
+#include "GLCore/Extension/Cameras/PerspectiveCamera.hpp"
+#include "GLCore/Extension/Cameras/PerspectiveCameraProps.hpp"
+
+#include "GLCore/Extension/Shaders/Shader.hpp"
+#include "GLCore/Extension/Shaders/ComputeShader.hpp"
+#include "GLCore/Extension/Shaders/VertexPipelineShader.hpp"
+
+#include "GLCore/Extension/AssetPool.hpp"
+
+#include "GLCore/Core/Layer.hpp"
+#include "GLCore/Core/Application.hpp"
+
+#include "GLCore/Extension/Primitives/VBO.hpp"
+#include "GLCore/Extension/Primitives/VAO.hpp"
+#include "GLCore/Extension/Primitives/EBO.hpp"
+#include "GLCore/Extension/Primitives/SSBO.hpp"
 
 using namespace GLCore;
 
@@ -9,82 +26,94 @@ class ExampleLayer : public Layer
 {
 private:
 private:
-	Extension::Shaders::Shader* cubeShader;
+	Extension::Shaders::Shader *cubeShader;
 	std::unique_ptr<Extension::Primitives::VBO> cubeVbo;
 	std::unique_ptr<Extension::Primitives::VAO> cubeVao;
 
 	std::vector<float> cubeVertices = {
 		// Front face (Green)
-		-0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Vertex 1
-		 0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Vertex 2
-		 0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Vertex 3
-		 0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Vertex 4
-		-0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Vertex 5
-		-0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Vertex 6
+		-0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, // Vertex 1
+		0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f,  // Vertex 2
+		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,	  // Vertex 3
+		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,	  // Vertex 4
+		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,  // Vertex 5
+		-0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, // Vertex 6
 
 		// Back face (Red)
 		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // Vertex 1
-		 0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // Vertex 2
-		 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // Vertex 3
-		 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // Vertex 4
-		-0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // Vertex 5
+		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  // Vertex 2
+		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,   // Vertex 3
+		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,   // Vertex 4
+		-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  // Vertex 5
 		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // Vertex 6
 
 		// Left face (Blue)
-		-0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, // Vertex 1
-		-0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // Vertex 2
+		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,   // Vertex 1
+		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  // Vertex 2
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // Vertex 3
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // Vertex 4
-		-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, // Vertex 5
-		-0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, // Vertex 6
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,  // Vertex 5
+		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,   // Vertex 6
 
 		// Right face (Yellow)
-		 0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 0.0f, // Vertex 1
-		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 0.0f, // Vertex 2
-		 0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, // Vertex 3
-		 0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, // Vertex 4
-		 0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f, // Vertex 5
-		 0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 0.0f, // Vertex 6
+		0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f,	  // Vertex 1
+		0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f,  // Vertex 2
+		0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, // Vertex 3
+		0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, // Vertex 4
+		0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f,  // Vertex 5
+		0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f,	  // Vertex 6
 
-		 // Bottom face (Cyan)
-		 -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // Vertex 1
-		  0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // Vertex 2
-		  0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // Vertex 3
-		  0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // Vertex 4
-		 -0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // Vertex 5
-		 -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // Vertex 6
+		// Bottom face (Cyan)
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // Vertex 1
+		0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  // Vertex 2
+		0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f,   // Vertex 3
+		0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f,   // Vertex 4
+		-0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f,  // Vertex 5
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // Vertex 6
 
-		 // Top face (Magenta)
-		 -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, // Vertex 1
-		  0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, // Vertex 2
-		  0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, // Vertex 3
-		  0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, // Vertex 4
-		 -0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, // Vertex 5
-		 -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f  // Vertex 6
+		// Top face (Magenta)
+		-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f, // Vertex 1
+		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f,  // Vertex 2
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f,	  // Vertex 3
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f,	  // Vertex 4
+		-0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f,  // Vertex 5
+		-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f  // Vertex 6
 	};
 
-	Extension::Shaders::Shader* axisShader;
+	Extension::Shaders::Shader *axisShader;
 	std::unique_ptr<Extension::Primitives::VBO> axisVbo;
 	std::unique_ptr<Extension::Primitives::VAO> axisVao;
 	std::vector<float> axisVertices = {
-		//X Axis (Red)
-		0.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
+		// X Axis (Red)
+		0.0f,
+		0.0f,
+		0.0f,
+		1.0f,
+		0.0f,
+		0.0f,
 
-		//Y Axis (Green)
-		0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
+		// Y Axis (Green)
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		1.0f,
+		0.0f,
 
-		//Z Axis (Blue)
-		0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f,
+		// Z Axis (Blue)
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		1.0f,
 	};
 
-
-	Extension::Shaders::ComputeShader* computeShader;
+	Extension::Shaders::ComputeShader *computeShader;
 	std::unique_ptr<Extension::Primitives::SSBO> points_ssbo;
 
-	struct Point {
+	struct Point
+	{
 		glm::vec2 pos;
 		glm::vec2 color;
 	};
@@ -99,7 +128,7 @@ private:
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
-	
+
 	glm::vec3 cameraPos;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
@@ -107,7 +136,7 @@ private:
 	float yaw = -90.f;
 	float pitch = 0;
 	float initFOV = 45.0f;
-	
+
 	std::unique_ptr<Extension::Cameras::PerspectiveCamera> camera;
 
 public:
@@ -116,7 +145,6 @@ public:
 	}
 	virtual ~ExampleLayer()
 	{
-
 	}
 
 	virtual void onAttach() override
@@ -128,34 +156,33 @@ public:
 			glm::vec3(0.0f, 1.0f, 0.0f),
 			45.0f,
 			0.1f,
-			100.0f
-		);
+			100.0f);
 		cameraProps.enableFOVWithScroll();
 		cameraProps.enableMovementWithKeys();
 		cameraProps.enableRotateWithRightClick();
 		cameraProps.enableRotateWithKeys();
 		camera = std::make_unique<Extension::Cameras::PerspectiveCamera>(cameraProps);
 
-		WindowProps& props = Application::get().getWindow().getProps();
+		WindowProps &props = Application::get().getWindow().getProps();
 
 		/*Cube*/
 		cubeShader = &Extension::AssetPool::getShader("Cube");
 		cubeVao = std::make_unique<Extension::Primitives::VAO>();
 		cubeVbo = std::make_unique<Extension::Primitives::VBO>(GL_DYNAMIC_DRAW, &cubeVertices);
-		cubeVao->addVertexAttributeFloat(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-		cubeVao->addVertexAttributeFloat(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		cubeVao->addVertexAttributeFloat(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
+		cubeVao->addVertexAttributeFloat(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
 		cubeVao->disableAttributes();
 
 		/*Axis*/
 		axisShader = &Extension::AssetPool::getShader("Axis");
 		axisVao = std::make_unique<Extension::Primitives::VAO>();
 		axisVbo = std::make_unique<Extension::Primitives::VBO>(GL_DYNAMIC_DRAW, &axisVertices);
-		axisVao->addVertexAttributeFloat(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		axisVao->addVertexAttributeFloat(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 		axisVao->disableAttributes();
 
-		//ComputeShader Testing
+		// ComputeShader Testing
 		computeShader = &Extension::AssetPool::getComputeShader("Point");
-		points_ssbo = std::make_unique<Extension::Primitives::SSBO>(GL_STATIC_DRAW, &points);		
+		points_ssbo = std::make_unique<Extension::Primitives::SSBO>(GL_STATIC_DRAW, &points);
 	}
 	virtual void onDetach() override
 	{

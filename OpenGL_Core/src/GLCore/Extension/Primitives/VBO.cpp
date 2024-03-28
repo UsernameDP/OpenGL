@@ -3,8 +3,8 @@
 
 namespace GLCore::Extension::Primitives
 {
-	VBO::VBO(const GLenum& DRAW_TYPE, const GLuint& allocationSize_bytes) :
-		GLBufferObject(GL_ARRAY_BUFFER) {
+	VBO::VBO(const GLenum &DRAW_TYPE, const GLuint &allocationSize_bytes) : GLBufferObject(GL_ARRAY_BUFFER)
+	{
 
 		glGenBuffers(1, &ID);
 		bind();

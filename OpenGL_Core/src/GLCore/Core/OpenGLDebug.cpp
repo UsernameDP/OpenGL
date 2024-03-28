@@ -1,6 +1,5 @@
 #include "pch.hpp"
 #include "OpenGLDebug.hpp"
-#include "GLCore/Core/Log.hpp"
 
 namespace GLCore {
 
